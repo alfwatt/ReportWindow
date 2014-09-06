@@ -1,0 +1,726 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		75AF8E6B19A8F5AC003D7B46 /* CrashReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* CrashReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75AF8E7519A8F5AC003D7B46 /* CrashReportWindowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AF8E7419A8F5AC003D7B46 /* CrashReportWindowTests.m */; };
+		75AF8E8019A8F5E4003D7B46 /* ILCrashReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E7C19A8F5E4003D7B46 /* ILCrashReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75AF8E8119A8F5E4003D7B46 /* ILCrashReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AF8E7D19A8F5E4003D7B46 /* ILCrashReportWindow.m */; };
+		75AF8E8219A8F5E4003D7B46 /* ILCrashReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 75AF8E7E19A8F5E4003D7B46 /* ILCrashReportWindow.strings */; };
+		75AF8E8319A8F5E4003D7B46 /* ILCrashReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AF8E7F19A8F5E4003D7B46 /* ILCrashReportWindow.xib */; };
+		75AF8E8519A8F64C003D7B46 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75AF8E8419A8F64C003D7B46 /* Cocoa.framework */; };
+		75D696F819B5879D005FE4FF /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75AF8EF719A8F6FA003D7B46 /* CrashReporter.framework */; };
+		75D696FC19B588AD005FE4FF /* Mail.app in Sources */ = {isa = PBXBuildFile; fileRef = 75D696FB19B588AD005FE4FF /* Mail.app */; };
+		75D696FE19B588CD005FE4FF /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D696FD19B588CD005FE4FF /* ScriptingBridge.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		75D696FA19B58880005FE4FF /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.app";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE).h",
+			);
+			script = "sdef \"$INPUT_FILE_PATH\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$INPUT_FILE_BASE\" --bundleid `defaults read \"$INPUT_FILE_PATH/Contents/Info\" CFBundleIdentifier`";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXContainerItemProxy section */
+		75AF8EF419A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05E731F30EFA1AAB005EDFB7;
+			remoteInfo = "CrashReporter-MacOSX-Static";
+		};
+		75AF8EF619A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = "CrashReporter-MacOSX";
+		};
+		75AF8EF819A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 058812B91040582D009128FB;
+			remoteInfo = "CrashReporter-iOS";
+		};
+		75AF8EFA19A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05CD31520EE936A9000FDE88;
+			remoteInfo = "CrashReporter-iOS-Device";
+		};
+		75AF8EFC19A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05CD31630EE93905000FDE88;
+			remoteInfo = "CrashReporter-iOS-Simulator";
+		};
+		75AF8EFE19A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05E731E30EFA1A3E005EDFB7;
+			remoteInfo = plcrashutil;
+		};
+		75AF8F0019A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05CD32690EE93DC3000FDE88;
+			remoteInfo = "Tests-MacOSX";
+		};
+		75AF8F0219A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05CD32A90EE94062000FDE88;
+			remoteInfo = "Tests-iOS-Simulator";
+		};
+		75AF8F0419A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05CD33240EE94439000FDE88;
+			remoteInfo = "Tests-iOS-Device";
+		};
+		75AF8F0619A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 05F40CE70EF7AB80008050CF;
+			remoteInfo = DemoCrash;
+		};
+		75AF8F0819A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 052A45CF136353FB00987004;
+			remoteInfo = "DemoCrash-iOS-Device";
+		};
+		75AF8F0A19A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 052A464F136355FD00987004;
+			remoteInfo = "DemoCrash-iOS-Simulator";
+		};
+		75AF8F0C19A8F6FA003D7B46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 050DE24D0F61B80B00152ED3;
+			remoteInfo = "Fuzz Testing";
+		};
+		75D696E619B5878C005FE4FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = "CrashReporter-MacOSX";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		75AF8E6519A8F5AC003D7B46 /* CrashReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		75AF8E6919A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75AF8E6A19A8F5AC003D7B46 /* CrashReportWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReportWindow.h; sourceTree = "<group>"; };
+		75AF8E7019A8F5AC003D7B46 /* CrashReportWindowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrashReportWindowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		75AF8E7319A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75AF8E7419A8F5AC003D7B46 /* CrashReportWindowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrashReportWindowTests.m; sourceTree = "<group>"; };
+		75AF8E7C19A8F5E4003D7B46 /* ILCrashReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILCrashReportWindow.h; sourceTree = "<group>"; };
+		75AF8E7D19A8F5E4003D7B46 /* ILCrashReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILCrashReportWindow.m; sourceTree = "<group>"; };
+		75AF8E7E19A8F5E4003D7B46 /* ILCrashReportWindow.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ILCrashReportWindow.strings; sourceTree = "<group>"; };
+		75AF8E7F19A8F5E4003D7B46 /* ILCrashReportWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ILCrashReportWindow.xib; sourceTree = "<group>"; };
+		75AF8E8419A8F64C003D7B46 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = ../plcrashreporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
+		75D696FB19B588AD005FE4FF /* Mail.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Mail.app; path = ../../../../../Applications/Mail.app; sourceTree = "<group>"; };
+		75D696FD19B588CD005FE4FF /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		75AF8E6119A8F5AC003D7B46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75D696FE19B588CD005FE4FF /* ScriptingBridge.framework in Frameworks */,
+				75D696F819B5879D005FE4FF /* CrashReporter.framework in Frameworks */,
+				75AF8E8519A8F64C003D7B46 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75AF8E6D19A8F5AC003D7B46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		75AF8E5919A8F55E003D7B46 = {
+			isa = PBXGroup;
+			children = (
+				75AF8E6719A8F5AC003D7B46 /* CrashReportWindow */,
+				75D696F919B58804005FE4FF /* Scripting */,
+				75AF8E7119A8F5AC003D7B46 /* CrashReportWindowTests */,
+				75AF8E8619A8F658003D7B46 /* Frameworks */,
+				75AF8E6619A8F5AC003D7B46 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		75AF8E6619A8F5AC003D7B46 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				75AF8E6519A8F5AC003D7B46 /* CrashReportWindow.framework */,
+				75AF8E7019A8F5AC003D7B46 /* CrashReportWindowTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		75AF8E6719A8F5AC003D7B46 /* CrashReportWindow */ = {
+			isa = PBXGroup;
+			children = (
+				75AF8E6919A8F5AC003D7B46 /* Info.plist */,
+				75AF8E6A19A8F5AC003D7B46 /* CrashReportWindow.h */,
+				75AF8E7C19A8F5E4003D7B46 /* ILCrashReportWindow.h */,
+				75AF8E7D19A8F5E4003D7B46 /* ILCrashReportWindow.m */,
+				75AF8E7E19A8F5E4003D7B46 /* ILCrashReportWindow.strings */,
+				75AF8E7F19A8F5E4003D7B46 /* ILCrashReportWindow.xib */,
+			);
+			path = CrashReportWindow;
+			sourceTree = "<group>";
+		};
+		75AF8E7119A8F5AC003D7B46 /* CrashReportWindowTests */ = {
+			isa = PBXGroup;
+			children = (
+				75AF8E7319A8F5AC003D7B46 /* Info.plist */,
+				75AF8E7419A8F5AC003D7B46 /* CrashReportWindowTests.m */,
+			);
+			path = CrashReportWindowTests;
+			sourceTree = "<group>";
+		};
+		75AF8E8619A8F658003D7B46 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */,
+				75AF8E8419A8F64C003D7B46 /* Cocoa.framework */,
+				75D696FD19B588CD005FE4FF /* ScriptingBridge.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		75AF8EE219A8F6FA003D7B46 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				75AF8EF519A8F6FA003D7B46 /* libCrashReporter-MacOSX-Static.a */,
+				75AF8EF719A8F6FA003D7B46 /* CrashReporter.framework */,
+				75AF8EF919A8F6FA003D7B46 /* CrashReporter.framework */,
+				75AF8EFB19A8F6FA003D7B46 /* libCrashReporter-iphoneos.a */,
+				75AF8EFD19A8F6FA003D7B46 /* libCrashReporter-iphonesimulator.a */,
+				75AF8EFF19A8F6FA003D7B46 /* plcrashutil */,
+				75AF8F0119A8F6FA003D7B46 /* Tests-MacOSX.octest */,
+				75AF8F0319A8F6FA003D7B46 /* Tests-iOS-Simulator.app */,
+				75AF8F0519A8F6FA003D7B46 /* Tests-iOS-Device.app */,
+				75AF8F0719A8F6FA003D7B46 /* DemoCrash.app */,
+				75AF8F0919A8F6FA003D7B46 /* DemoCrash-iOS-Device.app */,
+				75AF8F0B19A8F6FA003D7B46 /* DemoCrash-iOS-Simulator.app */,
+				75AF8F0D19A8F6FA003D7B46 /* Fuzz Testing */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		75D696F919B58804005FE4FF /* Scripting */ = {
+			isa = PBXGroup;
+			children = (
+				75D696FB19B588AD005FE4FF /* Mail.app */,
+			);
+			name = Scripting;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		75AF8E6219A8F5AC003D7B46 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75AF8E8019A8F5E4003D7B46 /* ILCrashReportWindow.h in Headers */,
+				75AF8E6B19A8F5AC003D7B46 /* CrashReportWindow.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		75AF8E6419A8F5AC003D7B46 /* CrashReportWindow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 75AF8E7A19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "CrashReportWindow" */;
+			buildPhases = (
+				75AF8E6019A8F5AC003D7B46 /* Sources */,
+				75AF8E6119A8F5AC003D7B46 /* Frameworks */,
+				75AF8E6219A8F5AC003D7B46 /* Headers */,
+				75AF8E6319A8F5AC003D7B46 /* Resources */,
+			);
+			buildRules = (
+				75D696FA19B58880005FE4FF /* PBXBuildRule */,
+			);
+			dependencies = (
+				75D696E719B5878C005FE4FF /* PBXTargetDependency */,
+			);
+			name = CrashReportWindow;
+			productName = CrashReportWindow;
+			productReference = 75AF8E6519A8F5AC003D7B46 /* CrashReportWindow.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		75AF8E6F19A8F5AC003D7B46 /* CrashReportWindowTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 75AF8E7B19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "CrashReportWindowTests" */;
+			buildPhases = (
+				75AF8E6C19A8F5AC003D7B46 /* Sources */,
+				75AF8E6D19A8F5AC003D7B46 /* Frameworks */,
+				75AF8E6E19A8F5AC003D7B46 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CrashReportWindowTests;
+			productName = CrashReportWindowTests;
+			productReference = 75AF8E7019A8F5AC003D7B46 /* CrashReportWindowTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		75AF8E5A19A8F55E003D7B46 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				TargetAttributes = {
+					75AF8E6419A8F5AC003D7B46 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+					75AF8E6F19A8F5AC003D7B46 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+				};
+			};
+			buildConfigurationList = 75AF8E5D19A8F55E003D7B46 /* Build configuration list for PBXProject "CrashReportWindow" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 75AF8E5919A8F55E003D7B46;
+			productRefGroup = 75AF8E6619A8F5AC003D7B46 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 75AF8EE219A8F6FA003D7B46 /* Products */;
+					ProjectRef = 75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				75AF8E6419A8F5AC003D7B46 /* CrashReportWindow */,
+				75AF8E6F19A8F5AC003D7B46 /* CrashReportWindowTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		75AF8EF519A8F6FA003D7B46 /* libCrashReporter-MacOSX-Static.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCrashReporter-MacOSX-Static.a";
+			remoteRef = 75AF8EF419A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8EF719A8F6FA003D7B46 /* CrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashReporter.framework;
+			remoteRef = 75AF8EF619A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8EF919A8F6FA003D7B46 /* CrashReporter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CrashReporter.framework;
+			remoteRef = 75AF8EF819A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8EFB19A8F6FA003D7B46 /* libCrashReporter-iphoneos.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCrashReporter-iphoneos.a";
+			remoteRef = 75AF8EFA19A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8EFD19A8F6FA003D7B46 /* libCrashReporter-iphonesimulator.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libCrashReporter-iphonesimulator.a";
+			remoteRef = 75AF8EFC19A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8EFF19A8F6FA003D7B46 /* plcrashutil */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = plcrashutil;
+			remoteRef = 75AF8EFE19A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8F0119A8F6FA003D7B46 /* Tests-MacOSX.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "Tests-MacOSX.octest";
+			remoteRef = 75AF8F0019A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8F0319A8F6FA003D7B46 /* Tests-iOS-Simulator.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Tests-iOS-Simulator.app";
+			remoteRef = 75AF8F0219A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8F0519A8F6FA003D7B46 /* Tests-iOS-Device.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "Tests-iOS-Device.app";
+			remoteRef = 75AF8F0419A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8F0719A8F6FA003D7B46 /* DemoCrash.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = DemoCrash.app;
+			remoteRef = 75AF8F0619A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8F0919A8F6FA003D7B46 /* DemoCrash-iOS-Device.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "DemoCrash-iOS-Device.app";
+			remoteRef = 75AF8F0819A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8F0B19A8F6FA003D7B46 /* DemoCrash-iOS-Simulator.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "DemoCrash-iOS-Simulator.app";
+			remoteRef = 75AF8F0A19A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		75AF8F0D19A8F6FA003D7B46 /* Fuzz Testing */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "Fuzz Testing";
+			remoteRef = 75AF8F0C19A8F6FA003D7B46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		75AF8E6319A8F5AC003D7B46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75AF8E8219A8F5E4003D7B46 /* ILCrashReportWindow.strings in Resources */,
+				75AF8E8319A8F5E4003D7B46 /* ILCrashReportWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75AF8E6E19A8F5AC003D7B46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		75AF8E6019A8F5AC003D7B46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75AF8E8119A8F5E4003D7B46 /* ILCrashReportWindow.m in Sources */,
+				75D696FC19B588AD005FE4FF /* Mail.app in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		75AF8E6C19A8F5AC003D7B46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				75AF8E7519A8F5AC003D7B46 /* CrashReportWindowTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		75D696E719B5878C005FE4FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "CrashReporter-MacOSX";
+			targetProxy = 75D696E619B5878C005FE4FF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		75AF8E5E19A8F55E003D7B46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		75AF8E5F19A8F55E003D7B46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		75AF8E7619A8F5AC003D7B46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CrashReportWindow/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		75AF8E7719A8F5AC003D7B46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CrashReportWindow/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		75AF8E7819A8F5AC003D7B46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CrashReportWindowTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		75AF8E7919A8F5AC003D7B46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = CrashReportWindowTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		75AF8E5D19A8F55E003D7B46 /* Build configuration list for PBXProject "CrashReportWindow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				75AF8E5E19A8F55E003D7B46 /* Debug */,
+				75AF8E5F19A8F55E003D7B46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		75AF8E7A19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "CrashReportWindow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				75AF8E7619A8F5AC003D7B46 /* Debug */,
+				75AF8E7719A8F5AC003D7B46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		75AF8E7B19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "CrashReportWindowTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				75AF8E7819A8F5AC003D7B46 /* Debug */,
+				75AF8E7919A8F5AC003D7B46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 75AF8E5A19A8F55E003D7B46 /* Project object */;
+}
