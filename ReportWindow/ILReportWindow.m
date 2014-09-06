@@ -127,14 +127,14 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 
 + (instancetype) windowForReporter:(PLCrashReporter*) reporter
 {
-    ILCrashReportWindow* window = [[ILCrashReportWindow alloc] initWithWindowNibName:[self className]];
+    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
     window.reporter = reporter;
     return window;
 }
 
 + (instancetype) windowForReporter:(PLCrashReporter*) reporter withError:(NSError*) error
 {
-    ILCrashReportWindow* window = [[ILCrashReportWindow alloc] initWithWindowNibName:[self className]];
+    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
     window.reporter = reporter;
     window.error = error;
     return window;
@@ -142,7 +142,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 
 + (instancetype) windowForReporter:(PLCrashReporter*) reporter withException:(NSException*) exception
 {
-    ILCrashReportWindow* window = [[ILCrashReportWindow alloc] initWithWindowNibName:[self className]];
+    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
     window.reporter = reporter;
     window.exception = exception;
     return window;
@@ -423,13 +423,13 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     if( self.error )
     {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILCrashReportWindow errorReport:self.error] attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:self.error] attributes:commentsAttributes]];
     }
     
     if( self.exception)
     {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Exception -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILCrashReportWindow exceptionReport:self.exception] attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow exceptionReport:self.exception] attributes:commentsAttributes]];
     }
     
     // if the keys are set in the main bundle info keys, include the syslog and user defaults
@@ -564,7 +564,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     {
         NSDictionary* commentsAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:9]};
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILCrashReportWindow errorReport:connectionError] attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:connectionError] attributes:commentsAttributes]];
     }
 
     [self reportConnectionError]; // offer to email or cancel
