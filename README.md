@@ -3,10 +3,10 @@ ilreportwindow
 
 iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
-    import <ReportWindow/ReportWindow.h>
-    import <ExceptionHandling/ExceptionHandling.h>
+    #import <ReportWindow/ReportWindow.h>
+    #import <ExceptionHandling/ExceptionHandling.h>
 
-    pragma mark - NSApplicationDelegate
+    #pragma mark - NSApplicationDelegate
 
     - (void) applicationDidFinishLaunching:(NSNotification*) aNotification
     {
