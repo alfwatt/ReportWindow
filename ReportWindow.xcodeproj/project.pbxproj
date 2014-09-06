@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		75AF8E6B19A8F5AC003D7B46 /* CrashReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* CrashReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75AF8E6B19A8F5AC003D7B46 /* ReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75AF8E7519A8F5AC003D7B46 /* CrashReportWindowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AF8E7419A8F5AC003D7B46 /* CrashReportWindowTests.m */; };
-		75AF8E8019A8F5E4003D7B46 /* ILCrashReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E7C19A8F5E4003D7B46 /* ILCrashReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		75AF8E8119A8F5E4003D7B46 /* ILCrashReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AF8E7D19A8F5E4003D7B46 /* ILCrashReportWindow.m */; };
-		75AF8E8219A8F5E4003D7B46 /* ILCrashReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 75AF8E7E19A8F5E4003D7B46 /* ILCrashReportWindow.strings */; };
-		75AF8E8319A8F5E4003D7B46 /* ILCrashReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AF8E7F19A8F5E4003D7B46 /* ILCrashReportWindow.xib */; };
+		75AF8E8019A8F5E4003D7B46 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E7C19A8F5E4003D7B46 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75AF8E8119A8F5E4003D7B46 /* ILReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AF8E7D19A8F5E4003D7B46 /* ILReportWindow.m */; };
+		75AF8E8219A8F5E4003D7B46 /* ILReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 75AF8E7E19A8F5E4003D7B46 /* ILReportWindow.strings */; };
+		75AF8E8319A8F5E4003D7B46 /* ILReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AF8E7F19A8F5E4003D7B46 /* ILReportWindow.xib */; };
 		75AF8E8519A8F64C003D7B46 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75AF8E8419A8F64C003D7B46 /* Cocoa.framework */; };
 		75D696F819B5879D005FE4FF /* CrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75AF8EF719A8F6FA003D7B46 /* CrashReporter.framework */; };
 		75D696FC19B588AD005FE4FF /* Mail.app in Sources */ = {isa = PBXBuildFile; fileRef = 75D696FB19B588AD005FE4FF /* Mail.app */; };
@@ -137,14 +137,14 @@
 /* Begin PBXFileReference section */
 		75AF8E6519A8F5AC003D7B46 /* CrashReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CrashReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75AF8E6919A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		75AF8E6A19A8F5AC003D7B46 /* CrashReportWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrashReportWindow.h; sourceTree = "<group>"; };
+		75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportWindow.h; sourceTree = "<group>"; };
 		75AF8E7019A8F5AC003D7B46 /* CrashReportWindowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CrashReportWindowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		75AF8E7319A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75AF8E7419A8F5AC003D7B46 /* CrashReportWindowTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CrashReportWindowTests.m; sourceTree = "<group>"; };
-		75AF8E7C19A8F5E4003D7B46 /* ILCrashReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILCrashReportWindow.h; sourceTree = "<group>"; };
-		75AF8E7D19A8F5E4003D7B46 /* ILCrashReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILCrashReportWindow.m; sourceTree = "<group>"; };
-		75AF8E7E19A8F5E4003D7B46 /* ILCrashReportWindow.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ILCrashReportWindow.strings; sourceTree = "<group>"; };
-		75AF8E7F19A8F5E4003D7B46 /* ILCrashReportWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ILCrashReportWindow.xib; sourceTree = "<group>"; };
+		75AF8E7C19A8F5E4003D7B46 /* ILReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILReportWindow.h; sourceTree = "<group>"; };
+		75AF8E7D19A8F5E4003D7B46 /* ILReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportWindow.m; sourceTree = "<group>"; };
+		75AF8E7E19A8F5E4003D7B46 /* ILReportWindow.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = ILReportWindow.strings; sourceTree = "<group>"; };
+		75AF8E7F19A8F5E4003D7B46 /* ILReportWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ILReportWindow.xib; sourceTree = "<group>"; };
 		75AF8E8419A8F64C003D7B46 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		75AF8EE119A8F6FA003D7B46 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = ../plcrashreporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
 		75D696FB19B588AD005FE4FF /* Mail.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Mail.app; path = ../../../../../Applications/Mail.app; sourceTree = "<group>"; };
@@ -175,9 +175,9 @@
 		75AF8E5919A8F55E003D7B46 = {
 			isa = PBXGroup;
 			children = (
-				75AF8E6719A8F5AC003D7B46 /* CrashReportWindow */,
+				75AF8E6719A8F5AC003D7B46 /* ReportWindow */,
+				75AF8E7119A8F5AC003D7B46 /* ReportWindowTests */,
 				75D696F919B58804005FE4FF /* Scripting */,
-				75AF8E7119A8F5AC003D7B46 /* CrashReportWindowTests */,
 				75AF8E8619A8F658003D7B46 /* Frameworks */,
 				75AF8E6619A8F5AC003D7B46 /* Products */,
 			);
@@ -192,26 +192,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		75AF8E6719A8F5AC003D7B46 /* CrashReportWindow */ = {
+		75AF8E6719A8F5AC003D7B46 /* ReportWindow */ = {
 			isa = PBXGroup;
 			children = (
 				75AF8E6919A8F5AC003D7B46 /* Info.plist */,
-				75AF8E6A19A8F5AC003D7B46 /* CrashReportWindow.h */,
-				75AF8E7C19A8F5E4003D7B46 /* ILCrashReportWindow.h */,
-				75AF8E7D19A8F5E4003D7B46 /* ILCrashReportWindow.m */,
-				75AF8E7E19A8F5E4003D7B46 /* ILCrashReportWindow.strings */,
-				75AF8E7F19A8F5E4003D7B46 /* ILCrashReportWindow.xib */,
+				75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */,
+				75AF8E7C19A8F5E4003D7B46 /* ILReportWindow.h */,
+				75AF8E7D19A8F5E4003D7B46 /* ILReportWindow.m */,
+				75AF8E7E19A8F5E4003D7B46 /* ILReportWindow.strings */,
+				75AF8E7F19A8F5E4003D7B46 /* ILReportWindow.xib */,
 			);
-			path = CrashReportWindow;
+			name = ReportWindow;
+			path = ILReportWindow;
 			sourceTree = "<group>";
 		};
-		75AF8E7119A8F5AC003D7B46 /* CrashReportWindowTests */ = {
+		75AF8E7119A8F5AC003D7B46 /* ReportWindowTests */ = {
 			isa = PBXGroup;
 			children = (
 				75AF8E7319A8F5AC003D7B46 /* Info.plist */,
 				75AF8E7419A8F5AC003D7B46 /* CrashReportWindowTests.m */,
 			);
-			path = CrashReportWindowTests;
+			name = ReportWindowTests;
+			path = ILReportWindowTests;
 			sourceTree = "<group>";
 		};
 		75AF8E8619A8F658003D7B46 /* Frameworks */ = {
@@ -259,17 +261,17 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75AF8E8019A8F5E4003D7B46 /* ILCrashReportWindow.h in Headers */,
-				75AF8E6B19A8F5AC003D7B46 /* CrashReportWindow.h in Headers */,
+				75AF8E8019A8F5E4003D7B46 /* ILReportWindow.h in Headers */,
+				75AF8E6B19A8F5AC003D7B46 /* ReportWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		75AF8E6419A8F5AC003D7B46 /* CrashReportWindow */ = {
+		75AF8E6419A8F5AC003D7B46 /* ReportWindow */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 75AF8E7A19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "CrashReportWindow" */;
+			buildConfigurationList = 75AF8E7A19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "ReportWindow" */;
 			buildPhases = (
 				75AF8E6019A8F5AC003D7B46 /* Sources */,
 				75AF8E6119A8F5AC003D7B46 /* Frameworks */,
@@ -282,14 +284,14 @@
 			dependencies = (
 				75D696E719B5878C005FE4FF /* PBXTargetDependency */,
 			);
-			name = CrashReportWindow;
+			name = ReportWindow;
 			productName = CrashReportWindow;
 			productReference = 75AF8E6519A8F5AC003D7B46 /* CrashReportWindow.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		75AF8E6F19A8F5AC003D7B46 /* CrashReportWindowTests */ = {
+		75AF8E6F19A8F5AC003D7B46 /* ReportWindowTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 75AF8E7B19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "CrashReportWindowTests" */;
+			buildConfigurationList = 75AF8E7B19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "ReportWindowTests" */;
 			buildPhases = (
 				75AF8E6C19A8F5AC003D7B46 /* Sources */,
 				75AF8E6D19A8F5AC003D7B46 /* Frameworks */,
@@ -299,7 +301,7 @@
 			);
 			dependencies = (
 			);
-			name = CrashReportWindowTests;
+			name = ReportWindowTests;
 			productName = CrashReportWindowTests;
 			productReference = 75AF8E7019A8F5AC003D7B46 /* CrashReportWindowTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -320,7 +322,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 75AF8E5D19A8F55E003D7B46 /* Build configuration list for PBXProject "CrashReportWindow" */;
+			buildConfigurationList = 75AF8E5D19A8F55E003D7B46 /* Build configuration list for PBXProject "ReportWindow" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -338,8 +340,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				75AF8E6419A8F5AC003D7B46 /* CrashReportWindow */,
-				75AF8E6F19A8F5AC003D7B46 /* CrashReportWindowTests */,
+				75AF8E6419A8F5AC003D7B46 /* ReportWindow */,
+				75AF8E6F19A8F5AC003D7B46 /* ReportWindowTests */,
 			);
 		};
 /* End PBXProject section */
@@ -443,8 +445,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75AF8E8219A8F5E4003D7B46 /* ILCrashReportWindow.strings in Resources */,
-				75AF8E8319A8F5E4003D7B46 /* ILCrashReportWindow.xib in Resources */,
+				75AF8E8219A8F5E4003D7B46 /* ILReportWindow.strings in Resources */,
+				75AF8E8319A8F5E4003D7B46 /* ILReportWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -462,7 +464,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				75AF8E8119A8F5E4003D7B46 /* ILCrashReportWindow.m in Sources */,
+				75AF8E8119A8F5E4003D7B46 /* ILReportWindow.m in Sources */,
 				75D696FC19B588AD005FE4FF /* Mail.app in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -693,7 +695,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		75AF8E5D19A8F55E003D7B46 /* Build configuration list for PBXProject "CrashReportWindow" */ = {
+		75AF8E5D19A8F55E003D7B46 /* Build configuration list for PBXProject "ReportWindow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75AF8E5E19A8F55E003D7B46 /* Debug */,
@@ -702,7 +704,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		75AF8E7A19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "CrashReportWindow" */ = {
+		75AF8E7A19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "ReportWindow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75AF8E7619A8F5AC003D7B46 /* Debug */,
@@ -711,7 +713,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		75AF8E7B19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "CrashReportWindowTests" */ = {
+		75AF8E7B19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "ReportWindowTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				75AF8E7819A8F5AC003D7B46 /* Debug */,

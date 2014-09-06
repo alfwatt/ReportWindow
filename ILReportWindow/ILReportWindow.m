@@ -1,4 +1,4 @@
-#import "ILCrashReportWindow.h"
+#import "ILReportWindow.h"
 
 #import <execinfo.h>
 
@@ -10,38 +10,38 @@
 #import "Mail.h"
 
 
-NSString* const ILCrashWindowAutoSubmitKey = @"ILCrashWindowAutoSubmitKey";
-NSString* const ILCrashWindowSubmitURLKey = @"ILCrashWindowSubmitURLKey";
-NSString* const ILCrashWindowSubmitEmailKey = @"ILCrashWindowSubmitEmailKey";
-NSString* const ILCrashWindowIncludeSyslogKey = @"ILCrashWindowIncludeSyslogKey";
-NSString* const ILCrashWindowIncludeDefaultsKey = @"ILCrashWindowIncludeDefaultsKey";
+NSString* const ILReportWindowAutoSubmitKey = @"ILReportWindowAutoSubmitKey";
+NSString* const ILReportWindowSubmitURLKey = @"ILReportWindowSubmitURLKey";
+NSString* const ILReportWindowSubmitEmailKey = @"ILReportWindowSubmitEmailKey";
+NSString* const ILReportWindowIncludeSyslogKey = @"ILReportWindowIncludeSyslogKey";
+NSString* const ILReportWindowIncludeDefaultsKey = @"ILReportWindowIncludeDefaultsKey";
 
-NSString* const ILCrashWindowInsecureConnectionString = @"ILCrashWindowInsecureConnectionString";
-NSString* const ILCrashWIndowInsecureConnectionInformationString = @"ILCrashWIndowInsecureConnectionInformationString";
-NSString* const ILCrashWindowInsecureConnectionEmailAlternateString = @"ILCrashWindowInsecureConnectionEmailAlternateString";
-NSString* const ILCrashWindowCancelString = @"ILCrashWindowCancelString";
-NSString* const ILCrashWindowSendString = @"ILCrashWindowSendString";
-NSString* const ILCrashWindowEmailString = @"ILCrashWindowEmailString";
-NSString* const ILCrashWindowCrashReportString = @"ILCrashWindowCrashReportString";
-NSString* const ILCrashWindowExceptionReportString = @"ILCrashWindowExceptionReportString";
-NSString* const ILCrashWindowErrorReportString = @"ILCrashWindowErrorReportString";
-NSString* const ILCrashWindowCrashedString = @"ILCrashWindowCrashedString";
-NSString* const ILCrashWindowRaisedExceptionString = @"ILCrashWindowRaisedExceptionString";
-NSString* const ILCrashWindowReportedErrorString = @"ILCrashWindowReportedErrorString";
-NSString* const ILCrashWindowCrashDispositionString = @"ILCrashWindowCrashDispositionString";
-NSString* const ILCrashWindowErrorDispositionString = @"ILCrashWindowErrorDispositionString";
-NSString* const ILCrashWindowReportString = @"ILCrashWindowReportString";
-NSString* const ILCrashWindowRestartString = @"ILCrashWindowRestartString";
-NSString* const ILCrashWindowQuitString = @"ILCrashWindowQuitString";
-NSString* const ILCrashWindowCommentsString = @"ILCrashWindowCommentsString";
-NSString* const ILCrashWindowSubmitFailedString = @"ILCrashWindowSubmitFailedString";
-NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubmitFailedInformationString";
+NSString* const ILReportWindowInsecureConnectionString = @"ILReportWindowInsecureConnectionString";
+NSString* const ILReportWindowInsecureConnectionInformationString = @"ILReportWindowInsecureConnectionInformationString";
+NSString* const ILReportWindowInsecureConnectionEmailAlternateString = @"ILReportWindowInsecureConnectionEmailAlternateString";
+NSString* const ILReportWindowCancelString = @"ILReportWindowCancelString";
+NSString* const ILReportWindowSendString = @"ILReportWindowSendString";
+NSString* const ILReportWindowEmailString = @"ILReportWindowEmailString";
+NSString* const ILReportWindowCrashReportString = @"ILReportWindowCrashReportString";
+NSString* const ILReportWindowExceptionReportString = @"ILReportWindowExceptionReportString";
+NSString* const ILReportWindowErrorReportString = @"ILReportWindowErrorReportString";
+NSString* const ILReportWindowCrashedString = @"ILReportWindowCrashedString";
+NSString* const ILReportWindowRaisedExceptionString = @"ILReportWindowRaisedExceptionString";
+NSString* const ILReportWindowReportedErrorString = @"ILReportWindowReportedErrorString";
+NSString* const ILReportWindowCrashDispositionString = @"ILReportWindowCrashDispositionString";
+NSString* const ILReportWindowErrorDispositionString = @"ILReportWindowErrorDispositionString";
+NSString* const ILReportWindowReportString = @"ILReportWindowReportString";
+NSString* const ILReportWindowRestartString = @"ILReportWindowRestartString";
+NSString* const ILReportWindowQuitString = @"ILReportWindowQuitString";
+NSString* const ILReportWindowCommentsString = @"ILReportWindowCommentsString";
+NSString* const ILReportWindowSubmitFailedString = @"ILReportWindowSubmitFailedString";
+NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSubmitFailedInformationString";
 
 #define PLLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:[self className]]
 
 #pragma mark -
 
-@implementation ILCrashReportWindow
+@implementation ILReportWindow
 @synthesize error;
 @synthesize exception;
 @synthesize reporter;
@@ -304,7 +304,7 @@ NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubm
 - (void) sendReport
 {
     // get the submission url
-    NSURL* url = [NSURL URLWithString:[[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:ILCrashWindowSubmitURLKey]];
+    NSURL* url = [NSURL URLWithString:[[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:ILReportWindowSubmitURLKey]];
     
     // if it's a mailto: create an email message with the support address
     if( [[url scheme] isEqualToString:@"mailto"])
@@ -318,17 +318,17 @@ NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubm
     else if( [[url scheme] isEqualToString:@"http"]) // // it it's HTTP prompt the user for permission to send
     {
         NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSURL* emailURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILCrashWindowSubmitEmailKey]];
+        NSURL* emailURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowSubmitEmailKey]];
         NSAlert* plaintextAlert = [NSAlert new];
         plaintextAlert.alertStyle = NSCriticalAlertStyle;
-        plaintextAlert.messageText = PLLocalizedString(ILCrashWindowInsecureConnectionString);
-        plaintextAlert.informativeText = [NSString stringWithFormat:PLLocalizedString(ILCrashWIndowInsecureConnectionInformationString), appName];
-        [plaintextAlert addButtonWithTitle:PLLocalizedString(ILCrashWindowCancelString)];
-        [plaintextAlert addButtonWithTitle:PLLocalizedString(ILCrashWindowSendString)];
+        plaintextAlert.messageText = PLLocalizedString(ILReportWindowInsecureConnectionString);
+        plaintextAlert.informativeText = [NSString stringWithFormat:PLLocalizedString(ILReportWindowInsecureConnectionInformationString), appName];
+        [plaintextAlert addButtonWithTitle:PLLocalizedString(ILReportWindowCancelString)];
+        [plaintextAlert addButtonWithTitle:PLLocalizedString(ILReportWindowSendString)];
         if( emailURL) // backup email key is specified
         {
-            [plaintextAlert addButtonWithTitle:PLLocalizedString(ILCrashWindowEmailString)];
-            plaintextAlert.informativeText = [plaintextAlert.informativeText stringByAppendingString:PLLocalizedString(ILCrashWindowInsecureConnectionEmailAlternateString)];
+            [plaintextAlert addButtonWithTitle:PLLocalizedString(ILReportWindowEmailString)];
+            plaintextAlert.informativeText = [plaintextAlert.informativeText stringByAppendingString:PLLocalizedString(ILReportWindowInsecureConnectionEmailAlternateString)];
         }
         [plaintextAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode)
         {
@@ -356,16 +356,16 @@ NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubm
 
 - (void) reportConnectionError
 {
-    NSURL* emailURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILCrashWindowSubmitEmailKey]];
+    NSURL* emailURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowSubmitEmailKey]];
     if( emailURL) // backup email key is specified
     {
         NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
         NSAlert* alert = [NSAlert new];
         alert.alertStyle = NSCriticalAlertStyle;
-        alert.messageText = PLLocalizedString(ILCrashWindowSubmitFailedString);
-        alert.informativeText = [NSString stringWithFormat:PLLocalizedString(ILCrashWindowSubmitFailedInformationString), appName, emailURL];
-        [alert addButtonWithTitle:PLLocalizedString(ILCrashWindowEmailString)];
-        [alert addButtonWithTitle:PLLocalizedString(ILCrashWindowCancelString)];
+        alert.messageText = PLLocalizedString(ILReportWindowSubmitFailedString);
+        alert.informativeText = [NSString stringWithFormat:PLLocalizedString(ILReportWindowSubmitFailedInformationString), appName, emailURL];
+        [alert addButtonWithTitle:PLLocalizedString(ILReportWindowEmailString)];
+        [alert addButtonWithTitle:PLLocalizedString(ILReportWindowCancelString)];
         [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode)
          {
              if( returnCode == NSAlertFirstButtonReturn)
@@ -385,28 +385,28 @@ NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubm
 - (void) awakeFromNib
 {
     // set the window title
-    if( self.reporter.hasPendingCrashReport) self.window.title = PLLocalizedString(ILCrashWindowCrashReportString);
-    else if( self.exception)                 self.window.title = PLLocalizedString(ILCrashWindowExceptionReportString);
-    else if( self.error)                     self.window.title = PLLocalizedString(ILCrashWindowErrorReportString);
+    if( self.reporter.hasPendingCrashReport) self.window.title = PLLocalizedString(ILReportWindowCrashReportString);
+    else if( self.exception)                 self.window.title = PLLocalizedString(ILReportWindowExceptionReportString);
+    else if( self.error)                     self.window.title = PLLocalizedString(ILReportWindowErrorReportString);
 
     // build the headline from the app name and event message
     NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSString* message = nil;
     
-    if( self.reporter.hasPendingCrashReport) message = PLLocalizedString(ILCrashWindowCrashedString);
-    else if( self.exception)                 message = PLLocalizedString(ILCrashWindowRaisedExceptionString);
-    else if( self.error)                     message = PLLocalizedString(ILCrashWindowReportedErrorString);
+    if( self.reporter.hasPendingCrashReport) message = PLLocalizedString(ILReportWindowCrashedString);
+    else if( self.exception)                 message = PLLocalizedString(ILReportWindowRaisedExceptionString);
+    else if( self.error)                     message = PLLocalizedString(ILReportWindowReportedErrorString);
     self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, message];
 
     // build the subhead from the app name, event message and dispostion strings
-    if( self.reporter.hasPendingCrashReport) self.subhead.stringValue = PLLocalizedString(ILCrashWindowCrashDispositionString);
-    else if( self.exception || self.error)   self.subhead.stringValue = PLLocalizedString(ILCrashWindowErrorDispositionString);
+    if( self.reporter.hasPendingCrashReport) self.subhead.stringValue = PLLocalizedString(ILReportWindowCrashDispositionString);
+    else if( self.exception || self.error)   self.subhead.stringValue = PLLocalizedString(ILReportWindowErrorDispositionString);
     
-    if( self.reporter.hasPendingCrashReport) self.send.title = PLLocalizedString(ILCrashWindowReportString);
+    if( self.reporter.hasPendingCrashReport) self.send.title = PLLocalizedString(ILReportWindowReportString);
     else if( self.exception || self.error)
     {
-        self.send.title = PLLocalizedString(ILCrashWindowRestartString);
-        self.cancel.title = PLLocalizedString(ILCrashWindowQuitString);
+        self.send.title = PLLocalizedString(ILReportWindowRestartString);
+        self.cancel.title = PLLocalizedString(ILReportWindowQuitString);
     }
     
     [self.progress startAnimation:self];
@@ -417,7 +417,7 @@ NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubm
 
     // fill in the comments section
     NSDictionary* commentsAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:9]};
-    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:PLLocalizedString(ILCrashWindowCommentsString) attributes:commentsAttributes]];
+    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:PLLocalizedString(ILReportWindowCommentsString) attributes:commentsAttributes]];
 
     // if the error wasn't explicity set, grab the last one
     if( self.error )
@@ -433,13 +433,13 @@ NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubm
     }
     
     // if the keys are set in the main bundle info keys, include the syslog and user defaults
-    if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:ILCrashWindowIncludeSyslogKey] boolValue])
+    if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowIncludeSyslogKey] boolValue])
     {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[self grepSyslog] attributes:commentsAttributes]];
     }
        
-    if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:ILCrashWindowIncludeDefaultsKey] boolValue])
+    if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowIncludeDefaultsKey] boolValue])
     {
         NSString* defaultsString = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]] description];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Application Defaults -\n\n" attributes:commentsAttributes]];
@@ -454,7 +454,7 @@ NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubm
     self.send.enabled = YES;
     [self.progress stopAnimation:self];
     
-    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILCrashWindowAutoSubmitKey]) // auto submit now that the report is generated
+    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]) // auto submit now that the report is generated
     {
         self.remember.state = NSOnState;
         [self performSelector:@selector(onSend:) withObject:self afterDelay:0]; // present the window and send the report, showing them that we're doing it, they can canel and add comments
@@ -495,7 +495,7 @@ NSString* const ILCrashWindowSubmitFailedInformationString = @"ILCrashWindowSubm
 - (IBAction)onSend:(id)sender
 {
     // check remember button & save preferences
-    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILCrashWindowAutoSubmitKey];
+    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
     
     // start the progress indicator and disable various controls
     [self.progress startAnimation:self];

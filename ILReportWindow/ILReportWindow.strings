@@ -1,0 +1,35 @@
+/* 
+  ILCrashReportWindow.strings
+  CrashReporter
+
+  Created by alf on 8/19/14.
+
+*/
+
+"ILReportWindowCancelString" = "Cancel";
+"ILReportWindowSendString" = "Send";
+"ILReportWindowEmailString" = "Email";
+
+"ILReportWindowReportString" = "Report";
+"ILReportWindowRestartString" = "Restart";
+"ILReportWindowQuitString" = "Quit";
+
+"ILReportWindowCrashReportString" = "Crash Report";
+"ILReportWindowExceptionReportString" = "Exception Report";
+"ILReportWindowErrorReportString" = "Error Report";
+
+"ILReportWindowCrashedString" = "Crashed!";
+"ILReportWindowRaisedExceptionString" = "Raised an Exception";
+"ILReportWindowReportedErrorString" = "Reported an Error";
+
+"ILReportWindowInsecureConnectionString" = "Insecure Connection";
+"ILReportWindowInsecureConnectionInformationString" = "%@ does not support secure crash reporting, your crash report will be sent in plaintext and may be observed while in transit.";
+"ILReportWindowInsecureConnectionEmailAlternateString" = "\n\nEmail may be a more secure option, depending on your provider.";
+
+"ILReportWindowCrashDispositionString" = "Click Report to send the report to the devleoper, or Cancel to ignore it.";
+"ILReportWindowErrorDispositionString" = "Click Restart to send the report to the devloper and restart the application, or Quit.";
+
+"ILReportWindowCommentsString" = "please enter any comments here";
+
+"ILReportWindowSubmitFailedString" = "Submitting Report Failed";
+"ILReportWindowSubmitFailedInformationString" = "%@ was not able to submit the report to: %@\n\nyou can send the report by email";
