@@ -1,14 +1,22 @@
 #import <Cocoa/Cocoa.h>
 
-extern NSString* const ILReportWindowAutoSubmitKey; // if set the user's defaults is a BOOL, YES to send NO to cancel
+#pragma mark NSUserDefaults keys
+
+extern NSString* const ILReportWindowAutoSubmitKey; // if set the user's defaults is a BOOL, YES to send automatically, NO to prompt (default)
+extern NSString* const ILReportWindowIgnoreKey; // if set the user's defaults is a BOOL, YES to suppress dialog, NO to prompt (default)
+
+#pragma mark - Info.plist keys
+
 extern NSString* const ILReportWindowSubmitURLKey; // if set in the bundle's info dictionary the url to submit the crash report to, can be a mailto: url
 extern NSString* const ILReportWindowSubmitEmailKey; // if set the backup email for submissions, if the primary URL is http and the user declines to upload
-extern NSString* const ILReportWindowIncludeSyslogKey; // if set to YES then syslog messages with the applications bundle name in them are included
-extern NSString* const ILReportWindowIncludeDefaultsKey; // if set to YES then the applications preferences are included in the report
+extern NSString* const ILReportWindowIncludeSyslogKey; // if set to YES in the bundles info dictionary then syslog messages with the applications bundle name in them are included
+extern NSString* const ILReportWindowIncludeDefaultsKey; // if set to YES in the bundles info dictionary then the applications preferences are included in the report
+
+#pragma mark - NSLocalizedStrings
 
 extern NSString* const ILReportWindowInsecureConnectionString; // = @"Insecure Connection";
 extern NSString* const ILReportWindowInsecureConnectionInformationString; // = @"%@ does not support secure crash reporting, your crash report will be sent in plaintext and may be observed while in transit."; // app name
-extern NSString* const ILReportWindowInsecureConnectionEmailAlternateString; // = @"\n\nEmail may be a more secure option, depending on your provider.";
+extern NSString* const ILReportWindowInsecureConnectionEmailAlternateString; // = @"\n\nEmail may be more secure, depending on your provider.";
 extern NSString* const ILReportWindowCancelString; // = @"Cancel";
 extern NSString* const ILReportWindowSendString; // = @"Send";
 extern NSString* const ILReportWindowEmailString; // = @"Email";
@@ -29,6 +37,8 @@ extern NSString* const ILReportWindowSubmitFailedInformationString; // = @"%@ wa
 
 @class PLCrashReport;
 @class PLCrashReporter;
+
+#pragma mark -
 
 @interface ILReportWindow : NSWindowController <NSURLConnectionDelegate>
 {

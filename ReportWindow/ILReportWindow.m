@@ -7,10 +7,13 @@
 
 // scripting bridge header for Mail.app
 // https://developer.apple.com/library/mac/samplecode/SBSendEmail/Introduction/Intro.html
+
 #import "Mail.h"
 
 
 NSString* const ILReportWindowAutoSubmitKey = @"ILReportWindowAutoSubmitKey";
+NSString* const ILReportWindowIgnoreKey = @"ILReportWindowIgnoreKey";
+
 NSString* const ILReportWindowSubmitURLKey = @"ILReportWindowSubmitURLKey";
 NSString* const ILReportWindowSubmitEmailKey = @"ILReportWindowSubmitEmailKey";
 NSString* const ILReportWindowIncludeSyslogKey = @"ILReportWindowIncludeSyslogKey";

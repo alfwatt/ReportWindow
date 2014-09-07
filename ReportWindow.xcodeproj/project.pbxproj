@@ -135,7 +135,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		75AF8E6519A8F5AC003D7B46 /* CrashReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = CrashReportWindow.framework; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75AF8E6919A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportWindow.h; sourceTree = "<group>"; };
 		75AF8E7019A8F5AC003D7B46 /* ReportWindowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReportWindowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,7 +186,7 @@
 		75AF8E6619A8F5AC003D7B46 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				75AF8E6519A8F5AC003D7B46 /* CrashReportWindow.framework */,
+				75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */,
 				75AF8E7019A8F5AC003D7B46 /* ReportWindowTests.xctest */,
 			);
 			name = Products;
@@ -284,7 +284,7 @@
 			);
 			name = ReportWindow;
 			productName = CrashReportWindow;
-			productReference = 75AF8E6519A8F5AC003D7B46 /* CrashReportWindow.framework */;
+			productReference = 75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		75AF8E6F19A8F5AC003D7B46 /* ReportWindowTests */ = {
@@ -538,7 +538,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = CrashReportWindow/Info.plist;
+				INFOPLIST_FILE = ReportWindow/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
@@ -587,7 +587,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = CrashReportWindow/Info.plist;
+				INFOPLIST_FILE = ReportWindow/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
