@@ -7,8 +7,11 @@ extern NSString* const ILReportWindowIgnoreKey; // if set the user's defaults is
 
 #pragma mark - Info.plist keys
 
+// One of theses keys must be define for the window to be presented, you may provide both (email will be backup if POST to URL fails)
 extern NSString* const ILReportWindowSubmitURLKey; // if set in the bundle's info dictionary the url to submit the crash report to, can be a mailto: url
 extern NSString* const ILReportWindowSubmitEmailKey; // if set the backup email for submissions, if the primary URL is http and the user declines to upload
+
+// ATTENTION! only set these keys if your log output and defaults contain no user identifiying information (account names, passwords, etc)
 extern NSString* const ILReportWindowIncludeSyslogKey; // if set to YES in the bundles info dictionary then syslog messages with the applications bundle name in them are included
 extern NSString* const ILReportWindowIncludeDefaultsKey; // if set to YES in the bundles info dictionary then the applications preferences are included in the report
 

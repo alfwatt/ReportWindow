@@ -16,6 +16,7 @@ NSString* const ILReportWindowIgnoreKey = @"ILReportWindowIgnoreKey";
 
 NSString* const ILReportWindowSubmitURLKey = @"ILReportWindowSubmitURLKey";
 NSString* const ILReportWindowSubmitEmailKey = @"ILReportWindowSubmitEmailKey";
+
 NSString* const ILReportWindowIncludeSyslogKey = @"ILReportWindowIncludeSyslogKey";
 NSString* const ILReportWindowIncludeDefaultsKey = @"ILReportWindowIncludeDefaultsKey";
 
@@ -128,6 +129,23 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     return report;
 }
 
++ (NSString*) grepSyslog // grep the syslog for any messages pertaining to us and return the messages
+
+{
+    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+    NSTask* grep = 	[NSTask new];
+    NSPipe* output = [NSPipe pipe];
+    [grep setLaunchPath:@"/usr/bin/grep"];
+    [grep setArguments:@[appName, @"/var/log/system.log"]];
+    [grep setStandardInput:[NSPipe pipe]];
+    [grep setStandardOutput:output];
+    [grep launch];
+    NSString* logLines = [[NSString alloc] initWithData:[[output fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+    return logLines;
+}
+
+#pragma mark -
+
 + (instancetype) windowForReporter:(PLCrashReporter*) reporter
 {
     ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
@@ -151,26 +169,23 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     return window;
 }
 
-- (void) runModal
+#pragma mark -
+
+- (BOOL) checkConfig // check for email or submit urls, one is enough
 {
-    [super showWindow:self];
-    [self.window orderFrontRegardless];
-    self.modalSession = [NSApp beginModalSessionForWindow:self.window];
+    NSArray* infoKeys = [[[NSBundle mainBundle] infoDictionary] allKeys];
+    return ([infoKeys containsObject:ILReportWindowSubmitEmailKey] || [infoKeys containsObject:ILReportWindowSubmitURLKey]);
 }
 
-- (NSString*) grepSyslog // grep the syslog for any messages pertaining to us and return the messages
-
+- (void) runModal
 {
-    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    NSTask* grep = 	[NSTask new];
-    NSPipe* output = [NSPipe pipe];
-    [grep setLaunchPath:@"/usr/bin/grep"];
-    [grep setArguments:@[appName, @"/var/log/system.log"]];
-    [grep setStandardInput:[NSPipe pipe]];
-    [grep setStandardOutput:output];
-    [grep launch];
-    NSString* logLines = [[NSString alloc] initWithData:[[output fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding];
-    return logLines;
+    if( [self checkConfig])
+    {
+        [super showWindow:self];
+        [self.window orderFrontRegardless];
+        self.modalSession = [NSApp beginModalSessionForWindow:self.window];
+    }
+    else NSLog(@"%@ please configure a %@ or %@ in your apps Info.plist", [self className], ILReportWindowSubmitEmailKey, ILReportWindowSubmitURLKey);
 }
 
 - (void) restartApp
@@ -195,10 +210,11 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", script]] waitUntilExit];
 }
 
+// http://tools.ietf.org/html/rfc1867
+
 - (void) postReportToWebServer:(NSURL*) approvedURL
 {
     // the user has apporved the url if it's not secure, go ahead and upload via http or https
-    NSMutableData* requestBody = [NSMutableData new];
     NSMutableURLRequest* uploadRequest = [NSMutableURLRequest requestWithURL:approvedURL];
     NSError* postError = nil;
     NSData* reportData = (self.reporter.hasPendingCrashReport
@@ -208,23 +224,43 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     {
         PLCrashReport* report = [[PLCrashReport alloc] initWithData:reportData error:&postError];
         NSString* crashUUID = CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault,report.uuidRef));
-        NSString* crashFile = [crashUUID stringByAppendingPathExtension:@"ILCrashreport"];
-    
-        NSString *boundary = [NSString stringWithFormat:@"---------------------------%@", crashUUID];;
+        NSString* crashFileName = [crashUUID stringByAppendingPathExtension:@"crashreport"];
+        NSString* encodedComments = [self.comments.textStorage.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        
+        NSString *boundary = [NSString stringWithFormat:@"++%@", crashUUID];;
         NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-
-        [requestBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [requestBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; comments=\"%@\" filename=\"%@\"\r\n",self.comments.textStorage.string,crashFile] dataUsingEncoding:NSUTF8StringEncoding]];
-        [requestBody appendData:[@"Content-Type: application/octet-stream\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [requestBody appendData:[@"Content-Transfer-Encoding: binary\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [requestBody appendData:reportData];
-
         [uploadRequest addValue:contentType forHTTPHeaderField:@"Content-Type"];
+
+        NSMutableString* requestBody = [NSMutableString new];
+
+        // put the comments into the primary form-data field
+        [requestBody appendString:@"--"];
+        [requestBody appendString:boundary];
+        [requestBody appendString:@"\r\n"];
+        [requestBody appendString:@"Content-Disposition: form-data; name=\"comments\"\r\n\r\n"];
+        [requestBody appendString:encodedComments];
+        [requestBody appendString:@"\r\n"];
+        
+        // setup for the crash report data
+        [requestBody appendString:@"--"];
+        [requestBody appendString:boundary];
+        [requestBody appendString:@"\r\n"];
+        [requestBody appendString:[NSString stringWithFormat:@"Content-Disposition: attachment; name=\"report\"; filename=\"%@\"\r\n",crashFileName]];
+        [requestBody appendString:@"Content-Transfer-Encoding: base64\r\n\r\n"];
+        [requestBody appendString:[reportData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength]];
+        [requestBody appendString:@"\r\n"];
+        [requestBody appendString:@"--"];
+        [requestBody appendString:boundary];
+        [requestBody appendString:@"\r\n"];
+        [requestBody appendString:@"\r\n"];
+
+        NSLog(@"request: \n\nContent-Type: %@\n%@", contentType, requestBody);
+        
         uploadRequest.cachePolicy = NSURLRequestReloadIgnoringCacheData;
         uploadRequest.HTTPShouldHandleCookies = NO;
         uploadRequest.timeoutInterval = 30;
         uploadRequest.HTTPMethod = @"POST";
-        uploadRequest.HTTPBody = requestBody; // post data
+        uploadRequest.HTTPBody = [requestBody dataUsingEncoding:NSUTF8StringEncoding]; // post data
 
         // add the comments, link the file and
         NSURLConnection* upload = [NSURLConnection connectionWithRequest:uploadRequest delegate:self];
@@ -307,7 +343,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 - (void) sendReport
 {
     // get the submission url
-    NSURL* url = [NSURL URLWithString:[[[NSBundle bundleForClass:[self class]] infoDictionary] objectForKey:ILReportWindowSubmitURLKey]];
+    NSURL* url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowSubmitURLKey]];
     
     // if it's a mailto: create an email message with the support address
     if( [[url scheme] isEqualToString:@"mailto"])
@@ -439,7 +475,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowIncludeSyslogKey] boolValue])
     {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[self grepSyslog] attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow grepSyslog] attributes:commentsAttributes]];
     }
        
     if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowIncludeDefaultsKey] boolValue])
