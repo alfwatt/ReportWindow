@@ -4,6 +4,7 @@ ilreportwindow
 iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
     #import <ReportWindow/ReportWindow.h>
+    #import <CrashReporter/CrashReporter.h>
     #import <ExceptionHandling/ExceptionHandling.h>
 
     @property(nonatimic,retain) ILReportWindow* reportWindow;
