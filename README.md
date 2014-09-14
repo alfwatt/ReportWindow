@@ -6,13 +6,17 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
     #import <ReportWindow/ReportWindow.h>
     #import <ExceptionHandling/ExceptionHandling.h>
 
+    @property(nonatimic,retain) ILReportWindow* reportWindow;
+
     #pragma mark - NSApplicationDelegate
 
     - (void) applicationDidFinishLaunching:(NSNotification*) aNotification
     {
         PLCrashReporterConfig* config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll];
         PLCrashReporter* reporter = [[PLCrashReporter alloc] initWithConfiguration:config]
-        ILReportWindow* reportWindow;
+
+        // you'll have to add a crash calback, if you want to intercept crashes in the app, otherwise you get them on the next launch
+
         NSError* reportError;
     
         // register as exception handler delegate
@@ -22,15 +26,13 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
         if( [reporter hasPendingCrashReport])
         {
             // present UI to the user asking if we can report the crash
-            reportWindow = [ILReportWindow windowForReporter:reporter];
-            [reportWindow runModal];
+            self.reportWindow = [ILReportWindow windowForCrashReporter:reporter];
+            [self.reportWindow runModal];
         }
-    
     
         if( ![reporter enableCrashReporterAndReturnError:&reportError])
         {
-            reportWindow = [ILReportWindow windowForReporter:reporter withError:reportError];
-            [reportWindow runModal];
+            [self reportError:reportError];
         }
     }
 
@@ -42,8 +44,6 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
         }
         else // non-recoverable errors should be reported
         {
-            PLCrashReporterConfig* config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll];
-            PLCrashReporter* reporter = [[PLCrashReporter alloc] initWithConfiguration:config]
             self.reportWindow = [ILReportWindow windowForReporter:reporter withError:error];
             [self.reportWindow runModal];
         }
@@ -51,14 +51,9 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
     #pragma mark - NSExceptionHandling
 
-    - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler
-       shouldHandleException:(NSException *)exception
-                        mask:(NSUInteger)mask
-
+    - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler shouldHandleException:(NSException *)exception mask:(NSUInteger)mask
     {
-        PLCrashReporterConfig* config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll];
-        PLCrashReporter* reporter = [[PLCrashReporter alloc] initWithConfiguration:config]
-        ILReportWindow* reportWindow = [ILReportWindow windowForReporter:reporter withException:exception];
+        ILReportWindow* reportWindow = [ILReportWindow windowForException:exception];
         [reportWindow runModal];
         return NO;
     }
