@@ -1,17 +1,17 @@
 <?php
 
 // directory on the web server for storing the reports
-$reports_dir = "/Users/Shared/Data/istumbler.net/crashes/";
+$reports_dir = "/var/log/crashes/";
 
 // success and error pages, once the report is posted
-$success = "/support/support.html";
-$error = "/support/error.html";
+$success = "support.html";
+$error = "error.html";
 
 // serial number (NB: only unique if you get less than one report a second)
 $serial = date("Ymd-HisO");
 
 // email and subject of the report
-$email = "support@istumbler.net";
+$email = "support@example.com";
 $subject = "Trouble Report: " . $serial;
 
 // email and report message content
