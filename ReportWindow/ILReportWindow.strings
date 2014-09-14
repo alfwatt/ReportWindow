@@ -17,10 +17,12 @@
 "ILReportWindowCrashReportString" = "Crash Report";
 "ILReportWindowExceptionReportString" = "Exception Report";
 "ILReportWindowErrorReportString" = "Error Report";
+"ILReportWindowBugReportString" = "Bug Report";
 
 "ILReportWindowCrashedString" = "Crashed!";
 "ILReportWindowRaisedExceptionString" = "Raised an Exception";
 "ILReportWindowReportedErrorString" = "Reported an Error";
+"ILReportWindowReportingBugString" = "Bug Report for";
 
 "ILReportWindowInsecureConnectionString" = "Insecure Connection";
 "ILReportWindowInsecureConnectionInformationString" = "%@ does not support secure crash reporting, your crash report will be sent in plaintext and may be observed while in transit.";

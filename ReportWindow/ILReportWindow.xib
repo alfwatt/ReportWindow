@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6205" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="1080" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6205"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="ILReportWindow">
@@ -57,6 +57,9 @@
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <binding destination="cne-q2-4wg" name="value" keyPath="values.ILReportWindowAutoSubmitKey" id="Bfb-Bp-HC4"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vbJ-xH-k2L">
                         <rect key="frame" x="454" y="9" width="82" height="32"/>
@@ -71,7 +74,7 @@ DQ
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="onSend:" target="-2" id="lBJ-i3-KXQ"/>
+                            <action selector="onSend:" target="-2" id="WLP-5b-bKB"/>
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MWQ-vP-UHi">
@@ -87,7 +90,7 @@ Gw
 </string>
                         </buttonCell>
                         <connections>
-                            <action selector="onCancel:" target="-2" id="MUa-9Q-4sB"/>
+                            <action selector="onCancel:" target="-2" id="RSz-D6-Adu"/>
                         </connections>
                     </button>
                     <box hidden="YES" autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="Q2W-Lc-uWc">
@@ -170,5 +173,6 @@ Gw
                 <outlet property="delegate" destination="-2" id="gxs-bT-hBe"/>
             </connections>
         </window>
+        <userDefaultsController representsSharedInstance="YES" id="cne-q2-4wg"/>
     </objects>
 </document>

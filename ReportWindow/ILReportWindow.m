@@ -27,12 +27,14 @@ NSString* const ILReportWindowCancelString = @"ILReportWindowCancelString";
 NSString* const ILReportWindowSendString = @"ILReportWindowSendString";
 NSString* const ILReportWindowEmailString = @"ILReportWindowEmailString";
 NSString* const ILReportWindowCrashReportString = @"ILReportWindowCrashReportString";
+NSString* const ILReportWindowBugReportString = @"ILReportWindowBugReportString";
 NSString* const ILReportWindowExceptionReportString = @"ILReportWindowExceptionReportString";
 NSString* const ILReportWindowErrorReportString = @"ILReportWindowErrorReportString";
 NSString* const ILReportWindowCrashedString = @"ILReportWindowCrashedString";
 NSString* const ILReportWindowRaisedExceptionString = @"ILReportWindowRaisedExceptionString";
 NSString* const ILReportWindowReportedErrorString = @"ILReportWindowReportedErrorString";
-NSString* const ILReportWindowCrashDispositionString = @"ILReportWindowCrashDispositionString";
+NSString* const ILReportWindowReportingBugString = @"ILReportWindowReportingBugString";
+NSString* const ILReportWindowReportDispositionString = @"ILReportWindowCrashDispositionString";
 NSString* const ILReportWindowErrorDispositionString = @"ILReportWindowErrorDispositionString";
 NSString* const ILReportWindowReportString = @"ILReportWindowReportString";
 NSString* const ILReportWindowRestartString = @"ILReportWindowRestartString";
@@ -41,27 +43,11 @@ NSString* const ILReportWindowCommentsString = @"ILReportWindowCommentsString";
 NSString* const ILReportWindowSubmitFailedString = @"ILReportWindowSubmitFailedString";
 NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSubmitFailedInformationString";
 
-#define PLLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:[self className]]
+#define ILLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:[self className]]
 
 #pragma mark -
 
 @implementation ILReportWindow
-@synthesize error;
-@synthesize exception;
-@synthesize reporter;
-@synthesize crashData;
-@synthesize crashReport;
-@synthesize response;
-@synthesize responseBody;
-@synthesize modalSession;
-@synthesize headline;
-@synthesize subhead;
-@synthesize comments;
-@synthesize remember;
-@synthesize status;
-@synthesize progress;
-@synthesize cancel;
-@synthesize send;
 
 + (NSString*) exceptionReport:(NSException*) exception
 {
@@ -130,7 +116,6 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 }
 
 + (NSString*) grepSyslog // grep the syslog for any messages pertaining to us and return the messages
-
 {
     NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
     NSTask* grep = 	[NSTask new];
@@ -144,32 +129,100 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     return logLines;
 }
 
-#pragma mark -
++ (void) restartApp
+{
+    static int fatal_signals[] = {SIGABRT, SIGBUS, SIGFPE, SIGILL, SIGSEGV, SIGTRAP};
+    static int fatal_signals_count = (sizeof(fatal_signals) / sizeof(fatal_signals[0]));
+    int pid = [[NSProcessInfo processInfo] processIdentifier];
+    
+    // clear out all the fatal signal handlers, so we don't end up crashing all the way down
+    for (int i = 0; i < fatal_signals_count; i++) {
+        struct sigaction sa;
+        
+        memset(&sa, 0, sizeof(sa));
+        sa.sa_handler = SIG_DFL;
+        sigemptyset(&sa.sa_mask);
+        
+        sigaction(fatal_signals[i], &sa, NULL);
+    }
+    
+    NSString* shellEscapedAppPath = [NSString stringWithFormat:@"'%@'", [[[NSBundle mainBundle] bundlePath] stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"]];
+    NSString *script = [NSString stringWithFormat:@"(while /bin/kill -0 %d >&/dev/null; do /bin/sleep 0.1; done; /usr/bin/open %@) &", pid, shellEscapedAppPath];
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", script]] waitUntilExit];
+}
 
-+ (instancetype) windowForReporter:(PLCrashReporter*) reporter
++ (NSString*) byteSizeAsString:(NSInteger) fsSize
+{
+    static const int KILO = 1024;
+    
+    if (fsSize == 0)
+        return NSLocalizedString( @"", @"File size, for empty files and directories");
+    
+    if (fsSize < KILO)
+        return [NSString stringWithFormat:NSLocalizedString( @"%i Bytes", @"File size, for items that are less than 1 kilobyte"), fsSize];
+    
+    double numK = (double) fsSize / KILO;
+    if (numK < KILO)
+        return [NSString stringWithFormat:NSLocalizedString( @"%.1f KB", @"File size in Kilobytes"), numK];
+    
+    double numMB = numK / KILO;
+    if (numMB < KILO)
+        return [NSString stringWithFormat:NSLocalizedString(@"%.1f MB", @"File size in Megabytes"), numMB];
+    
+    double numGB = numMB / KILO;
+    if (numGB < KILO)
+        return [NSString stringWithFormat:NSLocalizedString( @"%.1f GB", @"File size in Gigabytes"), numGB];
+    
+    double numTB = numGB / KILO;
+    if (numTB < KILO)
+        return [NSString stringWithFormat:NSLocalizedString( @"%.1f TB", @"File size in Terrabytes"), numTB];
+    
+    double numPB = numTB / KILO;
+    if (numPB < KILO)
+        return [NSString stringWithFormat:NSLocalizedString( @"%.1f PB", @"File size in Petabytes"), numPB];
+    
+    double numEB = numPB / KILO;
+    if (numEB < KILO)
+        return [NSString stringWithFormat:NSLocalizedString( @"%.1f EB", @"File size in Exabytes"), numEB];
+    
+    return NSLocalizedString(@"Large",  @"File size, for really large files");
+}
+
+
+#pragma mark - Factory Methods
+
++ (instancetype) windowForCrashReporter:(PLCrashReporter*) reporter
 {
     ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
+    window.mode = ILReportWindowCrashMode;
     window.reporter = reporter;
     return window;
 }
 
-+ (instancetype) windowForReporter:(PLCrashReporter*) reporter withError:(NSError*) error
++ (instancetype) windowForError:(NSError*) error
 {
     ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
-    window.reporter = reporter;
+    window.mode = ILReportWindowErrorMode;
     window.error = error;
     return window;
 }
 
-+ (instancetype) windowForReporter:(PLCrashReporter*) reporter withException:(NSException*) exception
++ (instancetype) windowForException:(NSException*) exception
 {
     ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
-    window.reporter = reporter;
+    window.mode = ILReportWindowExceptionMode;
     window.exception = exception;
     return window;
 }
 
-#pragma mark -
++ (instancetype) windowForBug
+{
+    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
+    window.mode = ILReportWindowBugMode;
+    return window;
+}
+
+#pragma mark - 
 
 - (BOOL) checkConfig // check for email or submit urls, one is enough
 {
@@ -181,6 +234,17 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 {
     if( [self checkConfig])
     {
+        // clear the underlying exception handler
+        self.exceptionHandler = NSGetUncaughtExceptionHandler();
+        NSSetUncaughtExceptionHandler(nil);
+        
+        // clear the NSExceptionHandler
+        self.exceptionDelegate = [[NSExceptionHandler defaultExceptionHandler] delegate];
+        self.exceptionMask = [[NSExceptionHandler defaultExceptionHandler] exceptionHandlingMask];
+        [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:0]; // can't have a throw in the middele
+        [[NSExceptionHandler defaultExceptionHandler] setDelegate:nil]; // can't have a throw in the middele
+        
+        // now it's safe to show the window, any issues in our code will be treated as if there is no handling, preventing recursion
         [super showWindow:self];
         [self.window orderFrontRegardless];
         self.modalSession = [NSApp beginModalSessionForWindow:self.window];
@@ -188,26 +252,24 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     else NSLog(@"%@ please configure a %@ or %@ in your apps Info.plist", [self className], ILReportWindowSubmitEmailKey, ILReportWindowSubmitURLKey);
 }
 
-- (void) restartApp
+- (void) prepareReportData
 {
-    static int fatal_signals[] = {SIGABRT, SIGBUS, SIGFPE, SIGILL, SIGSEGV, SIGTRAP };
-    static int fatal_signals_count = (sizeof(fatal_signals) / sizeof(fatal_signals[0]));
-    int pid = [[NSProcessInfo processInfo] processIdentifier];
+    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+    self.reportUUID = [NSString stringWithString:CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault,uuid))];
+    if(uuid) CFRelease(uuid);
 
-    // clear out all the fatal signal handlers, so we don't end up crashing all the way down
-    for (int i = 0; i < fatal_signals_count; i++) {
-        struct sigaction sa;
-
-        memset(&sa, 0, sizeof(sa));
-        sa.sa_handler = SIG_DFL;
-        sigemptyset(&sa.sa_mask);
-
-        sigaction(fatal_signals[i], &sa, NULL);
+    if( self.reporter)
+    {
+        NSError* prepError = nil;
+        // either pull the pending report of create a new one
+        if( self.reporter.hasPendingCrashReport )
+            self.crashData = [self.reporter loadPendingCrashReportDataAndReturnError:&prepError];
+        else
+            self.crashData = [self.reporter generateLiveReportAndReturnError:&prepError];
+        
+        if( !self.crashData)
+            NSLog(@"%@ error when perparing report data: %@", [self className], prepError);
     }
-    
-    NSString* shellEscapedAppPath = [NSString stringWithFormat:@"'%@'", [[[NSBundle mainBundle] bundlePath] stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"]];
-    NSString *script = [NSString stringWithFormat:@"(while /bin/kill -0 %d >&/dev/null; do /bin/sleep 0.1; done; /usr/bin/open %@) &", pid, shellEscapedAppPath];
-    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", script]] waitUntilExit];
 }
 
 // http://tools.ietf.org/html/rfc1867
@@ -215,63 +277,48 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 - (void) postReportToWebServer:(NSURL*) approvedURL
 {
     // the user has apporved the url if it's not secure, go ahead and upload via http or https
-    NSMutableURLRequest* uploadRequest = [NSMutableURLRequest requestWithURL:approvedURL];
-    NSError* postError = nil;
-    NSData* reportData = (self.reporter.hasPendingCrashReport
-                         ?[self.reporter loadPendingCrashReportDataAndReturnError:&postError]
-                         :[self.reporter generateLiveReportAndReturnError:&postError]);
-    if( reportData)
+    // setup to post the form, generate a UUID for the report, create the boundary and attache the file if needed
+    NSMutableURLRequest* uploadRequest = [NSMutableURLRequest new];
+    NSString *boundary = [NSString stringWithFormat:@"++%@", self.reportUUID];
+    NSString *boundaryLine = [NSString stringWithFormat:@"--%@\r\n", boundary];
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    NSString* crashFileName = [self.reportUUID stringByAppendingPathExtension:@"crashreport"];
+    NSString* encodedComments = [self.comments.textStorage.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSMutableString* requestBody = [NSMutableString new];
+    
+    // put the comments into the primary form-data field
+    [uploadRequest setURL:approvedURL];
+    [uploadRequest addValue:contentType forHTTPHeaderField:@"Content-Type"];
+    [requestBody appendString:boundaryLine];
+    [requestBody appendString:@"Content-Disposition: form-data; name=\"comments\"\r\n\r\n"];
+    [requestBody appendString:encodedComments];
+    [requestBody appendString:@"\r\n"];
+    
+    if( self.crashData) // send the crash report data as the next attachment
     {
-        PLCrashReport* report = [[PLCrashReport alloc] initWithData:reportData error:&postError];
-        NSString* crashUUID = CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault,report.uuidRef));
-        NSString* crashFileName = [crashUUID stringByAppendingPathExtension:@"crashreport"];
-        NSString* encodedComments = [self.comments.textStorage.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        
-        NSString *boundary = [NSString stringWithFormat:@"++%@", crashUUID];;
-        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-        [uploadRequest addValue:contentType forHTTPHeaderField:@"Content-Type"];
-
-        NSMutableString* requestBody = [NSMutableString new];
-
-        // put the comments into the primary form-data field
-        [requestBody appendString:@"--"];
-        [requestBody appendString:boundary];
-        [requestBody appendString:@"\r\n"];
-        [requestBody appendString:@"Content-Disposition: form-data; name=\"comments\"\r\n\r\n"];
-        [requestBody appendString:encodedComments];
-        [requestBody appendString:@"\r\n"];
-        
-        // setup for the crash report data
-        [requestBody appendString:@"--"];
-        [requestBody appendString:boundary];
-        [requestBody appendString:@"\r\n"];
+        [requestBody appendString:boundaryLine];
         [requestBody appendString:[NSString stringWithFormat:@"Content-Disposition: attachment; name=\"report\"; filename=\"%@\"\r\n",crashFileName]];
         [requestBody appendString:@"Content-Transfer-Encoding: base64\r\n\r\n"];
-        [requestBody appendString:[reportData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength]];
+        [requestBody appendString:[self.crashData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength]];
         [requestBody appendString:@"\r\n"];
-        [requestBody appendString:@"--"];
-        [requestBody appendString:boundary];
-        [requestBody appendString:@"\r\n"];
-        [requestBody appendString:@"\r\n"];
-
-        NSLog(@"request: \n\nContent-Type: %@\n%@", contentType, requestBody);
-        
-        uploadRequest.cachePolicy = NSURLRequestReloadIgnoringCacheData;
-        uploadRequest.HTTPShouldHandleCookies = NO;
-        uploadRequest.timeoutInterval = 30;
-        uploadRequest.HTTPMethod = @"POST";
-        uploadRequest.HTTPBody = [requestBody dataUsingEncoding:NSUTF8StringEncoding]; // post data
-
-        // add the comments, link the file and
-        NSURLConnection* upload = [NSURLConnection connectionWithRequest:uploadRequest delegate:self];
-        self.responseBody = [NSMutableData new];
-        [upload scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSModalPanelRunLoopMode];
-        [upload start];
     }
-    else
-    {
-        NSLog(@"%@ no crash data error: %@ comments: %@", [self className], error, self.comments.textStorage.string);
-    }
+
+    [requestBody appendString:boundaryLine];
+    [requestBody appendString:@"\r\n"];
+
+//    NSLog(@"request: \n\nContent-Type: %@\n%@", contentType, requestBody);
+    
+    uploadRequest.cachePolicy = NSURLRequestReloadIgnoringCacheData;
+    uploadRequest.HTTPShouldHandleCookies = NO;
+    uploadRequest.timeoutInterval = 30;
+    uploadRequest.HTTPMethod = @"POST";
+    uploadRequest.HTTPBody = [requestBody dataUsingEncoding:NSUTF8StringEncoding]; // post data
+    
+    // add the comments, link the file and
+    NSURLConnection* upload = [NSURLConnection connectionWithRequest:uploadRequest delegate:self];
+    self.responseBody = [NSMutableData new];
+    [upload scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSModalPanelRunLoopMode];
+    [upload start];
 }
 
 - (void) emailReportTo:(NSURL*) mailtoURL
@@ -282,9 +329,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     NSData* reportData = (self.reporter.hasPendingCrashReport
                          ?[self.reporter loadPendingCrashReportDataAndReturnError:&emailError]
                          :[self.reporter generateLiveReportAndReturnError:&emailError]);
-    PLCrashReport* report = [[PLCrashReport alloc] initWithData:reportData error:&emailError];
-    NSString* crashUUID = CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault,report.uuidRef));
-    NSString* attachmentFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[crashUUID stringByAppendingPathExtension:@"ILCrashreport"]];
+    NSString* attachmentFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[self.reportUUID stringByAppendingPathExtension:@"ILCrashreport"]];
     [reportData writeToFile:attachmentFilePath atomically:NO];
     
     /* create a Scripting Bridge object for talking to the Mail application */
@@ -293,7 +338,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     /* create a new outgoing message object */
     MailOutgoingMessage *emailMessage = [[[mail classForScriptingClass:@"outgoing message"] alloc] initWithProperties:
                                          [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [NSString stringWithFormat:@"Crash Report: %@", crashUUID], @"subject",
+                                          [NSString stringWithFormat:@"Crash Report: %@", self.reportUUID], @"subject",
                                           self.comments.textStorage.string, @"content",
                                           nil]];
     
@@ -344,30 +389,40 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 {
     // get the submission url
     NSURL* url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowSubmitURLKey]];
+
+    if( !url )
+    {
+        NSLog(@"%@ %@must be set to send a report!", [self className], ILReportWindowSubmitURLKey);
+        [self close];
+        return;
+    }
+    
+    // cook up the report data if we have somewhere to send it
+    [self prepareReportData];
     
     // if it's a mailto: create an email message with the support address
     if( [[url scheme] isEqualToString:@"mailto"])
     {
         [self emailReportTo:url];
     }
-    else if( [[url scheme] isEqualToString:@"https"]) // if it's HTTPS post the crash report
+    else if( [[url scheme] isEqualToString:@"https"]) // if it's HTTPS post the crash report immediatly
     {
         [self postReportToWebServer:url];
     }
-    else if( [[url scheme] isEqualToString:@"http"]) // // it it's HTTP prompt the user for permission to send
+    else if( [[url scheme] isEqualToString:@"http"]) // // it it's *just* HTTP prompt the user for permission to send in the clear
     {
         NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
         NSURL* emailURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowSubmitEmailKey]];
         NSAlert* plaintextAlert = [NSAlert new];
         plaintextAlert.alertStyle = NSCriticalAlertStyle;
-        plaintextAlert.messageText = PLLocalizedString(ILReportWindowInsecureConnectionString);
-        plaintextAlert.informativeText = [NSString stringWithFormat:PLLocalizedString(ILReportWindowInsecureConnectionInformationString), appName];
-        [plaintextAlert addButtonWithTitle:PLLocalizedString(ILReportWindowCancelString)];
-        [plaintextAlert addButtonWithTitle:PLLocalizedString(ILReportWindowSendString)];
+        plaintextAlert.messageText = ILLocalizedString(ILReportWindowInsecureConnectionString);
+        plaintextAlert.informativeText = [NSString stringWithFormat:ILLocalizedString(ILReportWindowInsecureConnectionInformationString), appName];
+        [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowCancelString)];
+        [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowSendString)];
         if( emailURL) // backup email key is specified
         {
-            [plaintextAlert addButtonWithTitle:PLLocalizedString(ILReportWindowEmailString)];
-            plaintextAlert.informativeText = [plaintextAlert.informativeText stringByAppendingString:PLLocalizedString(ILReportWindowInsecureConnectionEmailAlternateString)];
+            [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowEmailString)];
+            plaintextAlert.informativeText = [plaintextAlert.informativeText stringByAppendingString:ILLocalizedString(ILReportWindowInsecureConnectionEmailAlternateString)];
         }
         [plaintextAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode)
         {
@@ -401,10 +456,10 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
         NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
         NSAlert* alert = [NSAlert new];
         alert.alertStyle = NSCriticalAlertStyle;
-        alert.messageText = PLLocalizedString(ILReportWindowSubmitFailedString);
-        alert.informativeText = [NSString stringWithFormat:PLLocalizedString(ILReportWindowSubmitFailedInformationString), appName, emailURL];
-        [alert addButtonWithTitle:PLLocalizedString(ILReportWindowEmailString)];
-        [alert addButtonWithTitle:PLLocalizedString(ILReportWindowCancelString)];
+        alert.messageText = ILLocalizedString(ILReportWindowSubmitFailedString);
+        alert.informativeText = [NSString stringWithFormat:ILLocalizedString(ILReportWindowSubmitFailedInformationString), appName, emailURL];
+        [alert addButtonWithTitle:ILLocalizedString(ILReportWindowEmailString)];
+        [alert addButtonWithTitle:ILLocalizedString(ILReportWindowCancelString)];
         [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode)
          {
              if( returnCode == NSAlertFirstButtonReturn)
@@ -423,29 +478,39 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 
 - (void) awakeFromNib
 {
-    // set the window title
-    if( self.reporter.hasPendingCrashReport) self.window.title = PLLocalizedString(ILReportWindowCrashReportString);
-    else if( self.exception)                 self.window.title = PLLocalizedString(ILReportWindowExceptionReportString);
-    else if( self.error)                     self.window.title = PLLocalizedString(ILReportWindowErrorReportString);
-
-    // build the headline from the app name and event message
+    // setup the headline from the app name and event message
     NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-    NSString* message = nil;
-    
-    if( self.reporter.hasPendingCrashReport) message = PLLocalizedString(ILReportWindowCrashedString);
-    else if( self.exception)                 message = PLLocalizedString(ILReportWindowRaisedExceptionString);
-    else if( self.error)                     message = PLLocalizedString(ILReportWindowReportedErrorString);
-    self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, message];
-
-    // build the subhead from the app name, event message and dispostion strings
-    if( self.reporter.hasPendingCrashReport) self.subhead.stringValue = PLLocalizedString(ILReportWindowCrashDispositionString);
-    else if( self.exception || self.error)   self.subhead.stringValue = PLLocalizedString(ILReportWindowErrorDispositionString);
-    
-    if( self.reporter.hasPendingCrashReport) self.send.title = PLLocalizedString(ILReportWindowReportString);
-    else if( self.exception || self.error)
+ 
+    // setup the window depending on the report mode
+    if( self.mode == ILReportWindowCrashMode)
     {
-        self.send.title = PLLocalizedString(ILReportWindowRestartString);
-        self.cancel.title = PLLocalizedString(ILReportWindowQuitString);
+        self.window.title = ILLocalizedString(ILReportWindowCrashReportString);
+        self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowCrashedString)];
+        self.subhead.stringValue = ILLocalizedString(ILReportWindowReportDispositionString);
+        self.send.title = ILLocalizedString(ILReportWindowReportString);
+    }
+    else if( self.mode == ILReportWindowErrorMode)
+    {
+        self.window.title = ILLocalizedString(ILReportWindowErrorReportString);
+        self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowReportedErrorString)];
+        self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
+        self.send.title = ILLocalizedString(ILReportWindowRestartString);
+        self.cancel.title = ILLocalizedString(ILReportWindowQuitString);
+    }
+    else if( self.mode == ILReportWindowExceptionMode)
+    {
+        self.window.title = ILLocalizedString(ILReportWindowExceptionReportString);
+        self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowRaisedExceptionString)];
+        self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
+        self.send.title = ILLocalizedString(ILReportWindowRestartString);
+        self.cancel.title = ILLocalizedString(ILReportWindowQuitString);
+    }
+    else // assume it's ILReportWindowBugMode
+    {
+        self.window.title = ILLocalizedString(ILReportWindowBugReportString);
+        self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", ILLocalizedString(ILReportWindowReportingBugString), appName];
+        self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
+        self.send.title = ILLocalizedString(ILReportWindowReportString);
     }
     
     [self.progress startAnimation:self];
@@ -456,7 +521,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 
     // fill in the comments section
     NSDictionary* commentsAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:9]};
-    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:PLLocalizedString(ILReportWindowCommentsString) attributes:commentsAttributes]];
+    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:ILLocalizedString(ILReportWindowCommentsString) attributes:commentsAttributes]];
 
     // if the error wasn't explicity set, grab the last one
     if( self.error )
@@ -505,12 +570,18 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 - (void)windowWillClose:(NSNotification *)notification
 {
     if( self.modalSession)
+    {
         [NSApp endModalSession:self.modalSession];
+        [[NSExceptionHandler defaultExceptionHandler] setDelegate:self.exceptionDelegate];
+        [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:self.exceptionMask];
+        NSSetUncaughtExceptionHandler(self.exceptionHandler);
+        self.exceptionDelegate = nil;
+    }
     
     if( self.error || self.exception)
     {
 #ifdef DEBUG
-        [self restartApp];
+        [ILReportWindow restartApp];
 #else
         exit(-1);
 #endif
@@ -561,23 +632,40 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
  totalBytesWritten:(NSInteger)totalBytesWritten
 totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
-    // TODO progress indicator
-    self.status.stringValue = [NSString stringWithFormat:@"%li/%li %C",(long)totalBytesWritten,(long)totalBytesExpectedToWrite, 0x2191]; // UPWARDS ARROW Unicode: U+2191, UTF-8: E2 86 91
+    self.status.stringValue = [NSString stringWithFormat:@"%@/%@ %C",
+                               [ILReportWindow byteSizeAsString:totalBytesWritten],
+                               [ILReportWindow byteSizeAsString:totalBytesExpectedToWrite],
+                               0x2191]; // UPWARDS ARROW Unicode: U+2191, UTF-8: E2 86 91
     NSLog(@"%@ post: %li/%li bytes", [self className], (long)totalBytesWritten,(long)totalBytesExpectedToWrite);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.responseBody appendData:data];
-    self.status.stringValue = [NSString stringWithFormat:@"%li %C",(unsigned long)self.responseBody.length, 0x2193]; //↓ DOWNWARDS ARROW Unicode: U+2193, UTF-8: E2 86 93
+    self.status.stringValue = [NSString stringWithFormat:@"%@ %C",[ILReportWindow byteSizeAsString:self.responseBody.length], 0x2193]; //↓ DOWNWARDS ARROW Unicode: U+2193, UTF-8: E2 86 93
     NSLog(@"%@ read: %li bytes", self.className, (unsigned long)self.responseBody.length);
+}
+
+/* intercept redirects (we don't need to load the resulting page ourselves), if there was an error ask the workspace to open the URL */
+- (NSURLRequest*) connection:(NSURLConnection*) connection willSendRequest:(NSURLRequest*) request redirectResponse:(NSURLResponse*) redirect
+{
+    if( redirect && self.response.statusCode == 302 ) // we got redirected, display the page to the user
+    {
+        NSLog(@"%@ error submitting a report: %li redirect: %@", [self className], (long)self.response.statusCode, redirect.URL);
+        [[NSWorkspace sharedWorkspace] openURL:redirect.URL];
+        return nil;
+    }
+    
+    return request; // just return the request, either everything is OK or the web browser is showing the error
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *) connection
 {
-    NSString* bodyString = [[NSString alloc] initWithData:self.responseBody encoding:NSUTF8StringEncoding];
-    NSLog(@"%@ response: %li body: %@", [self className], (long)self.response.statusCode, bodyString);
-
+    NSLog(@"%@ report submitted status: %li", [self className], (long)self.response.statusCode);
+    
+    //    NSString* bodyString = [[NSString alloc] initWithData:self.responseBody encoding:NSUTF8StringEncoding];
+    //    NSLog(@"%@ response body: %@", bodyString);
+    
     if( self.response.statusCode == 200 ) // OK!
     {
         self.status.stringValue = [NSString stringWithFormat:@"%C", 0x2713]; // CHECK MARK Unicode: U+2713, UTF-8: E2 9C 93
@@ -589,7 +677,6 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
         self.status.stringValue = [NSString stringWithFormat:@"%li %C", (long)self.response.statusCode, 0x274C];// CROSS MARK Unicode: U+274C, UTF-8: E2 9D 8C
         [self reportConnectionError]; // offer to email or cancel
     }
-
 }
 
 #pragma mark - NSURlConnectionDelegate
