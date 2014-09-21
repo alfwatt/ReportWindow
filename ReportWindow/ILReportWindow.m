@@ -153,6 +153,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; //
     NSString* shellEscapedAppPath = [NSString stringWithFormat:@"'%@'", [[[NSBundle mainBundle] bundlePath] stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"]];
     NSString *script = [NSString stringWithFormat:@"(while /bin/kill -0 %d >&/dev/null; do /bin/sleep 0.1; done; /usr/bin/open %@) &", pid, shellEscapedAppPath];
     [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", script]] waitUntilExit];
+    exit(1);
 }
 
 + (NSString*) byteSizeAsString:(NSInteger) fsSize
@@ -595,20 +596,21 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; //
     self.send.enabled = YES;
     [self.progress stopAnimation:self];
     
-    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey] && (self.mode != ILReportWindowBugMode))
+    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey])
     {
         self.remember.state = NSOnState;
-        [self performSelector:@selector(onSend:) withObject:self afterDelay:0]; // present the window and send the report, showing them that we're doing it, they can canel and add comments
+        if(self.mode != ILReportWindowBugMode) // present the window and send the report, showing them that we're doing it, they can canel and add comments
+        {
+            [self performSelector:@selector(onSend:) withObject:self afterDelay:0];
+        }
     }
+    else self.remember.state = NSOffState;
 }
 
 #pragma mark - NSWindowDelegate
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    // refresh this one when the window closes, so it's always the users intent
-    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
-
     if( self.modalSession)
     {
         [NSApp endModalSession:self.modalSession];
@@ -623,17 +625,27 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; //
 
 - (IBAction)onCancel:(id)sender
 {
+    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
+    else [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
+
     // are we currently sending? stop that
     self.comments.editable = YES;
     self.remember.enabled = YES;
     self.send.enabled = YES;
     self.status.stringValue = @"";
     [self.progress stopAnimation:self];
-    [self close]; // user canceled, immediate close
+    
+    if( self.mode == ILReportWindowExceptionMode || self.mode == ILReportWindowErrorMode)
+        [NSApp terminate:self];
+    else
+        [self close]; // user canceled, immediate close
 }
 
 - (IBAction)onSend:(id)sender
 {
+    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
+    else [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
+
     if( self.autoRestartTimer) // advance it to the end and fire it
     {
         self.autoRestartSeconds = 1;
