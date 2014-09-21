@@ -41,6 +41,7 @@ NSString* const ILReportWindowErrorDispositionString = @"ILReportWindowErrorDisp
 NSString* const ILReportWindowReportString = @"ILReportWindowReportString";
 NSString* const ILReportWindowRestartString = @"ILReportWindowRestartString";
 NSString* const ILReportWindowQuitString = @"ILReportWindowQuitString";
+NSString* const ILReportWindowIgnoreString = @"ILReportWindowIgnoreString";
 NSString* const ILReportWindowCommentsString = @"ILReportWindowCommentsString";
 NSString* const ILReportWindowSubmitFailedString = @"ILReportWindowSubmitFailedString";
 NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSubmitFailedInformationString";
@@ -533,7 +534,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; //
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowReportedErrorString)];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
         self.send.title = ILLocalizedString(ILReportWindowRestartString);
-        self.cancel.title = ILLocalizedString(ILReportWindowQuitString);
+        self.cancel.title = ILLocalizedString(ILReportWindowIgnoreString);
     }
     else if( self.mode == ILReportWindowExceptionMode)
     {
@@ -541,7 +542,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; //
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowRaisedExceptionString)];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
         self.send.title = ILLocalizedString(ILReportWindowRestartString);
-        self.cancel.title = ILLocalizedString(ILReportWindowQuitString);
+        self.cancel.title = ILLocalizedString(ILReportWindowIgnoreString);
     }
     else // assume it's ILReportWindowBugMode
     {
@@ -635,10 +636,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; //
     self.status.stringValue = @"";
     [self.progress stopAnimation:self];
     
-    if( self.mode == ILReportWindowExceptionMode || self.mode == ILReportWindowErrorMode)
-        [NSApp terminate:self];
-    else
-        [self close]; // user canceled, immediate close
+    [self close]; // user canceled or ignored, immediate close
 }
 
 - (IBAction)onSend:(id)sender

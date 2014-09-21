@@ -38,6 +38,7 @@ extern NSString* const ILReportWindowErrorDispositionString; // = @"Click Restar
 extern NSString* const ILReportWindowReportString; // = @"Report";
 extern NSString* const ILReportWindowRestartString; // = @"Restart";
 extern NSString* const ILReportWindowQuitString; // = @"Quit";
+extern NSString* const ILReportWindowIgnoreString; // = @"Ignore";
 extern NSString* const ILReportWindowCommentsString; // = @"please enter any comments here";
 extern NSString* const ILReportWindowSubmitFailedString; // = @"Submitting Report Failed";
 extern NSString* const ILReportWindowSubmitFailedInformationString; // = @"%@ was not able to submit the report to: %@\n\nyou can send the report by email"; // app name and submission url
