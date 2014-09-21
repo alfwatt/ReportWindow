@@ -35,3 +35,6 @@
 
 "ILReportWindowSubmitFailedString" = "Submitting Report Failed";
 "ILReportWindowSubmitFailedInformationString" = "%@ was not able to submit the report to: %@\n\nyou can send the report by email";
+
+"ILReportWindowRestartInString" = "Restart in";
+"ILReportWindowSecondsString" = "seconds";

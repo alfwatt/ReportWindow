@@ -17,6 +17,8 @@ extern NSString* const ILReportWindowSubmitEmailKey; // if set the backup email 
 extern NSString* const ILReportWindowIncludeSyslogKey; // if set to YES in the bundles info dictionary then syslog messages with the applications bundle name in them are included
 extern NSString* const ILReportWindowIncludeDefaultsKey; // if set to YES in the bundles info dictionary then the applications preferences are included in the report
 
+extern NSString* const ILReportWindowAutoRestartSecondsKey; // if set overrades default of 60 before an automatic crash report will be submitted, and the window dismissed
+
 #pragma mark - NSLocalizedStrings
 
 extern NSString* const ILReportWindowCancelString; // = @"Cancel";
@@ -42,6 +44,9 @@ extern NSString* const ILReportWindowSubmitFailedInformationString; // = @"%@ wa
 extern NSString* const ILReportWindowInsecureConnectionString; // = @"Insecure Connection";
 extern NSString* const ILReportWindowInsecureConnectionInformationString; // = @"%@ does not support secure crash reporting, your crash report will be sent in plaintext and may be observed while in transit."; // app name
 extern NSString* const ILReportWindowInsecureConnectionEmailAlternateString; // = @"\n\nEmail may be more secure, depending on your provider.";
+
+extern NSString* const ILReportWindowRestartInString; // = @"Restart in";
+extern NSString* const ILReportWindowSecondsString; // = @"seconds";
 
 #ifdef PL_CRASH_COMPATABLE
 @class PLCrashReport;
@@ -71,6 +76,8 @@ ILReportWindowMode;
 @property(nonatomic,assign) id exceptionDelegate;
 @property(nonatomic,assign) NSUInteger exceptionMask;
 @property(nonatomic,assign) NSUncaughtExceptionHandler* exceptionHandler;
+@property(nonatomic,assign) NSUInteger autoRestartSeconds;
+@property(nonatomic,assign) NSTimer* autoRestartTimer;
 @property(nonatomic,retain) IBOutlet NSTextField* headline;
 @property(nonatomic,retain) IBOutlet NSTextField* subhead;
 @property(nonatomic,retain) IBOutlet NSTextView* comments;

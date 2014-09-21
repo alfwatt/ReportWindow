@@ -20,6 +20,8 @@ NSString* const ILReportWindowSubmitEmailKey = @"ILReportWindowSubmitEmailKey";
 NSString* const ILReportWindowIncludeSyslogKey = @"ILReportWindowIncludeSyslogKey";
 NSString* const ILReportWindowIncludeDefaultsKey = @"ILReportWindowIncludeDefaultsKey";
 
+NSString* const ILReportWindowAutoRestartSecondsKey = @"ILReportWindowAutoRestartSecondsKey";
+
 NSString* const ILReportWindowInsecureConnectionString = @"ILReportWindowInsecureConnectionString";
 NSString* const ILReportWindowInsecureConnectionInformationString = @"ILReportWindowInsecureConnectionInformationString";
 NSString* const ILReportWindowInsecureConnectionEmailAlternateString = @"ILReportWindowInsecureConnectionEmailAlternateString";
@@ -42,6 +44,8 @@ NSString* const ILReportWindowQuitString = @"ILReportWindowQuitString";
 NSString* const ILReportWindowCommentsString = @"ILReportWindowCommentsString";
 NSString* const ILReportWindowSubmitFailedString = @"ILReportWindowSubmitFailedString";
 NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSubmitFailedInformationString";
+NSString* const ILReportWindowRestartInString = @"ILReportWindowRestartInString"; // = @"Restart in";
+NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; // = @"seconds";
 
 #define ILLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:[self className]]
 
@@ -232,8 +236,12 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 
 - (void) runModal
 {
+    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowIgnoreKey])
+        return;
+    
     if( [self checkConfig])
     {
+        
         // clear the underlying exception handler
         self.exceptionHandler = NSGetUncaughtExceptionHandler();
         NSSetUncaughtExceptionHandler(nil);
@@ -382,7 +390,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     }
     /* send the message */
     [emailMessage send];
-    [self close];
+    [self closeAfterReportComplete];
 }
 
 - (void) sendReport
@@ -393,7 +401,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     if( !url )
     {
         NSLog(@"%@ %@must be set to send a report!", [self className], ILReportWindowSubmitURLKey);
-        [self close];
+        [self close]; // developer error, immediate close
         return;
     }
     
@@ -428,7 +436,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
         {
             if( returnCode == NSAlertFirstButtonReturn)
             {
-                [self close];
+                [self close]; // this is a user cancel, immediate close
             }
             else if( returnCode == NSAlertSecondButtonReturn)
             {
@@ -444,7 +452,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     {
         NSBeep();
         NSLog(@"%@ unkown scheme: %@ comments: %@", [self className], url, self.comments.textStorage.string);
-        [self close];
+        [self close]; // invalid scheme in config, developer error, immediate close
     }
 }
 
@@ -468,9 +476,38 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
              }
              else if( returnCode == NSAlertSecondButtonReturn)
              {
-                 [self close];
+                 [self close]; // user cancel, immediate close
              }
          }];
+    }
+}
+
+- (void) closeAfterReportComplete
+{
+    // if we want to auto-submit an error or exception, then start a timer before restarting the app
+    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]
+     && (self.mode == ILReportWindowErrorMode || self.mode == ILReportWindowExceptionMode))
+    {
+        NSDictionary* info = [[NSBundle mainBundle] infoDictionary];
+        self.autoRestartSeconds = ([[info allKeys] containsObject:ILReportWindowAutoRestartSecondsKey]
+                               ? [[info objectForKey:ILReportWindowAutoRestartSecondsKey] unsignedIntegerValue]
+                               : 60);
+
+        self.autoRestartTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(autoRestartTimer:) userInfo:nil repeats:YES];
+        self.send.enabled = YES; // enabled so the user can skip the timer
+        self.remember.enabled = YES; // enabled so the user can skip the timer
+    }
+    else if( self.mode == ILReportWindowErrorMode || self.mode == ILReportWindowExceptionMode) // user prompted hit submit button
+    {
+#ifdef DEBUG
+        exit(-1);
+#else
+        [ILReportWindow restartApp];
+#endif
+    }
+    else
+    {
+        [self close]; // just close in the case of an exception or bug report
     }
 }
 
@@ -558,7 +595,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     self.send.enabled = YES;
     [self.progress stopAnimation:self];
     
-    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]) // auto submit now that the report is generated
+    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey] && (self.mode != ILReportWindowBugMode))
     {
         self.remember.state = NSOnState;
         [self performSelector:@selector(onSend:) withObject:self afterDelay:0]; // present the window and send the report, showing them that we're doing it, they can canel and add comments
@@ -569,6 +606,9 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 
 - (void)windowWillClose:(NSNotification *)notification
 {
+    // refresh this one when the window closes, so it's always the users intent
+    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
+
     if( self.modalSession)
     {
         [NSApp endModalSession:self.modalSession];
@@ -576,15 +616,6 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
         [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:self.exceptionMask];
         NSSetUncaughtExceptionHandler(self.exceptionHandler);
         self.exceptionDelegate = nil;
-    }
-    
-    if( self.error || self.exception)
-    {
-#ifdef DEBUG
-        [ILReportWindow restartApp];
-#else
-        exit(-1);
-#endif
     }
 }
 
@@ -598,23 +629,50 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
     self.send.enabled = YES;
     self.status.stringValue = @"";
     [self.progress stopAnimation:self];
-
-    [self close];
+    [self close]; // user canceled, immediate close
 }
 
 - (IBAction)onSend:(id)sender
 {
-    // check remember button & save preferences
-    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
-    
-    // start the progress indicator and disable various controls
-    [self.progress startAnimation:self];
-    self.comments.editable = NO;
-    self.remember.enabled = NO;
-    self.send.enabled = NO;
+    if( self.autoRestartTimer) // advance it to the end and fire it
+    {
+        self.autoRestartSeconds = 1;
+        [self autoRestartTimer:self.autoRestartTimer];
+    }
+    else // user wan't us to submit
+    {
+        // start the progress indicator and disable various controls
+        [self.progress startAnimation:self];
+        self.comments.editable = NO;
+        self.remember.enabled = NO;
+        self.send.enabled = NO;
 
-    // perform the upload
-    [self sendReport];
+        // perform the upload
+        [self sendReport];
+    }
+}
+
+#pragma mark - NSTimer
+
+- (void) autoRestartTimer:(NSTimer*) timer
+{
+    if( --self.autoRestartSeconds == 0 ) // decrement and check
+    {
+        [timer invalidate];
+        self.autoRestartTimer = nil;
+#ifdef DEBUG
+        exit(-1);
+#else
+        [ILReportWindow restartApp];
+#endif
+    }
+    else
+    {
+        self.status.stringValue = [NSString stringWithFormat:@"%@ %lu %@",
+                                   ILLocalizedString(ILReportWindowRestartInString),
+                                   self.autoRestartSeconds,
+                                   ILLocalizedString(ILReportWindowSecondsString)];
+    }
 }
 
 #pragma mark - NSURLConnectionDataDelegate
@@ -670,7 +728,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     {
         self.status.stringValue = [NSString stringWithFormat:@"%C", 0x2713]; // CHECK MARK Unicode: U+2713, UTF-8: E2 9C 93
         [self.reporter purgePendingCrashReport];
-        [self close];
+        [self closeAfterReportComplete];
     }
     else // not ok, present error
     {
