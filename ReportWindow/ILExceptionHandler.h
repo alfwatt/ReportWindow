@@ -1,10 +1,3 @@
-//
-//  ILExceptionHandler.h
-//  ReportWindow
-//
-//  Created by alf on 10/5/14.
-//
-//
 
 #import <Foundation/Foundation.h>
 
@@ -60,3 +53,5 @@ extern NSString* const ILUnderlyingException;
 + (ILExceptionHandler*) registeredHandlerForException:(NSException*) exception;
 
 @end
+
+/* Copyright 2014, Alf Watt (alf@istumbler.net) Avaliale under BSD Style license in license.txt. */

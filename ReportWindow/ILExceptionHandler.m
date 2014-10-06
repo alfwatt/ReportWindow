@@ -1,10 +1,3 @@
-//
-//  ILExceptionHandler.m
-//  ReportWindow
-//
-//  Created by alf on 10/5/14.
-//
-//
 
 #import "ILExceptionHandler.h"
 #import <AppKit/AppKit.h>
@@ -110,3 +103,5 @@ static NSMutableDictionary* ILHandlerRegistry;
 }
 
 @end
+
+/* Copyright 2014, Alf Watt (alf@istumbler.net) Avaliale under BSD Style license in license.txt. */

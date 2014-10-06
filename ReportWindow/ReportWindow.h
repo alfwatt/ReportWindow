@@ -1,10 +1,3 @@
-//
-//  CrashReportWindow.h
-//  CrashReportWindow
-//
-//  Created by alf on 8/23/14.
-//
-//
 
 #import <Cocoa/Cocoa.h>
 
