@@ -80,6 +80,29 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
     #pragma mark - NSExceptionHandling
 
+    - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler
+       shouldHandleException:(NSException *)exception
+                        mask:(NSUInteger)mask
+    {
+        if( ![ILExceptionHandler isCommonSystemException:exception])
+        {
+            ILExceptionHandler* handler = [ILExceptionHandlerRegistry registeredHandlerForException:exception];
+            if( handler)
+            {
+                NSError* recoverableError = [handler recoverableErrorForException:exception];
+                [NSApp presentError:recoverableError];
+            }
+            else // we have to report the exception
+            {
+                self.reportWindow = [ILReportWindow windowForException:exception];
+                self.reportWindow.reporter = self.reporter;
+                [self.reportWindow runModal];
+            }
+            return NO;
+        }
+        return YES;
+    }
+
     - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler shouldHandleException:(NSException *)exception mask:(NSUInteger)mask
     {
         ILReportWindow* reportWindow = [ILReportWindow windowForException:exception];
