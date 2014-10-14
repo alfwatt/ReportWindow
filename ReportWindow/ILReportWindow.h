@@ -2,10 +2,11 @@
 
 #define PL_CRASH_COMPATABLE
 
-#pragma mark NSUserDefaults keys
+#pragma mark - NSUserDefaults keys
 
 extern NSString* const ILReportWindowAutoSubmitKey; // if set the user's defaults is a BOOL, YES to send automatically, NO to prompt (default)
 extern NSString* const ILReportWindowIgnoreKey; // if set the user's defaults is a BOOL, YES to suppress dialog, NO to prompt (default)
+extern NSString* const ILReportWindowUserEmailKey; // if set the users default email address to include in reports
 
 #pragma mark - Info.plist keys
 

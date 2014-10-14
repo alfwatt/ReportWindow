@@ -10,9 +10,13 @@
 
 #import "Mail.h"
 
+#pragma mark - NSUserDefaults keys
 
 NSString* const ILReportWindowAutoSubmitKey = @"ILReportWindowAutoSubmitKey";
 NSString* const ILReportWindowIgnoreKey = @"ILReportWindowIgnoreKey";
+NSString* const ILReportWindowUserEmailKey = @"ILReportWindowUserEmailKey";
+
+#pragma mark - Info.plist keys
 
 NSString* const ILReportWindowSubmitURLKey = @"ILReportWindowSubmitURLKey";
 NSString* const ILReportWindowSubmitEmailKey = @"ILReportWindowSubmitEmailKey";
@@ -21,6 +25,8 @@ NSString* const ILReportWindowIncludeSyslogKey = @"ILReportWindowIncludeSyslogKe
 NSString* const ILReportWindowIncludeDefaultsKey = @"ILReportWindowIncludeDefaultsKey";
 
 NSString* const ILReportWindowAutoRestartSecondsKey = @"ILReportWindowAutoRestartSecondsKey";
+
+#pragma mark - NSLocalizedStrings
 
 NSString* const ILReportWindowInsecureConnectionString = @"ILReportWindowInsecureConnectionString";
 NSString* const ILReportWindowInsecureConnectionInformationString = @"ILReportWindowInsecureConnectionInformationString";
@@ -550,6 +556,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; //
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", ILLocalizedString(ILReportWindowReportingBugString), appName];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
         self.send.title = ILLocalizedString(ILReportWindowReportString);
+        self.remember.hidden = YES; // automatic but reporting *would* be an amazing feature though
     }
     
     [self.progress startAnimation:self];

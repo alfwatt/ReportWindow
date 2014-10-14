@@ -1,28 +1,65 @@
 
-#import "ILExceptionHandler.h"
+#import "ILExceptionRecovery.h"
 #import <AppKit/AppKit.h>
 
 NSString* const ILUnderlyingException = @"ILUnderlyingException";
 
-@implementation ILExceptionHandler
+static NSMutableDictionary* ILHandlerRegistry;
 
-+ (ILExceptionHandler*) handlerForException:(NSString*) exceptionName
+@implementation ILExceptionRecovery
+
++ (void) registerHandlers:(NSArray*) handlers
+{
+    ILHandlerRegistry = [NSMutableDictionary new];
+    
+    for ( ILExceptionRecovery* handler in handlers)
+    {
+        if( ![[ILHandlerRegistry allKeys] containsObject:handler.exceptionName])
+            [ILHandlerRegistry setObject:[NSMutableArray new] forKey:handler.exceptionName];
+        
+        [[ILHandlerRegistry objectForKey:handler.exceptionName] addObject:handler];
+    }
+}
+
++ (NSArray*) registeredHandlersForExceptionName:(NSString*) exceptionName
+{
+    return [ILHandlerRegistry objectForKey:exceptionName];
+}
+
++ (ILExceptionRecovery*) registeredHandlerForException:(NSException*) exception
+{
+    ILExceptionRecovery* matchedHandler = nil;
+    for( ILExceptionRecovery* candidateHandler in [self registeredHandlersForExceptionName:[exception name]])
+    {
+        if ( [candidateHandler canHandleException:exception]) // take the first match
+        {
+            matchedHandler = candidateHandler;
+            break;
+        }
+    }
+    return matchedHandler;
+}
+
+#pragma mark -
+
++ (BOOL)isCommonSystemException:(NSException *)exception
+{
+    return ([exception.name isEqualTo:NSAccessibilityException]); // autolayout probably worth reporting for now
+}
+
+#pragma mark -
+
++ (ILExceptionRecovery*) handlerForException:(NSString*) exceptionName
                                     pattern:(NSString*) messagePattern
                                   generator:(ILExceptionErrorGenerator) errorGenerator
                                    recovery:(ILExceptionRecoveryAttempt) recoveryAttempt
 {
-    ILExceptionHandler* handler = [ILExceptionHandler new];
+    ILExceptionRecovery* handler = [ILExceptionRecovery new];
     handler.exceptionName = exceptionName;
     handler.exceptionReasonPattern = messagePattern;
     handler.exceptionErrorGenerator = errorGenerator;
     handler.exceptionRecoveryAttempt = recoveryAttempt;
     return handler;
-}
-
-
-+ (BOOL)isCommonSystemException:(NSException *)exception
-{
-    return ([exception.name isEqualTo:NSAccessibilityException]); // autolayout probably worth reporting for now
 }
 
 #pragma mark -
@@ -61,45 +98,6 @@ NSString* const ILUnderlyingException = @"ILUnderlyingException";
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
 {
     return self.exceptionRecoveryAttempt(error,recoveryOptionIndex);
-}
-
-@end
-
-#pragma mark -
-
-static NSMutableDictionary* ILHandlerRegistry;
-
-@implementation ILExceptionHandlerRegistry
-
-+ (void) registerHandlers:(NSArray*) handlers
-{
-    ILHandlerRegistry = [NSMutableDictionary new];
-    
-    for ( ILExceptionHandler* handler in handlers)
-    {
-        if( ![[ILHandlerRegistry allKeys] containsObject:handler.exceptionName])
-            [ILHandlerRegistry setObject:[NSMutableArray new] forKey:handler.exceptionName];
-        [[ILHandlerRegistry objectForKey:handler.exceptionName] addObject:handler];
-    }
-}
-
-+ (NSArray*) registeredHandlersForExceptionName:(NSString*) exceptionName
-{
-    return [ILHandlerRegistry objectForKey:exceptionName];
-}
-
-+ (ILExceptionHandler*) registeredHandlerForException:(NSException*) exception
-{
-    ILExceptionHandler* matchedHandler = nil;
-    for( ILExceptionHandler* candidateHandler in [self registeredHandlersForExceptionName:[exception name]])
-    {
-        if ( [candidateHandler canHandleException:exception]) // take the first match
-        {
-            matchedHandler = candidateHandler;
-            break;
-        }
-    }
-    return matchedHandler;
 }
 
 @end
