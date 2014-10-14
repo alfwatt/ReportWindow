@@ -49,10 +49,11 @@ NSString* const ILReportWindowRestartString = @"ILReportWindowRestartString";
 NSString* const ILReportWindowQuitString = @"ILReportWindowQuitString";
 NSString* const ILReportWindowIgnoreString = @"ILReportWindowIgnoreString";
 NSString* const ILReportWindowCommentsString = @"ILReportWindowCommentsString";
+NSString* const ILReportWindowUserIntroString = @"ILReportWindowUserIntroString";
 NSString* const ILReportWindowSubmitFailedString = @"ILReportWindowSubmitFailedString";
 NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSubmitFailedInformationString";
-NSString* const ILReportWindowRestartInString = @"ILReportWindowRestartInString"; // = @"Restart in";
-NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; // = @"seconds";
+NSString* const ILReportWindowRestartInString = @"ILReportWindowRestartInString";
+NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
 #define ILLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:[self className]]
 
@@ -569,6 +570,13 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString"; //
     NSDictionary* commentsAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:9]};
     [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:ILLocalizedString(ILReportWindowCommentsString) attributes:commentsAttributes]];
 
+    NSString* userEmail = [[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserEmailKey];
+    if( userEmail)
+    {
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:ILLocalizedString(ILReportWindowUserIntroString) attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:userEmail attributes:commentsAttributes]];
+    }
+    
     // if the error wasn't explicity set, grab the last one
     if( self.error )
     {
