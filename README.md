@@ -69,13 +69,14 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
     {
         if( [[error userInfo] objectForKey:NSRecoveryAttempterErrorKey])
         {
-            [(id<PluginApplicationDelegate>)[NSApp delegate] reportError:error];
+            if( [NSApp presentError:error]) // recovery was attempted
+                return;
         }
-        else // non-recoverable errors should be reported
-        {
-            self.reportWindow = [ILReportWindow windowForReporter:reporter withError:error];
-            [self.reportWindow runModal];
-        }
+
+        // we could not or did not recover, file a report
+        self.reportWindow = [ILReportWindow windowForError:error];
+        self.reportWindow.reporter = self.reporter;
+        [self.reportWindow runModal];
     }
 
     #pragma mark - NSExceptionHandling
@@ -83,29 +84,23 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
     - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler
        shouldHandleException:(NSException *)exception
                         mask:(NSUInteger)mask
-    {
-        if( ![ILExceptionHandler isCommonSystemException:exception])
-        {
-            ILExceptionHandler* handler = [ILExceptionHandlerRegistry registeredHandlerForException:exception];
-            if( handler)
-            {
-                NSError* recoverableError = [handler recoverableErrorForException:exception];
-                [NSApp presentError:recoverableError];
-            }
-            else // we have to report the exception
-            {
-                self.reportWindow = [ILReportWindow windowForException:exception];
-                self.reportWindow.reporter = self.reporter;
-                [self.reportWindow runModal];
-            }
-            return NO;
-        }
-        return YES;
-    }
 
-    - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler shouldHandleException:(NSException *)exception mask:(NSUInteger)mask
     {
-        ILReportWindow* reportWindow = [ILReportWindow windowForException:exception];
-        [reportWindow runModal];
+        if( [ILExceptionRecovery isCommonSystemException:exception])
+            return YES;
+
+        ILExceptionRecovery* handler = [ILExceptionRecovery registeredHandlerForException:exception];
+        if( handler)
+        {
+            NSError* recoverableError = [handler recoverableErrorForException:exception];
+            if( [NSApp presentError:recoverableError])
+                return NO;
+        }
+
+        // could not or did not recover, report the exception
+        self.reportWindow = [ILReportWindow windowForException:exception];
+        self.reportWindow.reporter = self.reporter;
+        [self.reportWindow runModal];
+
         return NO;
     }
