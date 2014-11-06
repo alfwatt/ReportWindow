@@ -17,8 +17,14 @@ extern NSString* const ILReportWindowSubmitEmailKey; // if set the backup email 
 // ATTENTION! only set these keys if your log output and defaults contain no user identifiying information (account names, passwords, etc)
 extern NSString* const ILReportWindowIncludeSyslogKey; // if set to YES in the bundles info dictionary then syslog messages with the applications bundle name in them are included
 extern NSString* const ILReportWindowIncludeDefaultsKey; // if set to YES in the bundles info dictionary then the applications preferences are included in the report
+extern NSString* const ILReportWindowIncludeWindowScreenshotsKey; // if set to YES in the bundles info dictionary and not no in the users preferences then screenshots of all open windows are included in exception and error reports
 
 extern NSString* const ILReportWindowAutoRestartSecondsKey; // if set overrades default of 60 before an automatic crash report will be submitted, and the window dismissed
+
+extern NSString* const ILReportWindowIdentifier; // window identifier for screenshot
+extern NSString* const ILReportWindowFrame; // window frame for screenshot
+extern NSString* const ILReportPDFData; // window PDF data for screenshot
+
 
 #pragma mark - NSLocalizedStrings
 
@@ -107,6 +113,14 @@ ILReportWindowMode;
 
 /** @returns contents of the system log which inlcude our application's name */
 + (NSString*) grepSyslog;
+
+/** @returns an array of dictionaries containing window identifers, window frames and screenshots as PDF data using the following keys:
+ 
+    ILReportWindowIdentifier - [window identifier] of the window
+    ILReportWindowFrame - NNStringFromRect([window frame]) of the window
+    ILReportPDFData - [window dataWithPDFInsideRect:[window frame]] of the window
+*/
++ (NSArray*) windowScreenshots;
 
 /** clears terminal signal handlers and restarts the app */
 + (void) restartApp;

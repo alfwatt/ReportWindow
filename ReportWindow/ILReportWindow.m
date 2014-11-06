@@ -23,8 +23,13 @@ NSString* const ILReportWindowSubmitEmailKey = @"ILReportWindowSubmitEmailKey";
 
 NSString* const ILReportWindowIncludeSyslogKey = @"ILReportWindowIncludeSyslogKey";
 NSString* const ILReportWindowIncludeDefaultsKey = @"ILReportWindowIncludeDefaultsKey";
+NSString* const ILReportWindowIncludeWindowScreenshotsKey = @"ILReportWindowIncludeWindowScreenshotsKey";
 
 NSString* const ILReportWindowAutoRestartSecondsKey = @"ILReportWindowAutoRestartSecondsKey";
+
+NSString* const ILReportWindowIdentifier = @"ILReportWindowIdentifier";
+NSString* const ILReportWindowFrame = @"ILReportWindowFrame";
+NSString* const ILReportPDFData = @"ILReportPDFData";
 
 #pragma mark - NSLocalizedStrings
 
@@ -141,6 +146,22 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     return logLines;
 }
 
++ (NSArray*) windowScreenshots
+{
+    NSMutableArray* screenShots = [NSMutableArray new];
+    for( NSWindow* window in [NSApp windows])
+    {
+        NSDictionary* windowInfo = @
+        {
+            ILReportWindowIdentifier: [window identifier],
+            ILReportWindowFrame: NSStringFromRect([window frame]),
+            ILReportPDFData: [window dataWithPDFInsideRect:[window frame]],
+        };
+        [screenShots addObject:windowInfo];
+    }
+    return screenShots;
+}
+
 + (void) restartApp
 {
     static int fatal_signals[] = {SIGABRT, SIGBUS, SIGFPE, SIGILL, SIGSEGV, SIGTRAP};
@@ -148,7 +169,8 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     int pid = [[NSProcessInfo processInfo] processIdentifier];
     
     // clear out all the fatal signal handlers, so we don't end up crashing all the way down
-    for (int i = 0; i < fatal_signals_count; i++) {
+    for (int i = 0; i < fatal_signals_count; i++)
+    {
         struct sigaction sa;
         
         memset(&sa, 0, sizeof(sa));
@@ -201,6 +223,26 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     return NSLocalizedString(@"Large",  @"File size, for really large files");
 }
 
++ (BOOL) isFeatureEnabled:(NSString*) key
+{
+    BOOL enabled = NO;
+    
+    if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:key] boolValue])
+    {
+        enabled = YES;
+    }
+    
+    // if the feature is turned on in the info dictionary, and the user has set a default as NO, disable it
+    if( enabled && [[NSUserDefaults standardUserDefaults] objectForKey:key])
+    {
+        if( ![[NSUserDefaults standardUserDefaults] boolForKey:key])
+        {
+            enabled = NO;
+        }
+    }
+    
+    return enabled;
+}
 
 #pragma mark - Factory Methods
 
@@ -591,17 +633,22 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     }
     
     // if the keys are set in the main bundle info keys, include the syslog and user defaults
-    if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowIncludeSyslogKey] boolValue])
+    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeSyslogKey])
     {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow grepSyslog] attributes:commentsAttributes]];
     }
        
-    if( [[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowIncludeDefaultsKey] boolValue])
+    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey])
     {
         NSString* defaultsString = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]] description];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Application Defaults -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:defaultsString attributes:commentsAttributes]];
+    }
+    
+    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey])
+    {
+        // TODO allow more than one file upload
     }
     
     // select the 'please enter any notes' line for replacment
