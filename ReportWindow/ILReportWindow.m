@@ -26,6 +26,7 @@ NSString* const ILReportWindowIncludeDefaultsKey = @"ILReportWindowIncludeDefaul
 NSString* const ILReportWindowIncludeWindowScreenshotsKey = @"ILReportWindowIncludeWindowScreenshotsKey";
 
 NSString* const ILReportWindowAutoRestartSecondsKey = @"ILReportWindowAutoRestartSecondsKey";
+NSString* const ILReportWindowTreatErrorAsBugKey = @"ILReportWindowTreatErrorAsBugKey";
 
 NSString* const ILReportWindowIdentifier = @"ILReportWindowIdentifier";
 NSString* const ILReportWindowFrame = @"ILReportWindowFrame";
@@ -49,12 +50,14 @@ NSString* const ILReportWindowReportedErrorString = @"ILReportWindowReportedErro
 NSString* const ILReportWindowReportingBugString = @"ILReportWindowReportingBugString";
 NSString* const ILReportWindowReportDispositionString = @"ILReportWindowCrashDispositionString";
 NSString* const ILReportWindowErrorDispositionString = @"ILReportWindowErrorDispositionString";
+NSString* const ILReportWindowBugDispositionString = @"ILReportWindowBugDispositionString";
 NSString* const ILReportWindowReportString = @"ILReportWindowReportString";
 NSString* const ILReportWindowRestartString = @"ILReportWindowRestartString";
 NSString* const ILReportWindowQuitString = @"ILReportWindowQuitString";
 NSString* const ILReportWindowIgnoreString = @"ILReportWindowIgnoreString";
 NSString* const ILReportWindowCommentsString = @"ILReportWindowCommentsString";
 NSString* const ILReportWindowUserIntroString = @"ILReportWindowUserIntroString";
+NSString* const ILReportWindowRequsetEmailString = @"ILReportWindowRequsetEmailString";
 NSString* const ILReportWindowSubmitFailedString = @"ILReportWindowSubmitFailedString";
 NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSubmitFailedInformationString";
 NSString* const ILReportWindowRestartInString = @"ILReportWindowRestartInString";
@@ -257,8 +260,18 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 + (instancetype) windowForError:(NSError*) error
 {
     ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
-    window.mode = ILReportWindowErrorMode;
+    
+    if( [[[error userInfo] objectForKey:ILReportWindowTreatErrorAsBugKey] boolValue])
+    {
+        window.mode = ILReportWindowBugMode;
+    }
+    else
+    {
+        window.mode = ILReportWindowErrorMode;
+    }
+
     window.error = error;
+
     return window;
 }
 
@@ -575,7 +588,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
         self.window.title = ILLocalizedString(ILReportWindowCrashReportString);
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowCrashedString)];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowReportDispositionString);
-        self.send.title = ILLocalizedString(ILReportWindowReportString);
+        self.send.title = ILLocalizedString(ILReportWindowSendString);
     }
     else if( self.mode == ILReportWindowErrorMode)
     {
@@ -597,7 +610,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     {
         self.window.title = ILLocalizedString(ILReportWindowBugReportString);
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", ILLocalizedString(ILReportWindowReportingBugString), appName];
-        self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
+        self.subhead.stringValue = ILLocalizedString(ILReportWindowBugDispositionString);
         self.send.title = ILLocalizedString(ILReportWindowReportString);
         self.remember.hidden = YES; // automatic but reporting *would* be an amazing feature though
     }
@@ -617,6 +630,10 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:ILLocalizedString(ILReportWindowUserIntroString) attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:userEmail attributes:commentsAttributes]];
+    }
+    else
+    {
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:ILLocalizedString(ILReportWindowRequsetEmailString) attributes:commentsAttributes]];
     }
     
     // if the error wasn't explicity set, grab the last one
