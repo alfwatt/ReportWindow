@@ -6,7 +6,9 @@
 
 extern NSString* const ILReportWindowAutoSubmitKey; // if set the user's defaults is a BOOL, YES to send automatically, NO to prompt (default)
 extern NSString* const ILReportWindowIgnoreKey; // if set the user's defaults is a BOOL, YES to suppress dialog, NO to prompt (default)
+extern NSString* const ILReportWindowUserFullNameKey; // if set the users full name as a single string
 extern NSString* const ILReportWindowUserEmailKey; // if set the users default email address to include in reports
+extern NSString* const ILReportWindowReportedSignaturesKey; // set of exception, error and crash signatures which we have already reported
 
 #pragma mark - Info.plist keys
 
@@ -23,9 +25,10 @@ extern NSString* const ILReportWindowIncludeWindowScreenshotsKey; // if set to Y
 extern NSString* const ILReportWindowAutoRestartSecondsKey; // if set overrades default of 60 before an automatic crash report will be submitted, and the window dismissed
 extern NSString* const ILReportWindowTreatErrorAsBugKey; // set in the info dictionry of an NSError and ILReport window will present it as a bug report
 
-extern NSString* const ILReportWindowIdentifier; // window identifier for screenshot
+extern NSString* const ILReportWindowTitle; // window title
 extern NSString* const ILReportWindowFrame; // window frame for screenshot
-extern NSString* const ILReportPDFData; // window PDF data for screenshot
+extern NSString* const ILReportWindowInfo; // window identifier for screenshot
+extern NSString* const ILReportWindowImage; // window PDF data for screenshot
 
 
 #pragma mark - NSLocalizedStrings
@@ -93,6 +96,8 @@ ILReportWindowMode;
 @property(nonatomic,assign) NSTimer* autoRestartTimer;
 @property(nonatomic,retain) IBOutlet NSTextField* headline;
 @property(nonatomic,retain) IBOutlet NSTextField* subhead;
+@property(nonatomic,retain) IBOutlet NSTextField* fullname;
+@property(nonatomic,retain) IBOutlet NSTextField* emailaddress;
 @property(nonatomic,retain) IBOutlet NSTextView* comments;
 @property(nonatomic,retain) IBOutlet NSButton* remember;
 @property(nonatomic,retain) IBOutlet NSTextField* status;
@@ -111,9 +116,21 @@ ILReportWindowMode;
     @returns NSString* report of the provided exception with stack trace, and all avalaible details */
 + (NSString*) exceptionReport:(NSException*) exception;
 
+/** @param exception
+    @returns unique signature for an exception */
++ (NSString*) exceptionSignature:(NSException*) exception;
+
 /** @param error
     @returns report of the provided error with all nested errors and available details */
 + (NSString*) errorReport:(NSError*) error;
+
+/** @param error
+    @returns unique signature for a particular error */
++ (NSString*) errorSignature:(NSError*) error;
+
+#ifdef PL_CRASH_COMPATABLE
++ (NSString*) crashReportSignature:(PLCrashReport*) report;
+#endif
 
 /** @returns contents of the system log which inlcude our application's name */
 + (NSString*) grepSyslog;

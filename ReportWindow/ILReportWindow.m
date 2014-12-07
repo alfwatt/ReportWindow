@@ -14,6 +14,7 @@
 
 NSString* const ILReportWindowAutoSubmitKey = @"ILReportWindowAutoSubmitKey";
 NSString* const ILReportWindowIgnoreKey = @"ILReportWindowIgnoreKey";
+NSString* const ILReportWindowUserFullNameKey = @"ILReportWindowUserFullNameKey";
 NSString* const ILReportWindowUserEmailKey = @"ILReportWindowUserEmailKey";
 
 #pragma mark - Info.plist keys
@@ -28,9 +29,10 @@ NSString* const ILReportWindowIncludeWindowScreenshotsKey = @"ILReportWindowIncl
 NSString* const ILReportWindowAutoRestartSecondsKey = @"ILReportWindowAutoRestartSecondsKey";
 NSString* const ILReportWindowTreatErrorAsBugKey = @"ILReportWindowTreatErrorAsBugKey";
 
-NSString* const ILReportWindowIdentifier = @"ILReportWindowIdentifier";
+NSString* const ILReportWindowTitle = @"ILReportWindowTitle";
 NSString* const ILReportWindowFrame = @"ILReportWindowFrame";
-NSString* const ILReportPDFData = @"ILReportPDFData";
+NSString* const ILReportWindowInfo = @"ILReportWindowInfo";
+NSString* const ILReportWindowImage = @"ILReportWindowImage";
 
 #pragma mark - NSLocalizedStrings
 
@@ -123,6 +125,11 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     return report;
 }
 
++ (NSString*) exceptionSignature:(NSException*) exception
+{
+    return nil;
+}
+
 + (NSString*) errorReport:(NSError*) error
 {
     NSMutableString* report = [NSMutableString new];
@@ -134,6 +141,18 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     }
     return report;
 }
+
++ (NSString*) errorSignature:(NSError*) error
+{
+    return nil;
+}
+
+#ifdef PL_CRASH_COMPATABLE
++ (NSString*) crashReportSignature:(PLCrashReport*) report
+{
+    return nil;
+}
+#endif
 
 + (NSString*) grepSyslog // grep the syslog for any messages pertaining to us and return the messages
 {
@@ -149,18 +168,48 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     return logLines;
 }
 
++ (NSImage*) screenshotWindow:(NSWindow*) window withConstraints:(NSArray*) constraints
+{
+    NSWindow* visualized = window;
+    
+    if( constraints)
+    {
+        [window visualizeConstraints:constraints];
+        // now replace 'window' with the visualized
+        visualized = [[NSApp windows] lastObject]; // maybe we get lucky?
+    }
+    
+    CGWindowID windowID = (CGWindowID)[visualized windowNumber];
+    CGWindowImageOption imageOptions = kCGWindowImageDefault;
+    CGWindowListOption singleWindowListOptions = kCGWindowListOptionIncludingWindow;
+    CGRect imageBounds = CGRectNull;
+    CGImageRef windowImageRef = CGWindowListCreateImage(imageBounds, singleWindowListOptions, windowID, imageOptions);
+    NSImage * windowImage = [[NSImage alloc] initWithCGImage:windowImageRef size:[window frame].size];
+    [windowImage setCacheMode:NSImageCacheNever];
+
+    [window visualizeConstraints:nil];
+    
+    return windowImage;
+}
+
 + (NSArray*) windowScreenshots
 {
     NSMutableArray* screenShots = [NSMutableArray new];
     for( NSWindow* window in [NSApp windows])
     {
-        NSDictionary* windowInfo = @
+        if( ![window isKindOfClass:NSClassFromString(@"NSCarbonMenuWindow")] // don't screenshot the menus
+         && ![[window windowController] isKindOfClass:[ILReportWindow class]] // or this error report itself
+         && [window isVisible]) // ignore offscreen windows
         {
-            ILReportWindowIdentifier: [window identifier],
-            ILReportWindowFrame: NSStringFromRect([window frame]),
-            ILReportPDFData: [window dataWithPDFInsideRect:[window frame]],
-        };
-        [screenShots addObject:windowInfo];
+            NSDictionary* windowInfo = @
+            {
+                ILReportWindowTitle: [window title],
+                ILReportWindowFrame: NSStringFromRect([window frame]),
+                ILReportWindowInfo: @"",
+                ILReportWindowImage: [ILReportWindow screenshotWindow:window withConstraints:nil]
+            };
+            [screenShots addObject:windowInfo];
+        }
     }
     return screenShots;
 }
@@ -305,7 +354,6 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     
     if( [self checkConfig])
     {
-        
         // clear the underlying exception handler
         self.exceptionHandler = NSGetUncaughtExceptionHandler();
         NSSetUncaughtExceptionHandler(nil);
@@ -491,7 +539,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
         plaintextAlert.informativeText = [NSString stringWithFormat:ILLocalizedString(ILReportWindowInsecureConnectionInformationString), appName];
         [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowCancelString)];
         [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowSendString)];
-        if( emailURL) // backup email key is specified
+        if( emailURL) // backup email key is specified, offer to email it instead
         {
             [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowEmailString)];
             plaintextAlert.informativeText = [plaintextAlert.informativeText stringByAppendingString:ILLocalizedString(ILReportWindowInsecureConnectionEmailAlternateString)];
@@ -515,7 +563,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     else
     {
         NSBeep();
-        NSLog(@"%@ unkown scheme: %@ comments: %@", [self className], url, self.comments.textStorage.string);
+        NSLog(@"%@ unkown scheme: %@ comments:\n\n%@", [self className], url, self.comments.textStorage.string);
         [self close]; // invalid scheme in config, developer error, immediate close
     }
 }
@@ -582,6 +630,20 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     // setup the headline from the app name and event message
     NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
  
+    // setup the username and email fields for uesrs we know them from
+    NSString* defaultsUsername = [[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserFullNameKey];
+    NSString* defaultsEmail = [[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserEmailKey];
+
+    if( defaultsUsername)
+    {
+        self.fullname.stringValue = defaultsUsername;
+    }
+    
+    if( defaultsEmail)
+    {
+        self.emailaddress.stringValue = defaultsEmail;
+    }
+    
     // setup the window depending on the report mode
     if( self.mode == ILReportWindowCrashMode)
     {
@@ -665,7 +727,22 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     
     if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey])
     {
-        // TODO allow more than one file upload
+        NSArray* screenshots = [ILReportWindow windowScreenshots]; // TODO process these for size, maybe 8-bit greyscale pngs?
+        for( NSDictionary* screenshot in screenshots)
+        {
+            [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Window Screenshot -\n\n" attributes:commentsAttributes]];
+            
+            for( NSString* key in @[ILReportWindowTitle, ILReportWindowFrame, ILReportWindowInfo])
+            {
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\t%@\n", ILLocalizedString(key), [screenshot objectForKey:key]] attributes:commentsAttributes]];
+            }
+
+            NSImage* screenshotImage = [screenshot objectForKey:ILReportWindowImage];
+            NSTextAttachmentCell* screenshotCell = [[NSTextAttachmentCell alloc] initImageCell:screenshotImage];
+            NSTextAttachment* attachment = [NSTextAttachment new];
+            [attachment setAttachmentCell:screenshotCell];
+            [self.comments.textStorage appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+        }
     }
     
     // select the 'please enter any notes' line for replacment
@@ -723,12 +800,27 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
     else [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
 
+    // update the provided name and email if they differ from the defualts
+    NSString* providedName = self.fullname.stringValue;
+    NSString* providedEmail = self.emailaddress.stringValue;
+
+    if( ![providedName isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserFullNameKey]])
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:providedName forKey:ILReportWindowUserFullNameKey];
+    }
+    
+    if( ![providedEmail isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserEmailKey]])
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:providedEmail forKey:ILReportWindowUserEmailKey];
+    }
+    
+    // if the auto-restart timer is counting down, we've already submitted the report
     if( self.autoRestartTimer) // advance it to the end and fire it
     {
         self.autoRestartSeconds = 1;
         [self autoRestartTimer:self.autoRestartTimer];
     }
-    else // user wan't us to submit
+    else // user want's us to submit
     {
         // start the progress indicator and disable various controls
         [self.progress startAnimation:self];

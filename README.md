@@ -4,8 +4,10 @@ ilreportwindow
 iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
     #import <ReportWindow/ReportWindow.h>
-    #import <CrashReporter/CrashReporter.h>
     #import <ExceptionHandling/ExceptionHandling.h>
+
+    // optionally, use the CrashReporter package to get call stacks when creating reports
+    #import <CrashReporter/CrashReporter.h>
 
     @property(nonatimic,retain) ILReportWindow* reportWindow;
 
@@ -27,7 +29,7 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
         }
         else if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) // report an exception
         {
-            [[NSException exceptionWithName:@"net.istumbler.test" reason:@"Test Exceptoin" userInfo:[[NSBundle mainBundle] infoDictionary]] raise];
+            [[NSException exceptionWithName:@"net.istumbler.test" reason:@"Test Exception" userInfo:[[NSBundle mainBundle] infoDictionary]] raise];
             // exception handler will eventualy report the error
         }
         else // just a bug report
