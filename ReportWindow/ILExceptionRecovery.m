@@ -8,6 +8,8 @@ static NSMutableDictionary* ILHandlerRegistry;
 
 @implementation ILExceptionRecovery
 
+#pragma mark - ILExceptionRecovery Registry
+
 + (void) registerHandlers:(NSArray*) handlers
 {
     ILHandlerRegistry = [NSMutableDictionary new];
@@ -40,19 +42,19 @@ static NSMutableDictionary* ILHandlerRegistry;
     return matchedHandler;
 }
 
-#pragma mark -
+#pragma mark - System Exception Identification
 
 + (BOOL)isCommonSystemException:(NSException *)exception
 {
     return ([exception.name isEqualTo:NSAccessibilityException]); // autolayout probably worth reporting for now
 }
 
-#pragma mark -
+#pragma mark - Factory Method
 
 + (ILExceptionRecovery*) handlerForException:(NSString*) exceptionName
-                                    pattern:(NSString*) messagePattern
-                                  generator:(ILExceptionErrorGenerator) errorGenerator
-                                   recovery:(ILExceptionRecoveryAttempt) recoveryAttempt
+                                     pattern:(NSString*) messagePattern
+                                   generator:(ILExceptionErrorGenerator) errorGenerator
+                                    recovery:(ILExceptionRecoveryAttempt) recoveryAttempt
 {
     ILExceptionRecovery* handler = [ILExceptionRecovery new];
     handler.exceptionName = exceptionName;
@@ -62,7 +64,7 @@ static NSMutableDictionary* ILHandlerRegistry;
     return handler;
 }
 
-#pragma mark -
+#pragma mark - Recovery Handling
 
 - (BOOL) canHandleException:(NSException*) exception
 {

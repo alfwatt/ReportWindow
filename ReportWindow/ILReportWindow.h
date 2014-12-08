@@ -1,6 +1,6 @@
 #import <Cocoa/Cocoa.h>
 
-#define PL_CRASH_COMPATABLE
+// #define PL_CRASH_COMPATABLE
 
 #pragma mark - NSUserDefaults keys
 
@@ -8,6 +8,7 @@ extern NSString* const ILReportWindowAutoSubmitKey; // if set the user's default
 extern NSString* const ILReportWindowIgnoreKey; // if set the user's defaults is a BOOL, YES to suppress dialog, NO to prompt (default)
 extern NSString* const ILReportWindowUserFullNameKey; // if set the users full name as a single string
 extern NSString* const ILReportWindowUserEmailKey; // if set the users default email address to include in reports
+extern NSString* const ILReportWindowSuppressDuplicatesKey; // if set 
 extern NSString* const ILReportWindowReportedSignaturesKey; // set of exception, error and crash signatures which we have already reported
 
 #pragma mark - Info.plist keys
@@ -53,8 +54,6 @@ extern NSString* const ILReportWindowRestartString; // = @"Restart";
 extern NSString* const ILReportWindowQuitString; // = @"Quit";
 extern NSString* const ILReportWindowIgnoreString; // = @"Ignore";
 extern NSString* const ILReportWindowCommentsString; // = @"please enter any comments here";
-extern NSString* const ILReportWindowUserIntroString; // @"Report from: ";
-extern NSString* const ILReportWindowRequsetEmailString; // @"Pleases include your email address if you would like us to follow up.";
 extern NSString* const ILReportWindowSubmitFailedString; // = @"Submitting Report Failed";
 extern NSString* const ILReportWindowSubmitFailedInformationString; // = @"%@ was not able to submit the report to: %@\n\nyou can send the report by email"; // app name and submission url
 extern NSString* const ILReportWindowInsecureConnectionString; // = @"Insecure Connection";
@@ -110,7 +109,7 @@ ILReportWindowMode;
 @property(nonatomic,retain) NSData* crashData;
 #endif
 
-#pragma mark - Reporting Methods
+#pragma mark - Exceptions
 
 /** @param NSException* exception
     @returns NSString* report of the provided exception with stack trace, and all avalaible details */
@@ -120,6 +119,8 @@ ILReportWindowMode;
     @returns unique signature for an exception */
 + (NSString*) exceptionSignature:(NSException*) exception;
 
+#pragma mark - Errors
+
 /** @param error
     @returns report of the provided error with all nested errors and available details */
 + (NSString*) errorReport:(NSError*) error;
@@ -128,12 +129,21 @@ ILReportWindowMode;
     @returns unique signature for a particular error */
 + (NSString*) errorSignature:(NSError*) error;
 
+#pragma mark - System Crash Reports
+
++ (NSArray*) systemCrashReports;
++ (NSString*) latestSystemCrashReport;
++ (NSString*) systemCrashReportSignature:(NSString*) filename;
+
 #ifdef PL_CRASH_COMPATABLE
+#pragma mark - PLCrashReport
 + (NSString*) crashReportSignature:(PLCrashReport*) report;
++ (instancetype) windowForCrashReporter:(PLCrashReporter*) reporter;
 #endif
 
-/** @returns contents of the system log which inlcude our application's name */
-+ (NSString*) grepSyslog;
+#pragma mark - Screenshots
+
++ (NSImage*) screenshotWindow:(NSWindow*) window withConstraints:(NSArray*) constraints;
 
 /** @returns an array of dictionaries containing window identifers, window frames and screenshots as PDF data using the following keys:
  
@@ -143,12 +153,16 @@ ILReportWindowMode;
 */
 + (NSArray*) windowScreenshots;
 
+#pragma mark - Utilities
+
+/** @returns contents of the system log which inlcude our application's name */
++ (NSString*) grepSyslog;
+
 /** clears terminal signal handlers and restarts the app */
 + (void) restartApp;
 
 #pragma mark - Factory Methods
 
-+ (instancetype) windowForCrashReporter:(PLCrashReporter*) reporter;
 + (instancetype) windowForError:(NSError*) error;
 + (instancetype) windowForException:(NSException*) exception;
 + (instancetype) windowForBug;

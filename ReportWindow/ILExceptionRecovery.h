@@ -4,7 +4,7 @@
 typedef NSError*(^ILExceptionErrorGenerator)(NSException* exception,id recoveryAttemptor);
 typedef BOOL(^ILExceptionRecoveryAttempt)(NSError* error, NSUInteger recoveryIndex);
 
-extern NSString* const ILUnderlyingException;
+extern NSString* const ILUnderlyingException; /* NSError userInfo key for the underlying exception we are recovering from */
 
 /** @class An exception handler manages an exception by creating a recoverable NSError, which can then be presented to the user */
 @interface ILExceptionRecovery : NSObject
@@ -41,9 +41,11 @@ extern NSString* const ILUnderlyingException;
     @param recoveryAttempt block to attemp recovery from the NSError with specified recovery options
     @returns a handler initilized with the specified parameters */
 + (ILExceptionRecovery*) handlerForException:(NSString*) exceptionName
-                                    pattern:(NSString*) reasonPattern
-                                  generator:(ILExceptionErrorGenerator) errorGenerator
-                                   recovery:(ILExceptionRecoveryAttempt) recoveryAttempt;
+                                     pattern:(NSString*) reasonPattern
+                                   generator:(ILExceptionErrorGenerator) errorGenerator
+                                    recovery:(ILExceptionRecoveryAttempt) recoveryAttempt;
+
+#pragma mark - Recovery Handling
 
 /** @param exception
     @returns true if the handler can generate a recoverable error for the exception */

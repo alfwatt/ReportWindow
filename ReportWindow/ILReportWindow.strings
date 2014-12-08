@@ -35,7 +35,6 @@
 
 "ILReportWindowCommentsString" = "please enter any comments here";
 "ILReportWindowUserIntroString" = "\n\nReport from: ";
-"ILReportWindowRequsetEmailString" = "\n\nPlease include your email address if you would like us to follow up.";
 
 "ILReportWindowSubmitFailedString" = "Submitting Report Failed";
 "ILReportWindowSubmitFailedInformationString" = "%@ was not able to submit the report to: %@\n\nyou can send the report by email";

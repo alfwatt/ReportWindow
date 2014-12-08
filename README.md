@@ -6,9 +6,6 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
     #import <ReportWindow/ReportWindow.h>
     #import <ExceptionHandling/ExceptionHandling.h>
 
-    // optionally, use the CrashReporter package to get call stacks when creating reports
-    #import <CrashReporter/CrashReporter.h>
-
     @property(nonatimic,retain) ILReportWindow* reportWindow;
 
     #pragma mark - IBAction
@@ -43,27 +40,17 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
     - (void) applicationDidFinishLaunching:(NSNotification*) aNotification
     {
-        PLCrashReporterConfig* config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll];
-        PLCrashReporter* reporter = [[PLCrashReporter alloc] initWithConfiguration:config]
-
-        // you'll have to add a crash calback, if you want to intercept crashes in the app, otherwise you get them on the next launch
-
         NSError* reportError;
     
         // register as exception handler delegate
         [NSExceptionHandler defaultExceptionHandler].exceptionHandlingMask = NSLogAndHandleEveryExceptionMask;
         [NSExceptionHandler defaultExceptionHandler].delegate = self;
     
-        if( [reporter hasPendingCrashReport])
+        if( [ILReportWindow hasPendingCrashReport])
         {
             // present UI to the user asking if we can report the crash
-            self.reportWindow = [ILReportWindow windowForCrashReporter:reporter];
+            self.reportWindow = [ILReportWindow windowForSystemCrashReport:[ILReportWindow lastPendingCrashReport]];
             [self.reportWindow runModal];
-        }
-    
-        if( ![reporter enableCrashReporterAndReturnError:&reportError])
-        {
-            [self reportError:reportError];
         }
     }
 
