@@ -1,7 +1,13 @@
-ilreportwindow
+ReportWindow
 ==============
 
 iStumbler Labs Report Window for Crashes, Exceptions and Errors
+
+## Usage
+
+Indlude ReportWindow.framework in your application.
+
+## Example Code
 
     #import <ReportWindow/ReportWindow.h>
     #import <ExceptionHandling/ExceptionHandling.h>
@@ -21,7 +27,7 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
         }
         else if( [[NSApp currentEvent] modifierFlags] & NSControlKeyMask) // report the error
         {
-            NSError* userReported = [NSError errorWithDomain:@"net.istumbler" code:-1 userInfo:[[NSBundle mainBundle] infoDictionary]];
+            NSError* userReported = [NSError errorWithDomain:@"net.istumbler.labs" code:-1 userInfo:[[NSBundle mainBundle] infoDictionary]];
             [self reportError:userReported]; // triggers ReportWIndow
         }
         else if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) // report an exception
