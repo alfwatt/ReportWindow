@@ -5,44 +5,18 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
 ## Usage
 
-Indlude ReportWindow.framework in your application.
+Indlude ReportWindow.framework and ExceptionHandling.framework in your application project.
 
 ## Example Code
 
     #import <ReportWindow/ReportWindow.h>
     #import <ExceptionHandling/ExceptionHandling.h>
 
+    #pragma mark - NSApplicationDelegate Header
+
     @property(nonatimic,retain) ILReportWindow* reportWindow;
 
-    #pragma mark - IBAction
-
-    - (IBAction) reportBug:(id) sender
-    {
-        // check for snag keys to see if we need to do something, excpetioal
-        if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask
-         && [[NSApp currentEvent] modifierFlags] & NSControlKeyMask)
-        {
-            /* Trigger a crash */
-            ((char *)NULL)[1] = 0;
-        }
-        else if( [[NSApp currentEvent] modifierFlags] & NSControlKeyMask) // report the error
-        {
-            NSError* userReported = [NSError errorWithDomain:@"net.istumbler.labs" code:-1 userInfo:[[NSBundle mainBundle] infoDictionary]];
-            [self reportError:userReported]; // triggers ReportWIndow
-        }
-        else if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) // report an exception
-        {
-            [[NSException exceptionWithName:@"net.istumbler.test" reason:@"Test Exception" userInfo:[[NSBundle mainBundle] infoDictionary]] raise];
-            // exception handler will eventualy report the error
-        }
-        else // just a bug report
-        {
-            self.reportWindow = [ILReportWindow windowForBug];
-            [self.reportWindow runModal];
-        }
-    }
-
-    #pragma mark - NSApplicationDelegate
+    #pragma mark - NSApplicationDelegate Implmentation
 
     - (void) applicationDidFinishLaunching:(NSNotification*) aNotification
     {
@@ -98,4 +72,32 @@ Indlude ReportWindow.framework in your application.
         [self.reportWindow runModal];
 
         return NO;
+    }
+
+    #pragma mark - IBActions
+
+    - (IBAction) reportBug:(id) sender
+    {
+        // check for snag keys to see if we need to do something, excpetioal
+        if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask
+         && [[NSApp currentEvent] modifierFlags] & NSControlKeyMask)
+        {
+            /* Trigger a crash */
+            ((char *)NULL)[1] = 0;
+        }
+        else if( [[NSApp currentEvent] modifierFlags] & NSControlKeyMask) // report the error
+        {
+            NSError* userReported = [NSError errorWithDomain:@"net.istumbler.labs" code:-1 userInfo:[[NSBundle mainBundle] infoDictionary]];
+            [self reportError:userReported]; // triggers ReportWIndow
+        }
+        else if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) // report an exception
+        {
+            [[NSException exceptionWithName:@"net.istumbler.test" reason:@"Test Exception" userInfo:[[NSBundle mainBundle] infoDictionary]] raise];
+            // exception handler will eventualy report the error
+        }
+        else // just a bug report
+        {
+            self.reportWindow = [ILReportWindow windowForBug];
+            [self.reportWindow runModal];
+        }
     }
