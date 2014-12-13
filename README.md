@@ -7,6 +7,30 @@ iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
 Indlude ReportWindow.framework and ExceptionHandling.framework in your application project.
 
+## Configuration
+
+By adding specific keys to your Application's Info.plist file you can control the behavoiur of the ReportWindow.
+
+    extern NSString* const ILReportWindowSubmitURLKey; // if set in the bundle's info dictionary the url to submit the crash report to, can be a mailto: url
+    extern NSString* const ILReportWindowSubmitEmailKey; // if set the backup email for submissions, if the primary URL is http and the user declines to upload
+
+    // ATTENTION! only set these keys if your log output, defaults and windows contain no user identifiying information (account names, passwords, etc)
+    // thse keys can be set either in the bundle info dictionary or the NSUserDefaults
+    extern NSString* const ILReportWindowIncludeSyslogKey; // if set to YES then syslog messages with the applications bundle name in them are included
+    extern NSString* const ILReportWindowIncludeDefaultsKey; // if set to YES then the applications preferences are included in the report
+
+Once those keys are set, you can use the Example Code below to intergrate the ReportWindow into your application.
+
+## Classes
+
+### ILReportWindow
+
+Provides the controller for the report window interface and uploads the report to the URL you specify.
+
+### ILExceptionRecovery
+
+Provides an exception recovery mechanisim by converting recognized NSExceptions into NSErrors with recovery options.
+
 ## Example Code
 
     #import <ReportWindow/ReportWindow.h>
@@ -92,7 +116,7 @@ Indlude ReportWindow.framework and ExceptionHandling.framework in your applicati
         }
         else if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) // report an exception
         {
-            [[NSException exceptionWithName:@"net.istumbler.test" reason:@"Test Exception" userInfo:[[NSBundle mainBundle] infoDictionary]] raise];
+            [[NSException exceptionWithName:@"net.istumbler.labs.test" reason:@"Test Exception" userInfo:[[NSBundle mainBundle] infoDictionary]] raise];
             // exception handler will eventualy report the error
         }
         else // just a bug report
