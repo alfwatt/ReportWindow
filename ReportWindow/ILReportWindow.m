@@ -23,6 +23,8 @@ NSString* const ILReportWindowReportedSignaturesKey = @"ILReportWindowReportedSi
 NSString* const ILReportWindowSubmitURLKey = @"ILReportWindowSubmitURLKey";
 NSString* const ILReportWindowSubmitEmailKey = @"ILReportWindowSubmitEmailKey";
 
+NSString* const ILReportWindowSuppressDuplicatesKey = @"ILReportWindowSuppressDuplicatesKey";
+
 NSString* const ILReportWindowIncludeSyslogKey = @"ILReportWindowIncludeSyslogKey";
 NSString* const ILReportWindowIncludeDefaultsKey = @"ILReportWindowIncludeDefaultsKey";
 NSString* const ILReportWindowIncludeWindowScreenshotsKey = @"ILReportWindowIncludeWindowScreenshotsKey";
@@ -409,6 +411,21 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
 #pragma mark - 
 
+- (NSString*) reportSignature
+{
+    NSString* reportSignature = nil;
+    
+    if( self.mode == ILReportWindowCrashMode)
+        reportSignature = [ILReportWindow latestSystemCrashReport];
+    else if( self.mode == ILReportWindowExceptionMode)
+        reportSignature = [ILReportWindow exceptionSignature:self.exception];
+    else if( self.mode == ILReportWindowErrorMode)
+        reportSignature = [ILReportWindow errorSignature:self.error];
+    // else generate a a UUID or timestamp for a bug report?
+    
+    return reportSignature;
+}
+
 - (BOOL) checkConfig // check for email or submit urls, one is enough
 {
     NSArray* infoKeys = [[[NSBundle mainBundle] infoDictionary] allKeys];
@@ -417,8 +434,18 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
 - (void) runModal
 {
+    NSString* reportSignature = [self reportSignature];
+    
     if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowIgnoreKey])
+    {
+        return; // quietly ignore reports if the user doesn't care
+    }
+    else if(reportSignature && [ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]
+      && [[[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey] containsObject:reportSignature])
+    {
+        NSLog(@"ReportWindow suppressing: %@", reportSignature);
         return;
+    }
     
     if( [self checkConfig])
     {
@@ -679,6 +706,27 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
 - (void) closeAfterReportComplete
 {
+    // record the signature
+    NSString* reportSignature = [self reportSignature];
+    if( reportSignature)
+    {
+        NSArray* reported = [[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey];
+        if( reported)
+        {
+            if( ![reported containsObject:reportSignature])
+            {
+                reported = [reported arrayByAddingObject:reportSignature];
+            }
+        }
+        else
+        {
+            reported = @[reportSignature];
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setObject:reported forKey:ILReportWindowReportedSignaturesKey];
+        [[NSUserDefaults standardUserDefaults] synchronize]; // imporant cause we might quit the app next
+    }
+    
     // if we want to auto-submit an error or exception, then start a timer before restarting the app
     if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]
      && (self.mode == ILReportWindowErrorMode || self.mode == ILReportWindowExceptionMode))
@@ -1010,7 +1058,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     }
     else // not ok, present error
     {
-        self.status.stringValue = [NSString stringWithFormat:@"%li %C", (long)self.response.statusCode, 0x274C];// CROSS MARK Unicode: U+274C, UTF-8: E2 9D 8C
+        self.status.stringValue = [NSString stringWithFormat:@"%li %C", (long)self.response.statusCode, 0x274C]; // CROSS MARK Unicode: U+274C
         [self reportConnectionError]; // offer to email or cancel
     }
 }
@@ -1020,10 +1068,11 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)connectionError
 {
     NSBeep();
-    self.status.stringValue = [NSString stringWithFormat:@"%C", 0x29F1];// ERROR-BARRED BLACK DIAMOND Unicode: U+29F1, UTF-8: E2 A7 B1
+    self.status.stringValue = [NSString stringWithFormat:@"%C", 0x274C]; // CROSS MARK Unicode: U+274C
     
-    if( connectionError ) // log it to the comments
+    if( connectionError ) // log it to the console
     {
+        NSLog(@"%@ connection to: %@ failed: %@", [self className], connection.currentRequest.URL, [ILReportWindow errorReport:connectionError]);
         NSDictionary* commentsAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:9]};
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:connectionError] attributes:commentsAttributes]];
