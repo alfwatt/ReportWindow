@@ -598,8 +598,10 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
         return;
     }
     
-    // cook up the report data if we have somewhere to send it
-    [self prepareReportData];
+    // create the UUID for the report
+    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+    self.reportUUID = [NSString stringWithString:CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault,uuid))];
+    if(uuid) CFRelease(uuid);
     
     // if it's a mailto: create an email message with the support address
     if( [[url scheme] isEqualToString:@"mailto"])
