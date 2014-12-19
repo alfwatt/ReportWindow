@@ -2,7 +2,9 @@
 
 #import <execinfo.h>
 
+#ifdef PL_CRASH_COMPATABLE
 #import <CrashReporter/CrashReporter.h>
+#endif
 #import <ExceptionHandling/ExceptionHandling.h>
 
 // scripting bridge header for Mail.app
