@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7504642819E2683F008388F1 /* ILExceptionRecovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 7504642619E2683F008388F1 /* ILExceptionRecovery.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7504642919E2683F008388F1 /* ILExceptionRecovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504642719E2683F008388F1 /* ILExceptionRecovery.m */; };
+		7518D82D1A4D5CBE00BA6E23 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; };
+		7518D82E1A4D5CBE00BA6E23 /* ILReportingApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */; };
 		75AF8E6B19A8F5AC003D7B46 /* ReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75AF8E7519A8F5AC003D7B46 /* CrashReportWindowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AF8E7419A8F5AC003D7B46 /* CrashReportWindowTests.m */; };
 		75AF8E8019A8F5E4003D7B46 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E7C19A8F5E4003D7B46 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -38,6 +40,8 @@
 /* Begin PBXFileReference section */
 		7504642619E2683F008388F1 /* ILExceptionRecovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILExceptionRecovery.h; sourceTree = "<group>"; };
 		7504642719E2683F008388F1 /* ILExceptionRecovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILExceptionRecovery.m; sourceTree = "<group>"; };
+		7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILReportingApplication.h; sourceTree = "<group>"; };
+		7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportingApplication.m; sourceTree = "<group>"; };
 		758ADC6519C622FD007C9194 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		758ADC6719C622FD007C9194 /* crash.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crash.php; sourceTree = "<group>"; };
@@ -112,6 +116,8 @@
 				75AF8E7F19A8F5E4003D7B46 /* ILReportWindow.xib */,
 				7504642619E2683F008388F1 /* ILExceptionRecovery.h */,
 				7504642719E2683F008388F1 /* ILExceptionRecovery.m */,
+				7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */,
+				7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */,
 			);
 			path = ReportWindow;
 			sourceTree = "<group>";
@@ -150,6 +156,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75AF8E8019A8F5E4003D7B46 /* ILReportWindow.h in Headers */,
+				7518D82D1A4D5CBE00BA6E23 /* ILReportingApplication.h in Headers */,
 				7504642819E2683F008388F1 /* ILExceptionRecovery.h in Headers */,
 				75AF8E6B19A8F5AC003D7B46 /* ReportWindow.h in Headers */,
 			);
@@ -255,6 +262,7 @@
 			files = (
 				75AF8E8119A8F5E4003D7B46 /* ILReportWindow.m in Sources */,
 				7504642919E2683F008388F1 /* ILExceptionRecovery.m in Sources */,
+				7518D82E1A4D5CBE00BA6E23 /* ILReportingApplication.m in Sources */,
 				75D696FC19B588AD005FE4FF /* Mail.app in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
