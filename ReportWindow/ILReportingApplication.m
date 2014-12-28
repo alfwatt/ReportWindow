@@ -53,6 +53,20 @@
     }
 }
 
+- (void)presentError:(NSError *)error modalForWindow:(NSWindow *)window delegate:(id)delegate didPresentSelector:(SEL)didPresentSelector contextInfo:(void *)contextInfo
+{
+    if( [[error userInfo] objectForKey:NSRecoveryAttempterErrorKey]
+     || ([[error domain] isEqualToString:NSCocoaErrorDomain] && [error code]==NSUserCancelledError))
+    {
+        [super presentError:error modalForWindow:window delegate:delegate didPresentSelector:didPresentSelector contextInfo:contextInfo];
+    }
+    else // TODO do this attached to a window and inform the delegate of the success or failure
+    {
+        self.reportWindow = [ILReportWindow windowForError:error];
+        [self.reportWindow runModal];
+    }
+}
+
 #pragma mark - NSExceptionHandling
 
 - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler

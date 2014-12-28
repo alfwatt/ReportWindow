@@ -455,7 +455,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
         self.exceptionHandler = NSGetUncaughtExceptionHandler();
         NSSetUncaughtExceptionHandler(nil);
         
-        // clear the NSExceptionHandler
+        // reset the NSExceptionHandler delegate and mask
         self.exceptionDelegate = [[NSExceptionHandler defaultExceptionHandler] delegate];
         self.exceptionMask = [[NSExceptionHandler defaultExceptionHandler] exceptionHandlingMask];
         [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:0]; // can't have a throw in the middele
@@ -468,6 +468,8 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     }
     else NSLog(@"%@ please configure a %@ or %@ in your apps Info.plist", [self className], ILReportWindowSubmitEmailKey, ILReportWindowSubmitURLKey);
 }
+
+// TODO run modal for window with parameters 
 
 - (void) prepareReportData
 {
