@@ -33,6 +33,9 @@ extern NSString* const ILUnderlyingException; /* NSError userInfo key for the un
 /** @returns YES if this is a common system exception which should not be reported, e.g. NSAccessibilityException */
 + (BOOL) isCommonSystemException:(NSException*) exception;
 
++ (NSException*) testException;
++ (ILExceptionRecovery*) testExceptionRecovery;
+
 #pragma mark - Factory Method
 
 /** @param exceptionName name to match for this handler

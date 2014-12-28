@@ -49,6 +49,38 @@ static NSMutableDictionary* ILHandlerRegistry;
     return ([exception.name isEqualTo:NSAccessibilityException]); // autolayout probably worth reporting for now
 }
 
++ (NSException*) testException
+{
+    return [NSException exceptionWithName:@"net.istumbler.labs.handled"
+                                   reason:@"Testing Handled Exception"
+                                 userInfo:[[NSBundle bundleForClass:[self class]] infoDictionary]];
+}
+
++ (ILExceptionRecovery*) testExceptionRecovery
+{
+    ILExceptionRecovery* testHandler = [ILExceptionRecovery new];
+    testHandler.exceptionName = @"net.istumbler.handled"; // we got this
+    testHandler.exceptionReasonPattern = @"Handled Exceptio?"; // the ? makes it a pattern, not a string match
+    testHandler.exceptionErrorGenerator = ^NSError*( NSException* exception, id recoveryAttemptor)
+    {
+        NSDictionary* recoveryInfo = @{
+                                       ILUnderlyingException: exception,
+                                       NSRecoveryAttempterErrorKey: recoveryAttemptor,
+                                       NSLocalizedDescriptionKey: @"net.istumbler.handled test",
+                                       NSLocalizedFailureReasonErrorKey: @"testing ILExceptionHandler infrastructure",
+                                       NSLocalizedRecoverySuggestionErrorKey: @"Still probably a good idea to freak out.",
+                                       NSLocalizedRecoveryOptionsErrorKey: @[@"Freak", @"Report"]
+                                       };
+        return [NSError errorWithDomain:@"net.istumbler.handled" code:1000 userInfo:recoveryInfo];
+    };
+    testHandler.exceptionRecoveryAttempt = ^BOOL(NSError* error, NSUInteger recoveryIndex)
+    {
+        NSLog(@"net.istumbler.handled error: %@ index: %li", error, recoveryIndex);
+        return NO;
+    };
+    return testHandler;
+}
+
 #pragma mark - Factory Method
 
 + (ILExceptionRecovery*) handlerForException:(NSString*) exceptionName

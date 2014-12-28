@@ -4,33 +4,70 @@
 
 #pragma mark - NSUserDefaults keys
 
-extern NSString* const ILReportWindowAutoSubmitKey; // if set the user's defaults is a BOOL, YES to send automatically, NO to prompt (default)
-extern NSString* const ILReportWindowIgnoreKey; // if set the user's defaults is a BOOL, YES to suppress dialog, NO to prompt (default)
-extern NSString* const ILReportWindowUserFullNameKey; // if set the users full name as a single string
-extern NSString* const ILReportWindowUserEmailKey; // if set the users default email address to include in reports
-extern NSString* const ILReportWindowSuppressDuplicatesKey; // if set 
-extern NSString* const ILReportWindowReportedSignaturesKey; // set of exception, error and crash signatures which we have already reported
+/* @const ILReportWindowAutoSubmitKey BOOL value, YES to send automatically, NO to prompt (default) */
+extern NSString* const ILReportWindowAutoSubmitKey;
+
+/* @const ILReportWindowIgnoreKey BOOL value, YES to suppress dialog, NO to prompt (default) */
+extern NSString* const ILReportWindowIgnoreKey;
+
+/* @const ILReportWindowUserFullNameKey the users full name as a single string */
+extern NSString* const ILReportWindowUserFullNameKey;
+
+/* @const ILReportWindowUserEmailKey if set the users default email address to include in reports */
+extern NSString* const ILReportWindowUserEmailKey;
+
+/* @const ILReportWindowSuppressDuplicatesKey BOOL: if set NO report all errors, YES suppress duplicates (default) */
+extern NSString* const ILReportWindowSuppressDuplicatesKey;
+
+/* @const ILReportWindowReportedSignaturesKey set of exception, error and crash signatures which we have already reported */
+extern NSString* const ILReportWindowReportedSignaturesKey;
 
 #pragma mark - Info.plist keys
 
-// One of theses keys must be define for the window to be presented, you may provide both (email will be backup if POST to URL fails)
-extern NSString* const ILReportWindowSubmitURLKey; // if set in the bundle's info dictionary the url to submit the crash report to, can be a mailto: url
-extern NSString* const ILReportWindowSubmitEmailKey; // if set the backup email for submissions, if the primary URL is http and the user declines to upload
+// One of theses keys must be define for the window to be presented
+// you may provide both (email will be backup if POST to URL fails)
 
-// ATTENTION! only set these keys if your log output, defaults and windows contain no user identifiying information (account names, passwords, etc)
-// thse keys can be set either in the bundle info dictionary or the NSUserDefaults
-extern NSString* const ILReportWindowIncludeSyslogKey; // if set to YES then syslog messages with the applications bundle name in them are included
-extern NSString* const ILReportWindowIncludeDefaultsKey; // if set to YES then the applications preferences are included in the report
-extern NSString* const ILReportWindowIncludeWindowScreenshotsKey; // if set to YES then screenshots of all open windows are included in exception and error reports
+/* @const ILReportWindowSubmitURLKey if set in the bundle's info dictionary
+ the url to submit the crash report to, can be a mailto: url */
+extern NSString* const ILReportWindowSubmitURLKey;
 
-extern NSString* const ILReportWindowAutoRestartSecondsKey; // if set overrades default of 60 before an automatic crash report will be submitted, and the window dismissed
-extern NSString* const ILReportWindowTreatErrorAsBugKey; // set in the info dictionry of an NSError and ILReport window will present it as a bug report
+/* @const ILReportWindowSubmitEmailKey if set the backup email for submissions,
+ if the primary URL is http and the user declines to upload */
+extern NSString* const ILReportWindowSubmitEmailKey;
+
+/*
+    !! ATTENTION !!
+
+    Only set the following keys if your log output, defaults and windows contain no
+    user identifiying information (account names, passwords, etc).
+     
+    These keys can be set either in the Apps Info.plist or the NSUserDefaults, which
+    will override the info plist entry.
+*/
+
+/* @const ILReportWindowIncludeSyslogKey if set to YES then syslog messages with the applications bundle name in them are included */
+extern NSString* const ILReportWindowIncludeSyslogKey;
+
+/* @const ILReportWindowIncludeDefaultsKey if set to YES then the applications preferences are included in the report */
+extern NSString* const ILReportWindowIncludeDefaultsKey;
+
+/* @const ILReportWindowIncludeWindowScreenshotsKey if set to YES then screenshots of all open windows are included in exception and error reports */
+extern NSString* const ILReportWindowIncludeWindowScreenshotsKey;
+
+/* @const ILReportWindowAutoRestartSecondsKey if set overrades default of 60 before an automatic crash report will be submitted, and the window dismissed */
+extern NSString* const ILReportWindowAutoRestartSecondsKey;
+
+#pragma mark - NSError User Info Dictionary Keys
+
+/* @const ILReportWindowTreatErrorAsBugKey set in the info dictionry of an NSError and ILReport window will present it as a bug report */
+extern NSString* const ILReportWindowTreatErrorAsBugKey;
+
+#pragma mark - Screen Shot Dictionary Keys
 
 extern NSString* const ILReportWindowTitle; // window title
 extern NSString* const ILReportWindowFrame; // window frame for screenshot
 extern NSString* const ILReportWindowInfo; // window identifier for screenshot
-extern NSString* const ILReportWindowImage; // window PDF data for screenshot
-
+extern NSString* const ILReportWindowImage; // window image for screenshot
 
 #pragma mark - NSLocalizedStrings
 
@@ -46,7 +83,7 @@ extern NSString* const ILReportWindowRaisedExceptionString; // = AppName + "Rais
 extern NSString* const ILReportWindowReportedErrorString; // = AppName + "Reported an Error";
 extern NSString* const ILReportWindowReportingBugString; // = "Bug Report for" + AppName;
 extern NSString* const ILReportWindowReportDispositionString; // = "Click Send to send the report to the devleoper, or Cancel to ignore it.";
-extern NSString* const ILReportWindowErrorDispositionString; // = "Click Restart to send the report to the devloper and restart the application, or Quit.";
+extern NSString* const ILReportWindowErrorDispositionString; // = "Click Restart to send the report to the devloper and restart the application, or Ingore it.";
 extern NSString* const ILReportWindowBugDispositionString; // = "Click Send to send the report to the devleoper, or Cancel to delete it.";
 
 extern NSString* const ILReportWindowReportString; // = @"Report";
