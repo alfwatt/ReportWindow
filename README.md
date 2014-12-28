@@ -13,7 +13,7 @@ By adding specific keys to your Application's Info.plist file you can control th
 The two critical keys give the URL and Email address to submit reports to, at least one must be set.
 
     /* @const ILReportWindowSubmitURLKey if set in the bundle's info dictionary
-    the url to submit the crash report to, can be a mailto: url */[ILExceptionRecovery testExceptionRecovery]
+    the url to submit the crash report to, can be a mailto: url */
     extern NSString* const ILReportWindowSubmitURLKey;
 
     /* @const ILReportWindowSubmitEmailKey if set the backup email for submissions,
