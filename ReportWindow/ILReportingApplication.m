@@ -15,7 +15,12 @@
     //        [self.reportWindow runModal];
 
     // register as exception handler delegate
-    [NSExceptionHandler defaultExceptionHandler].exceptionHandlingMask = NSLogAndHandleEveryExceptionMask;
+    [NSExceptionHandler defaultExceptionHandler].exceptionHandlingMask =
+//        NSHandleUncaughtExceptionMask
+        NSHandleUncaughtSystemExceptionMask
+      | NSHandleUncaughtRuntimeErrorMask
+      | NSHandleTopLevelExceptionMask
+      | NSHandleOtherExceptionMask;
     [NSExceptionHandler defaultExceptionHandler].delegate = self;
 
     [super finishLaunching];
@@ -41,16 +46,21 @@
 
 - (BOOL) presentError:(NSError *)error
 {
+    BOOL wasRecovered = NO;
+
     if( [[error userInfo] objectForKey:NSRecoveryAttempterErrorKey])
     {
-        return [super presentError:error];
+        wasRecovered = [super presentError:error];
     }
-    else
+
+    if( !wasRecovered) // recovery fialed, show the report window
     {
         self.reportWindow = [ILReportWindow windowForError:error];
         [self.reportWindow runModal];
-        return YES;
+        wasRecovered = NO;
     }
+
+    return wasRecovered;
 }
 
 - (void)presentError:(NSError *)error modalForWindow:(NSWindow *)window delegate:(id)delegate didPresentSelector:(SEL)didPresentSelector contextInfo:(void *)contextInfo
@@ -72,7 +82,6 @@
 - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler
    shouldHandleException:(NSException *)exception
                     mask:(NSUInteger)mask
-
 {
     if( [ILExceptionRecovery isCommonSystemException:exception])
         return YES;
@@ -81,8 +90,8 @@
     if( handler)
     {
         NSError* recoverableError = [handler recoverableErrorForException:exception];
-        if( [NSApp presentError:recoverableError])
-            return NO;
+        BOOL wasRecovered = [NSApp presentError:recoverableError];
+        return !wasRecovered; // presentError: returns TRUE if there was recovery, don't handle those
     }
 
     // could not or did not recover, report the exception
@@ -97,7 +106,7 @@
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex;
 {
     NSLog(@"attemptRecoveryFromError: %@ optionIndex: %li", error, recoveryOptionIndex);
-    return NO;
+    return (recoveryOptionIndex == 0);
 }
 
 #pragma mark - IBActions
@@ -111,33 +120,36 @@
         /* Trigger a crash */
         ((char *)NULL)[1] = 0;
     }
-    else if( [[NSApp currentEvent] modifierFlags] & NSShiftKeyMask
-            && [[NSApp currentEvent] modifierFlags] & NSControlKeyMask) // report a handled error (tests reportError:)
+    if( [[NSApp currentEvent] modifierFlags] & NSControlKeyMask) // report a test error with recovery options
     {
-        NSDictionary* handler = @{
-                                  NSRecoveryAttempterErrorKey: self,
-                                  NSLocalizedDescriptionKey: @"Can you handle this error, man!?",
-                                  NSLocalizedFailureReasonErrorKey: @"There's no Reason Here.",
-                                  NSLocalizedRecoverySuggestionErrorKey: @"You're gonna wanna freak out.",
-                                  NSLocalizedRecoveryOptionsErrorKey: @[@"Freak", @"Report"]
-                                  };
-        NSError* handled = [NSError errorWithDomain:@"net.istumbler.labs" code:-2 userInfo:handler];
-        [NSApp presentError:handled];
-    }
-    else if( [[NSApp currentEvent] modifierFlags] & NSControlKeyMask) // report the error
-    {
-        NSError* userReported = [NSError errorWithDomain:@"net.istumbler.labs" code:-1 userInfo:[[NSBundle mainBundle] infoDictionary]];
-        [NSApp presentError:userReported];
-    }
-    else if( [[NSApp currentEvent] modifierFlags] & NSShiftKeyMask
-            && [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) // report a handled exception (tests ILExceptionHandler)
-    {
-        [[NSException exceptionWithName:@"net.istumbler.labs.handled" reason:@"Handled Exception" userInfo:[[NSBundle mainBundle] infoDictionary]] raise];
+        if( [[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) // report a recoverable error
+        {
+            NSDictionary* recoveryInfo = @{
+                NSRecoveryAttempterErrorKey: self,
+                NSLocalizedDescriptionKey: @"Can you handle this error, man!?",
+                NSLocalizedFailureReasonErrorKey: @"There's no Reason Here.",
+                NSLocalizedRecoverySuggestionErrorKey: @"You're gonna wanna freak out.",
+                NSLocalizedRecoveryOptionsErrorKey: @[@"Ignore", @"Report"]
+            };
+            NSError* handled = [NSError errorWithDomain:@"net.istumbler.labs" code:-2 userInfo:recoveryInfo];
+            [NSApp presentError:handled];
+        }
+        else
+        {
+            NSError* userReported = [NSError errorWithDomain:@"net.istumbler.labs" code:-1 userInfo:[[NSBundle mainBundle] infoDictionary]];
+            [NSApp presentError:userReported];
+        }
     }
     else if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) // report an exception
     {
-        [[NSException exceptionWithName:@"net.istumbler.labs.test" reason:@"Test Exception" userInfo:[[NSBundle mainBundle] infoDictionary]] raise];
-        // exception handler will eventualy report the error
+        if( [[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)
+        {
+            [[ILExceptionRecovery testException] raise];
+        }
+        else
+        {
+            [[NSException exceptionWithName:@"net.istumbler.labs" reason:@"Test Exception" userInfo:nil] raise];
+        }
     }
     else // just a bug report
     {

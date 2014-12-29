@@ -1,7 +1,10 @@
 
 #import <Foundation/Foundation.h>
 
+/** @return an NSError with recovery options for the NSException provided */
 typedef NSError*(^ILExceptionErrorGenerator)(NSException* exception,id recoveryAttemptor);
+
+/** @return YES if error recovery was completely successful */
 typedef BOOL(^ILExceptionRecoveryAttempt)(NSError* error, NSUInteger recoveryIndex);
 
 extern NSString* const ILUnderlyingException; /* NSError userInfo key for the underlying exception we are recovering from */
