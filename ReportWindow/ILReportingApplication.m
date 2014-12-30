@@ -10,10 +10,6 @@
 
 - (void) finishLaunching
 {
-    // TODO present UI to the user asking if we can report a previous crash
-    //        self.reportWindow = [ILReportWindow windowForCrashReporter:self.reporter];
-    //        [self.reportWindow runModal];
-
     // register as exception handler delegate
     [NSExceptionHandler defaultExceptionHandler].exceptionHandlingMask =
 //        NSHandleUncaughtExceptionMask
@@ -22,6 +18,17 @@
       | NSHandleTopLevelExceptionMask
       | NSHandleOtherExceptionMask;
     [NSExceptionHandler defaultExceptionHandler].delegate = self;
+
+    // defer this to after runloop start so that the app doesn't start twice
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        // TODO present UI to the user asking if we can report a previous crash
+        NSString* latestSystemCrash = [ILReportWindow latestSystemCrashReport];
+        if( latestSystemCrash)
+        {
+            self.reportWindow = [ILReportWindow windowForSystemCrashReport:latestSystemCrash];
+            [self.reportWindow runModal];
+        }
+    }];
 
     [super finishLaunching];
 }

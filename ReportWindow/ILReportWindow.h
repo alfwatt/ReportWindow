@@ -22,6 +22,9 @@ extern NSString* const ILReportWindowSuppressDuplicatesKey;
 /* @const ILReportWindowReportedSignaturesKey set of exception, error and crash signatures which we have already reported */
 extern NSString* const ILReportWindowReportedSignaturesKey;
 
+/* @const ILReportWindowDeleteSubmittedKey BOOL: if set YES will delete crash reports when sucessfully submitted or emailed */
+extern NSString* const ILReportWindowDeleteSubmittedKey;
+
 #pragma mark - Info.plist keys
 
 // One of theses keys must be define for the window to be presented
@@ -200,6 +203,7 @@ ILReportWindowMode;
 
 #pragma mark - Factory Methods
 
++ (instancetype) windowForSystemCrashReport:(NSString*) crashReportPath;
 + (instancetype) windowForError:(NSError*) error;
 + (instancetype) windowForException:(NSException*) exception;
 + (instancetype) windowForBug;

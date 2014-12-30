@@ -19,6 +19,7 @@ NSString* const ILReportWindowIgnoreKey = @"ILReportWindowIgnoreKey";
 NSString* const ILReportWindowUserFullNameKey = @"ILReportWindowUserFullNameKey";
 NSString* const ILReportWindowUserEmailKey = @"ILReportWindowUserEmailKey";
 NSString* const ILReportWindowReportedSignaturesKey = @"ILReportWindowReportedSignaturesKey";
+NSString* const ILReportWindowDeleteSubmittedKey = @"ILReportWindowDeleteSubmittedKey";
 
 #pragma mark - Info.plist keys
 
@@ -224,6 +225,17 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
         }
     }
 
+    // check to see if it's aleaday been reported, though
+    if( [ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey])
+    {
+        NSArray* signatures = [[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey];
+        if( signatures && [signatures containsObject:latest])
+        {
+            NSLog(@"%@ suppressing: %@", [self className], latest);
+            latest = nil;
+        }
+    }
+
     return latest;
 }
 
@@ -378,6 +390,13 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
 #pragma mark - Factory Methods
 
++ (instancetype) windowForSystemCrashReport:(NSString*) crashReportPath
+{
+    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
+    window.mode = ILReportWindowCrashMode;
+    return window;
+}
+
 + (instancetype) windowForError:(NSError*) error
 {
     ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
@@ -445,7 +464,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     else if(reportSignature && [ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]
       && [[[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey] containsObject:reportSignature])
     {
-        NSLog(@"ReportWindow suppressing: %@", reportSignature);
+        NSLog(@"%@ suppressing: %@", [self className], reportSignature);
         return;
     }
     
@@ -730,7 +749,20 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
         [[NSUserDefaults standardUserDefaults] setObject:reported forKey:ILReportWindowReportedSignaturesKey];
         [[NSUserDefaults standardUserDefaults] synchronize]; // imporant cause we might quit the app next
     }
-    
+
+    // assuming everything went well, trash the latest system crash report
+    NSString* lastCrashReport = [ILReportWindow latestSystemCrashReport];
+    if( lastCrashReport)
+    {
+        NSFileManager* fm = [NSFileManager defaultManager];
+        NSError* error = nil;
+        NSURL* trashed = nil;
+        if(![fm trashItemAtURL:[NSURL fileURLWithPath:lastCrashReport] resultingItemURL:&trashed error:&error])
+        {
+            NSLog(@"%@ error %@ moving %@ to trash %@", [self className], error, lastCrashReport, trashed);
+        }
+    }
+
     // if we want to auto-submit an error or exception, then start a timer before restarting the app
     if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]
      && (self.mode == ILReportWindowErrorMode || self.mode == ILReportWindowExceptionMode))
@@ -834,7 +866,28 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Exception -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow exceptionReport:self.exception] attributes:commentsAttributes]];
     }
-    
+
+    // system crash reports
+    NSString* reportPath = [ILReportWindow latestSystemCrashReport];
+    if( reportPath )
+    {
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
+
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
+
+        NSString* reportContents = [NSString stringWithContentsOfFile:reportPath encoding:NSUTF8StringEncoding error:nil];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@\n",reportContents] attributes:commentsAttributes]];
+    }
+
+    // list of system crash reports
+
+    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
+
+    for( NSString* reportPath in [ILReportWindow systemCrashReports])
+    {
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
+    }
+
     // if the keys are set in the main bundle info keys, include the syslog and user defaults
     if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeSyslogKey])
     {
@@ -868,30 +921,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
             [self.comments.textStorage appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
         }
     }
-    
-    // system crash reports
-    
-    if( (NO)) // TODO prefs for this as well
-    {
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
 
-        for( NSString* reportPath in [ILReportWindow systemCrashReports])
-        {
-            [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
-        }
-    }
-
-    if( YES) // TODO prefs for this as well
-    {
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
-        
-        NSString* reportPath = [ILReportWindow latestSystemCrashReport];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
-        
-        NSString* reportContents = [NSString stringWithContentsOfFile:reportPath encoding:NSUTF8StringEncoding error:nil];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@\n",reportContents] attributes:commentsAttributes]];
-    }
-    
     // select the 'please enter any notes' line for replacment
     [self.comments setSelectedRange:NSMakeRange(0,[self.comments.textStorage.string rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location)];
     
