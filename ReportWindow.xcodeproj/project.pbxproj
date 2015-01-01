@@ -42,7 +42,6 @@
 		7504642719E2683F008388F1 /* ILExceptionRecovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILExceptionRecovery.m; sourceTree = "<group>"; };
 		7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILReportingApplication.h; sourceTree = "<group>"; };
 		7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportingApplication.m; sourceTree = "<group>"; };
-		758ADC6519C622FD007C9194 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		758ADC6719C622FD007C9194 /* crash.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crash.php; sourceTree = "<group>"; };
 		75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,7 +83,6 @@
 		75AF8E5919A8F55E003D7B46 = {
 			isa = PBXGroup;
 			children = (
-				758ADC6519C622FD007C9194 /* license.txt */,
 				758ADC6619C622FD007C9194 /* README.md */,
 				75E667241A3BBABC001E7DC4 /* crash.py */,
 				758ADC6719C622FD007C9194 /* crash.php */,
