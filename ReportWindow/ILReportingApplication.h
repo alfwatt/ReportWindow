@@ -14,3 +14,5 @@
 - (IBAction) reportBug:(id) sender;
 
 @end
+
+/* Copyright 2014-2015, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */

@@ -1122,4 +1122,4 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
 @end
 
-/* Copyright 2014-2015, Alf Watt (alf@istumbler.net) Avaliale under BSD Style license in license.txt. */
+/* Copyright 2014-2015, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */

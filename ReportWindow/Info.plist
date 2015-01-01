@@ -20,7 +20,7 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>NSPrincipalClass</key>
-	<string></string>
+	<key>QLThumbnailMinimumSize</key>
+	<real>17</real>
 </dict>
 </plist>
