@@ -20,7 +20,5 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>QLThumbnailMinimumSize</key>
-	<real>17</real>
 </dict>
 </plist>
