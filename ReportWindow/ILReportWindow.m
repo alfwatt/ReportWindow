@@ -283,9 +283,10 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     CGImageRef windowImageRef = CGWindowListCreateImage(imageBounds, singleWindowListOptions, windowID, imageOptions);
     NSImage * windowImage = [[NSImage alloc] initWithCGImage:windowImageRef size:[window frame].size];
     [windowImage setCacheMode:NSImageCacheNever];
-    
     [window visualizeConstraints:nil];
-    
+
+exit:
+    CFRelease( windowImageRef);
     return windowImage;
 }
 
