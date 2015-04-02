@@ -889,13 +889,6 @@ exit:
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
     }
 
-    // if the keys are set in the main bundle info keys, include the syslog and user defaults
-    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeSyslogKey])
-    {
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow grepSyslog] attributes:commentsAttributes]];
-    }
-       
     if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey])
     {
         NSString* defaultsString = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]] description];
@@ -921,6 +914,13 @@ exit:
             [attachment setAttachmentCell:screenshotCell];
             [self.comments.textStorage appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
         }
+    }
+
+    // if the keys are set in the main bundle info keys, include the syslog and user defaults
+    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeSyslogKey])
+    {
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow grepSyslog] attributes:commentsAttributes]];
     }
 
     // select the 'please enter any notes' line for replacment
