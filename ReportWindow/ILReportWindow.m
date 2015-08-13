@@ -463,12 +463,15 @@ exit:
 {
     NSString* reportSignature = nil;
     
-    if( self.mode == ILReportWindowCrashMode)
+    if( self.mode == ILReportWindowCrashMode) {
         reportSignature = [ILReportWindow latestSystemCrashReport];
-    else if( self.mode == ILReportWindowExceptionMode)
+    }
+    else if( self.mode == ILReportWindowExceptionMode) {
         reportSignature = [ILReportWindow exceptionSignature:self.exception];
-    else if( self.mode == ILReportWindowErrorMode)
+    }
+    else if( self.mode == ILReportWindowErrorMode) {
         reportSignature = [ILReportWindow errorSignature:self.error];
+    }
     // else generate a a UUID or timestamp for a bug report?
     
     return reportSignature;
@@ -861,7 +864,7 @@ exit:
 
     // system crash reports
     NSString* reportPath = [ILReportWindow latestSystemCrashReport];
-    if( reportPath)  {
+    if( reportPath) {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
 
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
