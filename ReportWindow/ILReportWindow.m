@@ -374,6 +374,7 @@ exit:
 + (NSArray*) filterDataFromArray:(NSArray*) array
 {
     NSMutableArray* filtered = [NSMutableArray new];
+
     for( id item in array) {
         if( [item isKindOfClass:[NSData class]]) {
             [filtered addObject:[NSString stringWithFormat:@"%lu bytes", [item length]]];
@@ -878,7 +879,9 @@ exit:
     }
 
     if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey]) {
-        NSString* defaultsString = [[[NSUserDefaults standardUserDefaults] persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]] description];
+        NSDictionary* defaultsDictionary = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+        defaultsDictionary = [[self class] filterDataFromDictionary:defaultsDictionary];
+        NSString* defaultsString = [defaultsDictionary description];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Application Defaults -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:defaultsString attributes:commentsAttributes]];
     }
