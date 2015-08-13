@@ -367,6 +367,54 @@ exit:
     
     return NSLocalizedString(@"Large",  @"File size, for really large files");
 }
+/*
+ @param array of plist entries (String, Number, Array, Dictionary, Data)
+ @return array of plist entries but with all Data elements replaced with "%lu bytes"
+ */
++ (NSArray*) filterDataFromArray:(NSArray*) array
+{
+    NSMutableArray* filtered = [NSMutableArray new];
+    for( id item in array) {
+        if( [item isKindOfClass:[NSData class]]) {
+            [filtered addObject:[NSString stringWithFormat:@"%lu bytes", [item length]]];
+        }
+        else if( [item isKindOfClass:[NSDictionary class]]) {
+            [filtered addObject:[self filterDataFromDictionary:item]];
+        }
+        else if( [item isKindOfClass:[NSArray class]]) {
+            [filtered addObject:[self filterDataFromArray:item]];
+        }
+        else {
+            [filtered addObject:item];
+        }
+    }
+    return filtered;
+}
+
+/*
+ @param plist an NSDictionary contianing plist entries (String, Number, Array, Dictionary, Data)
+ @returns an NSDictionary with any NSData elements replaced with: "%lu bytes"
+ */
++ (NSDictionary*) filterDataFromDictionary:(NSDictionary*) dictionary
+{
+    NSMutableDictionary* filtered = [NSMutableDictionary new];
+
+    for( NSString* key in [dictionary allKeys]) {
+        id value = [dictionary objectForKey:key];
+        if( [value isKindOfClass:[NSData class]]) {
+            value = [NSString stringWithFormat:@"%lu bytes", [value length]];
+        }
+        else if( [value isKindOfClass:[NSDictionary class]]) {
+            value = [self filterDataFromDictionary:value];
+        }
+        else if( [value isKindOfClass:[NSArray class]]) {
+            value = [self filterDataFromArray:value];
+        }
+        [filtered setObject:value forKey:key];
+    }
+
+    return filtered;
+}
 
 #pragma mark - Factory Methods
 
