@@ -138,6 +138,7 @@ ILReportWindowMode;
 @property(nonatomic,retain) IBOutlet NSTextField* fullname;
 @property(nonatomic,retain) IBOutlet NSTextField* emailaddress;
 @property(nonatomic,retain) IBOutlet NSTextView* comments;
+@property(nonatomic,retain) IBOutlet NSButton* screenshots;
 @property(nonatomic,retain) IBOutlet NSButton* remember;
 @property(nonatomic,retain) IBOutlet NSTextField* status;
 @property(nonatomic,retain) IBOutlet NSProgressIndicator* progress;

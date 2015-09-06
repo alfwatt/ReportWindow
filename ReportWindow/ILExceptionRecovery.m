@@ -14,8 +14,7 @@ static NSMutableDictionary* ILHandlerRegistry;
 {
     ILHandlerRegistry = [NSMutableDictionary new];
     
-    for ( ILExceptionRecovery* handler in handlers)
-    {
+    for ( ILExceptionRecovery* handler in handlers) {
         if( ![[ILHandlerRegistry allKeys] containsObject:handler.exceptionName])
             [ILHandlerRegistry setObject:[NSMutableArray new] forKey:handler.exceptionName];
         
@@ -31,10 +30,8 @@ static NSMutableDictionary* ILHandlerRegistry;
 + (ILExceptionRecovery*) registeredHandlerForException:(NSException*) exception
 {
     ILExceptionRecovery* matchedHandler = nil;
-    for( ILExceptionRecovery* candidateHandler in [self registeredHandlersForExceptionName:[exception name]])
-    {
-        if ( [candidateHandler canHandleException:exception]) // take the first match
-        {
+    for( ILExceptionRecovery* candidateHandler in [self registeredHandlersForExceptionName:[exception name]]) {
+        if ( [candidateHandler canHandleException:exception]) { // take the first match
             matchedHandler = candidateHandler;
             break;
         }
@@ -67,8 +64,7 @@ static NSString* const ILTestHandeledExceptionPattern = @"Testing Handeled Excep
     ILExceptionRecovery* testHandler = [ILExceptionRecovery new];
     testHandler.exceptionName = ILTestHandeledExceptionName; // we got this
     testHandler.exceptionReasonPattern = ILTestHandeledExceptionPattern; // the ? makes it a pattern, not a string match
-    testHandler.exceptionErrorGenerator = ^NSError*( NSException* exception, id recoveryAttemptor)
-    {
+    testHandler.exceptionErrorGenerator = ^NSError*( NSException* exception, id recoveryAttemptor) {
         NSDictionary* recoveryInfo = @{
             ILUnderlyingException: exception,
             NSRecoveryAttempterErrorKey: recoveryAttemptor,
@@ -79,8 +75,7 @@ static NSString* const ILTestHandeledExceptionPattern = @"Testing Handeled Excep
         };
         return [NSError errorWithDomain:@"net.istumbler.handled" code:1000 userInfo:recoveryInfo];
     };
-    testHandler.exceptionRecoveryAttempt = ^BOOL(NSError* error, NSUInteger recoveryIndex)
-    {
+    testHandler.exceptionRecoveryAttempt = ^BOOL(NSError* error, NSUInteger recoveryIndex) {
         NSLog(@"net.istumbler.handled error: %@ index: %li", error, recoveryIndex);
         return (recoveryIndex == 1); // ignore in this case is 'success' index
     };
@@ -108,17 +103,14 @@ static NSString* const ILTestHandeledExceptionPattern = @"Testing Handeled Excep
 {
     BOOL canYouHandleIt = NO;
     NSError* error = nil;
-    if( [[exception name] isEqualToString:self.exceptionName])
-    {
+    if( [[exception name] isEqualToString:self.exceptionName]) {
         NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:self.exceptionReasonPattern
                                                                                options:NSRegularExpressionCaseInsensitive
                                                                                  error:&error];
-        if( regex)
-        {
+        if( regex) {
             if( [regex numberOfMatchesInString:exception.reason
                                        options:NSMatchingAnchored
-                                         range:NSMakeRange(0, exception.reason.length)])
-            {
+                                         range:NSMakeRange(0, exception.reason.length)]) {
                 canYouHandleIt = YES;
             }
         }

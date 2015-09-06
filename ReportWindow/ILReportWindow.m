@@ -5,6 +5,9 @@
 #ifdef PL_CRASH_COMPATABLE
 #import <CrashReporter/CrashReporter.h>
 #endif
+
+#import <QuartzCore/QuartzCore.h>
+#import <CoreGraphics/CoreGraphics.h>
 #import <ExceptionHandling/ExceptionHandling.h>
 
 // scripting bridge header for Mail.app
@@ -71,9 +74,31 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
 #define ILLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:[self className]]
 
+#pragma mark - Sparkle Updater Support
+
+NSString* const ILReportWindowSparkleUpdaterClass = @"SUUpdater";
+NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
+
+@interface NSObject (ILReportWindowSparkleMethods)
++ (instancetype) sharedUpdater;
+- (NSURL*) feedURL;
+- (IBAction) checkForUpdates:(id)sender;
+@end
+
 #pragma mark -
 
 @implementation ILReportWindow
+
++ (BOOL) isFeatureExplicitlyDisabled:(NSString*) key
+{
+    BOOL explicit = NO;
+
+    if( [[NSUserDefaults standardUserDefaults] objectForKey:key]) { // the key exists
+        explicit = ![[NSUserDefaults standardUserDefaults] boolForKey:key]; // if set to 'NO' it's explicit
+    }
+
+    return explicit;
+}
 
 + (BOOL) isFeatureEnabled:(NSString*) key
 {
@@ -84,10 +109,8 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
     }
     
     // if the feature is turned on in the info dictionary, and the user has set a default as NO, disable it
-    if( enabled && [[NSUserDefaults standardUserDefaults] objectForKey:key]) {
-        if( ![[NSUserDefaults standardUserDefaults] boolForKey:key]) {
-            enabled = NO;
-        }
+    if( enabled && [self isFeatureExplicitlyDisabled:key]) {
+        enabled = NO;
     }
     
     return enabled;
@@ -97,14 +120,17 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
 + (NSString*) exceptionReport:(NSException*) exception
 {
+    // report the exception, name, reason and user info
     NSMutableString* report = [NSMutableString new];
-    NSMutableArray *addresses = [NSMutableArray new];
+    [report appendString:[NSString stringWithFormat:@"signature: %@\n\n%@ %@\n\n%@\n\n",
+                          [self exceptionSignature:exception],
+                          exception.name, exception.reason, exception.userInfo]];
+    
+    // symbolicate the stack trace using backtrace_symbols
     NSString *stackTrace = [[exception userInfo] objectForKey:NSStackTraceKey];
     NSScanner *scanner = [NSScanner scannerWithString:stackTrace];
+    NSMutableArray *addresses = [NSMutableArray new];
     NSString *token;
-    
-    [report appendString:[NSString stringWithFormat:@"%@ %@\n\n%@\n\n", exception.name, exception.reason, exception.userInfo]];
-    
     while ([scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
                                    intoString:&token]) {
         [addresses addObject:token];
@@ -147,7 +173,7 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 {
     // if the addresses inside of our app are reported consistently (i.e. not aslrd out into hyperspace) we can use them
     // as entry/exit markers for the exception and base the signature on those addresses, the exeption class and name
-    return [NSString stringWithFormat:@"%@++%@++%@", [exception className], exception.name, exception.reason];
+    return [NSString stringWithFormat:@"%@-%@-%@", [exception className], exception.name, exception.reason];
 }
 
 #pragma mark - Errors
@@ -377,7 +403,7 @@ exit:
 
     for( id item in array) {
         if( [item isKindOfClass:[NSData class]]) {
-            [filtered addObject:[NSString stringWithFormat:@"%lu bytes", [item length]]];
+            [filtered addObject:[NSString stringWithFormat:@"<%@ data>", [self byteSizeAsString:[item length]]]];
         }
         else if( [item isKindOfClass:[NSDictionary class]]) {
             [filtered addObject:[self filterDataFromDictionary:item]];
@@ -403,7 +429,7 @@ exit:
     for( NSString* key in [dictionary allKeys]) {
         id value = [dictionary objectForKey:key];
         if( [value isKindOfClass:[NSData class]]) {
-            value = [NSString stringWithFormat:@"%lu bytes", [value length]];
+            value = [NSString stringWithFormat:@"<%@ data>", [self byteSizeAsString:[value length]]];
         }
         else if( [value isKindOfClass:[NSDictionary class]]) {
             value = [self filterDataFromDictionary:value];
@@ -459,10 +485,28 @@ exit:
 
 #pragma mark - 
 
+- (void) takeScreenshots
+{
+    NSArray* screenshots = [ILReportWindow windowScreenshots]; // TODO process these for size, maybe 8-bit greyscale?
+    for( NSDictionary* screenshot in screenshots) {
+        NSDictionary* commentsAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:9]};
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Window Screenshot -\n\n" attributes:commentsAttributes]];
+
+        for( NSString* key in @[ILReportWindowTitle, ILReportWindowFrame]) {
+            [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\t%@\n", ILLocalizedString(key), [screenshot objectForKey:key]] attributes:commentsAttributes]];
+        }
+
+        NSImage* screenshotImage = [screenshot objectForKey:ILReportWindowImage];
+        NSTextAttachmentCell* screenshotCell = [[NSTextAttachmentCell alloc] initImageCell:screenshotImage];
+        NSTextAttachment* attachment = [NSTextAttachment new];
+        [attachment setAttachmentCell:screenshotCell];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+    }
+}
 - (NSString*) reportSignature
 {
     NSString* reportSignature = nil;
-    
+
     if( self.mode == ILReportWindowCrashMode) {
         reportSignature = [ILReportWindow latestSystemCrashReport];
     }
@@ -818,6 +862,8 @@ exit:
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowCrashedString)];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowReportDispositionString);
         self.send.title = ILLocalizedString(ILReportWindowSendString);
+        self.screenshots.state = NSOffState;
+        self.screenshots.enabled = NO;
     }
     else if( self.mode == ILReportWindowErrorMode) {
         self.window.title = ILLocalizedString(ILReportWindowErrorReportString);
@@ -825,6 +871,8 @@ exit:
         self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
         self.send.title = ILLocalizedString(ILReportWindowRestartString);
         self.cancel.title = ILLocalizedString(ILReportWindowIgnoreString);
+        self.screenshots.state = NSOnState;
+        self.screenshots.enabled = YES;
     }
     else if( self.mode == ILReportWindowExceptionMode) {
         self.window.title = ILLocalizedString(ILReportWindowExceptionReportString);
@@ -832,15 +880,25 @@ exit:
         self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
         self.send.title = ILLocalizedString(ILReportWindowRestartString);
         self.cancel.title = ILLocalizedString(ILReportWindowIgnoreString);
+        self.screenshots.state = NSOnState;
+        self.screenshots.enabled = YES;
     }
     else { // assume it's ILReportWindowBugMode
         self.window.title = ILLocalizedString(ILReportWindowBugReportString);
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", ILLocalizedString(ILReportWindowReportingBugString), appName];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowBugDispositionString);
         self.send.title = ILLocalizedString(ILReportWindowReportString);
-        self.remember.hidden = YES; // automatic but reporting *would* be an amazing feature though
+        self.remember.hidden = YES; // automatic bug reporting *would* be an amazing feature though
+        self.screenshots.state = NSOffState;
+        self.screenshots.enabled = YES;
     }
-    
+
+    // set the screenshots enabled based on app plist and user preference, show it as enabled
+    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey]) {
+        self.screenshots.enabled = YES;
+        self.screenshots.state = NSOnState;
+    }
+
     [self.progress startAnimation:self];
     self.status.stringValue = @"";
     self.comments.editable = NO;
@@ -890,20 +948,7 @@ exit:
     }
     
     if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey]) {
-        NSArray* screenshots = [ILReportWindow windowScreenshots]; // TODO process these for size, maybe 8-bit greyscale?
-        for( NSDictionary* screenshot in screenshots) {
-            [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Window Screenshot -\n\n" attributes:commentsAttributes]];
-            
-            for( NSString* key in @[ILReportWindowTitle, ILReportWindowFrame]) {
-                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\t%@\n", ILLocalizedString(key), [screenshot objectForKey:key]] attributes:commentsAttributes]];
-            }
-
-            NSImage* screenshotImage = [screenshot objectForKey:ILReportWindowImage];
-            NSTextAttachmentCell* screenshotCell = [[NSTextAttachmentCell alloc] initImageCell:screenshotImage];
-            NSTextAttachment* attachment = [NSTextAttachment new];
-            [attachment setAttachmentCell:screenshotCell];
-            [self.comments.textStorage appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
-        }
+        [self takeScreenshots];
     }
 
     // if the keys are set in the main bundle info keys, include the syslog and user defaults
@@ -1045,10 +1090,17 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 /* intercept redirects (we don't need to load the resulting page ourselves), if there was an error ask the workspace to open the URL */
 - (NSURLRequest*) connection:(NSURLConnection*) connection willSendRequest:(NSURLRequest*) request redirectResponse:(NSURLResponse*) redirect
 {
-    if( redirect && self.response.statusCode == 302 ) { // we got redirected, display the page to the user
-        NSLog(@"%@ error submitting a report: %li redirect: %@", [self className], (long)self.response.statusCode, redirect.URL);
-        [[NSWorkspace sharedWorkspace] openURL:redirect.URL];
-        return nil;
+    if( redirect && self.response.statusCode == 302 ) { // we got redirected
+        Class sparkeUpdater = NSClassFromString(ILReportWindowSparkleUpdaterClass); // check to see if the updater is present
+        if( sparkeUpdater && [[[sparkeUpdater sharedUpdater] feedURL] isEqualTo:redirect.URL]) { // we were redirected to the update page
+            [[sparkeUpdater sharedUpdater] checkForUpdates:self];
+            return nil;
+        }
+        else { //  display the page to the user
+            NSLog(@"%@ error submitting a report: %li redirect: %@", [self className], (long)self.response.statusCode, redirect.URL);
+            [[NSWorkspace sharedWorkspace] openURL:redirect.URL];
+            return nil;
+        }
     }
     
     return request; // just return the request, either everything is OK or the web browser is showing the error

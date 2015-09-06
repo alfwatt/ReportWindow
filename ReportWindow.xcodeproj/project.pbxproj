@@ -11,6 +11,7 @@
 		7504642919E2683F008388F1 /* ILExceptionRecovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504642719E2683F008388F1 /* ILExceptionRecovery.m */; };
 		7518D82D1A4D5CBE00BA6E23 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; };
 		7518D82E1A4D5CBE00BA6E23 /* ILReportingApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */; };
+		751E6FE91B7EFE25003775FE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 751E6FE81B7EFE25003775FE /* CoreGraphics.framework */; };
 		75AF8E6B19A8F5AC003D7B46 /* ReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75AF8E7519A8F5AC003D7B46 /* CrashReportWindowTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 75AF8E7419A8F5AC003D7B46 /* CrashReportWindowTests.m */; };
 		75AF8E8019A8F5E4003D7B46 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E7C19A8F5E4003D7B46 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,6 +43,7 @@
 		7504642719E2683F008388F1 /* ILExceptionRecovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILExceptionRecovery.m; sourceTree = "<group>"; };
 		7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILReportingApplication.h; sourceTree = "<group>"; };
 		7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportingApplication.m; sourceTree = "<group>"; };
+		751E6FE81B7EFE25003775FE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		758ADC6719C622FD007C9194 /* crash.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crash.php; sourceTree = "<group>"; };
 		75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				751E6FE91B7EFE25003775FE /* CoreGraphics.framework in Frameworks */,
 				75D696FE19B588CD005FE4FF /* ScriptingBridge.framework in Frameworks */,
 				75AF8E8519A8F64C003D7B46 /* Cocoa.framework in Frameworks */,
 			);
@@ -132,6 +135,7 @@
 		75AF8E8619A8F658003D7B46 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				751E6FE81B7EFE25003775FE /* CoreGraphics.framework */,
 				75AF8E8419A8F64C003D7B46 /* Cocoa.framework */,
 				75D696FD19B588CD005FE4FF /* ScriptingBridge.framework */,
 			);
