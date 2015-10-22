@@ -184,7 +184,11 @@ ILReportWindowMode;
 
 #pragma mark - Screenshots
 
-+ (NSImage*) screenshotWindow:(NSWindow*) window withConstraints:(NSArray*) constraints;
+
+/** @param NSWindow* window -- the window to make a screenshot of
+    @returns NSImage* -- the screenshot
+*/
++ (NSImage*) screenshotWindow:(NSWindow*) window;
 
 /** @returns an array of dictionaries containing window identifers, window frames and screenshots as PDF data using the following keys:
  

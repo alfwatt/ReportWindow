@@ -276,24 +276,15 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
 
 #pragma mark - Screenshots
 
-+ (NSImage*) screenshotWindow:(NSWindow*) window withConstraints:(NSArray*) constraints
++ (NSImage*) screenshotWindow:(NSWindow*) window
 {
-    NSWindow* visualized = window;
-    
-    if( constraints) {
-        [window visualizeConstraints:constraints];
-        // now replace 'window' with the visualized
-        visualized = [[NSApp windows] lastObject]; // maybe we get lucky?
-    }
-    
-    CGWindowID windowID = (CGWindowID)[visualized windowNumber];
+    CGWindowID windowID = (CGWindowID)[window windowNumber];
     CGWindowImageOption imageOptions = kCGWindowImageDefault;
     CGWindowListOption singleWindowListOptions = kCGWindowListOptionIncludingWindow;
     CGRect imageBounds = CGRectNull;
     CGImageRef windowImageRef = CGWindowListCreateImage(imageBounds, singleWindowListOptions, windowID, imageOptions);
     NSImage * windowImage = [[NSImage alloc] initWithCGImage:windowImageRef size:[window frame].size];
     [windowImage setCacheMode:NSImageCacheNever];
-    [window visualizeConstraints:nil];
 
 exit:
     CFRelease( windowImageRef);
@@ -310,7 +301,7 @@ exit:
             NSDictionary* windowInfo = @{
                 ILReportWindowTitle: [window title],
                 ILReportWindowFrame: NSStringFromRect([window frame]),
-                ILReportWindowImage: [ILReportWindow screenshotWindow:window withConstraints:nil]
+                ILReportWindowImage: [ILReportWindow screenshotWindow:window]
             };
             [screenShots addObject:windowInfo];
         }
