@@ -60,7 +60,7 @@
         wasRecovered = [super presentError:error];
     }
 
-    if( !wasRecovered) // recovery fialed, show the report window
+    if( !wasRecovered) // recovery failed, show the report window
     {
         self.reportWindow = [ILReportWindow windowForError:error];
         [self.reportWindow runModal];

@@ -21,12 +21,10 @@ $message .= "\n\nheaders:\n" . urldecode(var_export(apache_request_headers(), tr
 $message .= "\n\nfiles: " . urldecode(var_export($_FILES, true));
 
 // first log the message before any further processsing
-if( isset( $reports_dir))
-{
+if( isset( $reports_dir)) {
 	$logfile = "$reports_dir/$serial.log";
 	$file = fopen($logfile,"w");
-	if( isset( $file))
-	{
+	if( isset( $file)) {
 		fwrite($file, $message);
 		fwrite($file, "\n\nbody: \n" . file_get_contents('php://input'));
 		fclose($file);
@@ -35,17 +33,14 @@ if( isset( $reports_dir))
 
 // check for errors
 
-if( isset($_FILES["report"]))
-{
-	if ($_FILES["report"]["size"] > 1000000) // about a meg is a reasonable limit
-	{
+if( isset($_FILES["report"])) {
+    if ($_FILES["report"]["size"] > 1000000) { // about a meg is a reasonable limit
 		error_log("crash report upload oversize: $serial " . $_FILES["report"]["size"]);
 		header("Location: $error?crash report upload error!");
 		return;
 	}
 	
-	if ( $_FILES["report"]["error"] > 0)  // bail out if there was an upload error
-	{
+    if ( $_FILES["report"]["error"] > 0) { // bail out if there was an upload error
 		error_log("crash report upload error: $serial " . $_FILES["report"]["error"]);
 		header("Location: $error?crash report upload error!");
 		return;
@@ -54,28 +49,25 @@ if( isset($_FILES["report"]))
 	$report_name = $serial . "-" . $_FILES["report"]["name"];
 	$report_file = $reports_dir . $report_name;
 	
-	if (file_exists($report_file))  // TODO use the serial number for the report file name, also log the notes
-	{
+    if (file_exists($report_file)) { // TODO use the serial number for the report file name, also log the notes
 		error_log("crash report duplicate upload: $serial " . $_FILES["report"]["error"]);
 		header("Location: $error?crash report duplicate upload: $report_name");
 		return;
 	}
-	else
-	{
+    else {
 		move_uploaded_file($_FILES["report"]["tmp_name"], $report_file);
 	}
 	
 	// log the report metadata to the web server error log
 	error_log("crash report: " . $serial 
-			. " type: " . $_FILES["report"]["type"] 
-			. " size: " . $_FILES["report"]["size"]
-			. " temp: " . $_FILES["report"]["tmp_name"]
-			. " name: " . $report_file);
+        . " type: " . $_FILES["report"]["type"]
+        . " size: " . $_FILES["report"]["size"]
+        . " temp: " . $_FILES["report"]["tmp_name"]
+        . " name: " . $report_file);
 }
 
 // finally, send an email if configured to do so
-if( isset( $email))
-{
+if( isset( $email)) {
 	// Create a random boundary
 	$boundary = base64_encode(MD5((string)rand()));
 	
@@ -91,8 +83,7 @@ if( isset( $email))
 	$headers .= "Content-Transfer-Encoding: 8bit\n\n";
 	$headers .= "$message\n\n\n";
 	
-	if( isset($_FILES["report"]))
-	{
+	if( isset($_FILES["report"])) {
 		$headers .= "--$boundary\n";
 		$headers .= "Content-Type: application/octet-stream; name=\"$report_name\"\n";
 		$headers .= "Content-Transfer-Encoding: base64\n";
@@ -107,8 +98,7 @@ if( isset( $email))
 		$headers .= "--$boundary--";
 	}
 		
-	if( !mail($email, $subject, "", utf8_encode($headers)))
-	{
+	if( !mail($email, $subject, "", utf8_encode($headers))) {
 		header("Location: $error?could not send mail to: $email for case number: $serial");
 		return;
 	}
