@@ -121,16 +121,17 @@
 - (void) reportBug:(id) sender
 {
     // check for snag keys to see if we need to do something, excpetioal
-    if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask
-       && [[NSApp currentEvent] modifierFlags] & NSControlKeyMask)
-    {
+    NSEventModifierFlags currentFlags = [[NSApp currentEvent] modifierFlags];
+    
+#if TEST_CODE
+    if ((currentFlags & NSAlternateKeyMask) && (currentFlags & NSControlKeyMask)) {
         /* Trigger a crash */
         ((char *)NULL)[1] = 0;
     }
-    if( [[NSApp currentEvent] modifierFlags] & NSControlKeyMask) // report a test error with recovery options
-    {
-        if( [[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) // report a recoverable error
-        {
+#endif
+
+    if ([[NSApp currentEvent] modifierFlags] & NSControlKeyMask) { // report a test error with recovery options
+        if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask) { // report a recoverable error
             NSDictionary* recoveryInfo = @{
                 NSRecoveryAttempterErrorKey: self,
                 NSLocalizedDescriptionKey: @"Can you handle this error, man!?",
@@ -141,25 +142,20 @@
             NSError* handled = [NSError errorWithDomain:@"net.istumbler.labs" code:-2 userInfo:recoveryInfo];
             [NSApp presentError:handled];
         }
-        else
-        {
+        else {
             NSError* userReported = [NSError errorWithDomain:@"net.istumbler.labs" code:-1 userInfo:[[NSBundle mainBundle] infoDictionary]];
             [NSApp presentError:userReported];
         }
     }
-    else if( [[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) // report an exception
-    {
-        if( [[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)
-        {
+    else if (currentFlags & NSAlternateKeyMask) { // report an exception
+        if (currentFlags & NSShiftKeyMask) {
             [[ILExceptionRecovery testException] raise];
         }
-        else
-        {
+        else {
             [[NSException exceptionWithName:@"net.istumbler.labs" reason:@"Test Exception" userInfo:nil] raise];
         }
     }
-    else // just a bug report
-    {
+    else { // just a bug report
         self.reportWindow = [ILReportWindow windowForBug];
         [self.reportWindow runModal];
     }
