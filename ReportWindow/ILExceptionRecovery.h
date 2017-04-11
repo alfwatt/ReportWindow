@@ -63,4 +63,4 @@ extern NSString* const ILUnderlyingException; /* NSError userInfo key for the un
 
 @end
 
-/* Copyright 2014-2015, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
+/* Copyright 2014-2017, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
