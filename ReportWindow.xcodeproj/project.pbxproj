@@ -20,7 +20,6 @@
 		75AF8E8519A8F64C003D7B46 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75AF8E8419A8F64C003D7B46 /* Cocoa.framework */; };
 		75D696FC19B588AD005FE4FF /* Mail.app in Sources */ = {isa = PBXBuildFile; fileRef = 75D696FB19B588AD005FE4FF /* Mail.app */; };
 		75D696FE19B588CD005FE4FF /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D696FD19B588CD005FE4FF /* ScriptingBridge.framework */; };
-		75E667251A3BBABC001E7DC4 /* crash.py in Resources */ = {isa = PBXBuildFile; fileRef = 75E667241A3BBABC001E7DC4 /* crash.py */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -201,7 +200,6 @@
 			files = (
 				75AF8E8219A8F5E4003D7B46 /* ILReportWindow.strings in Resources */,
 				75AF8E8319A8F5E4003D7B46 /* ILReportWindow.xib in Resources */,
-				75E667251A3BBABC001E7DC4 /* crash.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
