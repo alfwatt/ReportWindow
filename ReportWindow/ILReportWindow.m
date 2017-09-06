@@ -13,7 +13,9 @@
 // scripting bridge header for Mail.app
 // https://developer.apple.com/library/mac/samplecode/SBSendEmail/Introduction/Intro.html
 
+#ifdef SCRIPTING_SUPPORT
 #import "Mail.h"
+#endif
 
 #pragma mark - NSUserDefaults keys
 
@@ -643,6 +645,7 @@ exit:
     [reportData writeToFile:attachmentFilePath atomically:NO];
 #endif
     
+#ifdef SCRIPTING_SUPPORT
     /* create a Scripting Bridge object for talking to the Mail application */
     MailApplication *mail = [SBApplication applicationWithBundleIdentifier:@"com.apple.Mail"];
     
@@ -693,6 +696,7 @@ exit:
     }
     /* send the message */
     [emailMessage send];
+#endif
     [self closeAfterReportComplete];
 }
 

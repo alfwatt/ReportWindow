@@ -18,7 +18,6 @@
 		75AF8E8219A8F5E4003D7B46 /* ILReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 75AF8E7E19A8F5E4003D7B46 /* ILReportWindow.strings */; };
 		75AF8E8319A8F5E4003D7B46 /* ILReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75AF8E7F19A8F5E4003D7B46 /* ILReportWindow.xib */; };
 		75AF8E8519A8F64C003D7B46 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75AF8E8419A8F64C003D7B46 /* Cocoa.framework */; };
-		75D696FC19B588AD005FE4FF /* Mail.app in Sources */ = {isa = PBXBuildFile; fileRef = 75D696FB19B588AD005FE4FF /* Mail.app */; };
 		75D696FE19B588CD005FE4FF /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75D696FD19B588CD005FE4FF /* ScriptingBridge.framework */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +31,7 @@
 			outputFiles = (
 				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE).h",
 			);
-			script = "sdef \"$INPUT_FILE_PATH\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$INPUT_FILE_BASE\" --bundleid `defaults read \"$INPUT_FILE_PATH/Contents/Info\" CFBundleIdentifier`";
+			script = "sdef \"$INPUT_FILE_PATH\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$INPUT_FILE_BASE\" --bundleid com.apple.mail";
 		};
 /* End PBXBuildRule section */
 
@@ -213,7 +212,6 @@
 				75AF8E8119A8F5E4003D7B46 /* ILReportWindow.m in Sources */,
 				7504642919E2683F008388F1 /* ILExceptionRecovery.m in Sources */,
 				7518D82E1A4D5CBE00BA6E23 /* ILReportingApplication.m in Sources */,
-				75D696FC19B588AD005FE4FF /* Mail.app in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
