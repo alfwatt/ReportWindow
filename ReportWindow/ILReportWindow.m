@@ -630,12 +630,6 @@ exit:
 
 - (void) emailReportTo:(NSURL*) mailtoURL
 {
-    /* set ourself as the delegate to receive any errors */
-    // mail.delegate = self;
-    NSString* attachmentFilePath = nil;
-    
-    // TODO extract text attachments and make them email attachments
-    
 #ifdef PL_CRASH_COMPATABLE
     NSError* emailError = nil;
     NSData* reportData = (self.reporter.hasPendingCrashReport
@@ -646,6 +640,11 @@ exit:
 #endif
     
 #ifdef SCRIPTING_SUPPORT
+    /* set ourself as the delegate to receive any errors */
+    // TODO extract text attachments and make them email attachments
+    // mail.delegate = self;
+    NSString* attachmentFilePath = nil;
+
     /* create a Scripting Bridge object for talking to the Mail application */
     MailApplication *mail = [SBApplication applicationWithBundleIdentifier:@"com.apple.Mail"];
     
