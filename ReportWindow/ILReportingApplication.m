@@ -20,11 +20,10 @@
     [NSExceptionHandler defaultExceptionHandler].delegate = self;
 
     // defer this to after runloop start so that the app doesn't start twice
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    [NSTimer scheduledTimerWithTimeInterval:5.0 repeats:NO block:^(NSTimer* timer){
         // TODO present UI to the user asking if we can report a previous crash
         NSString* latestSystemCrash = [ILReportWindow latestSystemCrashReport];
-        if( latestSystemCrash)
-        {
+        if (latestSystemCrash && ![NSApp modalWindow]) { // don't prompt if there is already a modal window on screen
             self.reportWindow = [ILReportWindow windowForSystemCrashReport:latestSystemCrash];
             [self.reportWindow runModal];
         }
@@ -55,13 +54,11 @@
 {
     BOOL wasRecovered = NO;
 
-    if( [[error userInfo] objectForKey:NSRecoveryAttempterErrorKey])
-    {
+    if ([[error userInfo] objectForKey:NSRecoveryAttempterErrorKey]) {
         wasRecovered = [super presentError:error];
     }
 
-    if( !wasRecovered) // recovery failed, show the report window
-    {
+    if (!wasRecovered) { // recovery failed, show the report window
         self.reportWindow = [ILReportWindow windowForError:error];
         [self.reportWindow runModal];
         wasRecovered = NO;

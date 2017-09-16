@@ -175,6 +175,7 @@ ILReportWindowMode;
 + (NSArray*) systemCrashReports;
 + (NSString*) latestSystemCrashReport;
 + (NSString*) systemCrashReportSignature:(NSString*) filename;
++ (BOOL) clearSystemCrashReports;
 
 #ifdef PL_CRASH_COMPATABLE
 #pragma mark - PLCrashReport

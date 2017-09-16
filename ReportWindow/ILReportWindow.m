@@ -257,6 +257,18 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
     return filename; // make each crash unique by it's filename
 }
 
++ (BOOL) clearSystemCrashReports
+{
+    BOOL allClear = YES;
+    for (NSString* reportPath in [ILReportWindow systemCrashReports]) {
+        allClear = [[NSFileManager defaultManager] trashItemAtURL:[NSURL fileURLWithPath:reportPath] resultingItemURL:nil error:nil];
+        if (!allClear) {
+            break; // for
+        }
+    }
+    return allClear;
+}
+
 #ifdef PL_CRASH_COMPATABLE
 
 #pragma mark - PLCrashReport
