@@ -1,7 +1,5 @@
 #import <Cocoa/Cocoa.h>
 
-// #define PL_CRASH_COMPATABLE
-
 #pragma mark - NSUserDefaults keys
 
 /* @const ILReportWindowAutoSubmitKey BOOL value, YES to send automatically, NO to prompt (default) */
@@ -103,11 +101,6 @@ extern NSString* const ILReportWindowInsecureConnectionEmailAlternateString; // 
 extern NSString* const ILReportWindowRestartInString; // = @"Restart in";
 extern NSString* const ILReportWindowSecondsString; // = @"seconds";
 
-#ifdef PL_CRASH_COMPATABLE
-@class PLCrashReport;
-@class PLCrashReporter;
-#endif
-
 #pragma mark -
 
 /** window mode */
@@ -121,6 +114,17 @@ typedef enum
 ILReportWindowMode;
 
 @interface ILReportWindow : NSWindowController <NSURLConnectionDelegate>
+@property(nonatomic,retain) IBOutlet NSTextField* headline;
+@property(nonatomic,retain) IBOutlet NSTextField* subhead;
+@property(nonatomic,retain) IBOutlet NSTextField* fullname;
+@property(nonatomic,retain) IBOutlet NSTextField* emailaddress;
+@property(nonatomic,retain) IBOutlet NSTextView* comments;
+@property(nonatomic,retain) IBOutlet NSButton* screenshots;
+@property(nonatomic,retain) IBOutlet NSButton* remember;
+@property(nonatomic,retain) IBOutlet NSTextField* status;
+@property(nonatomic,retain) IBOutlet NSProgressIndicator* progress;
+@property(nonatomic,retain) IBOutlet NSButton* cancel;
+@property(nonatomic,retain) IBOutlet NSButton* send;
 @property(nonatomic,assign) ILReportWindowMode mode;
 @property(nonatomic,assign) NSModalSession modalSession;
 @property(nonatomic,retain) NSString* reportUUID;
@@ -133,22 +137,6 @@ ILReportWindowMode;
 @property(nonatomic,assign) NSUncaughtExceptionHandler* exceptionHandler;
 @property(nonatomic,assign) NSUInteger autoRestartSeconds;
 @property(nonatomic,assign) NSTimer* autoRestartTimer;
-@property(nonatomic,retain) IBOutlet NSTextField* headline;
-@property(nonatomic,retain) IBOutlet NSTextField* subhead;
-@property(nonatomic,retain) IBOutlet NSTextField* fullname;
-@property(nonatomic,retain) IBOutlet NSTextField* emailaddress;
-@property(nonatomic,retain) IBOutlet NSTextView* comments;
-@property(nonatomic,retain) IBOutlet NSButton* screenshots;
-@property(nonatomic,retain) IBOutlet NSButton* remember;
-@property(nonatomic,retain) IBOutlet NSTextField* status;
-@property(nonatomic,retain) IBOutlet NSProgressIndicator* progress;
-@property(nonatomic,retain) IBOutlet NSButton* cancel;
-@property(nonatomic,retain) IBOutlet NSButton* send;
-#ifdef PL_CRASH_COMPATABLE
-@property(nonatomic,retain) PLCrashReport* crashReport;
-@property(nonatomic,retain) PLCrashReporter* reporter;
-@property(nonatomic,retain) NSData* crashData;
-#endif
 
 #pragma mark - Exceptions
 
@@ -177,14 +165,7 @@ ILReportWindowMode;
 + (NSString*) systemCrashReportSignature:(NSString*) filename;
 + (BOOL) clearSystemCrashReports;
 
-#ifdef PL_CRASH_COMPATABLE
-#pragma mark - PLCrashReport
-+ (NSString*) crashReportSignature:(PLCrashReport*) report;
-+ (instancetype) windowForCrashReporter:(PLCrashReporter*) reporter;
-#endif
-
 #pragma mark - Screenshots
-
 
 /** @param NSWindow* window -- the window to make a screenshot of
     @returns NSImage* -- the screenshot

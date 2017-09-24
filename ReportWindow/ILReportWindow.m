@@ -1,21 +1,9 @@
 #import "ILReportWindow.h"
 
 #import <execinfo.h>
-
-#ifdef PL_CRASH_COMPATABLE
-#import <CrashReporter/CrashReporter.h>
-#endif
-
 #import <QuartzCore/QuartzCore.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <ExceptionHandling/ExceptionHandling.h>
-
-// scripting bridge header for Mail.app
-// https://developer.apple.com/library/mac/samplecode/SBSendEmail/Introduction/Intro.html
-
-#ifdef SCRIPTING_SUPPORT
-#import "Mail.h"
-#endif
 
 #pragma mark - NSUserDefaults keys
 
@@ -82,9 +70,11 @@ NSString* const ILReportWindowSparkleUpdaterClass = @"SUUpdater";
 NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
 
 @interface NSObject (ILReportWindowSparkleMethods)
+
 + (instancetype) sharedUpdater;
 - (NSURL*) feedURL;
 - (IBAction) checkForUpdates:(id)sender;
+
 @end
 
 #pragma mark -
@@ -227,23 +217,21 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
     // iStumbler_2014-12-07-130612_galaxy.crash for .e.g.
     NSString* latest = nil;
     NSDate* latestDate = nil;
-    for( NSString* filename in [ILReportWindow systemCrashReports]) { // when in doubt
+    for (NSString* filename in [ILReportWindow systemCrashReports]) { // when in doubt
         NSArray* components = [[filename lastPathComponent] componentsSeparatedByString:@"_"];
         NSString* reportDateString = [components objectAtIndex:1];
         NSDate* reportDate = [NSDate dateWithString:reportDateString];
         
-        if( !latestDate || [latestDate timeIntervalSinceDate:reportDate] > 0 )
-        {
+        if (!latestDate || [latestDate timeIntervalSinceDate:reportDate] > 0) {
             latestDate = reportDate;
             latest = filename;
         }
     }
 
     // check to see if it's aleaday been reported, though
-    if( [ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]) {
+    if ([ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]) {
         NSArray* signatures = [[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey];
-        if( signatures && [signatures containsObject:latest])
-        {
+        if (signatures && [signatures containsObject:latest]) {
             NSLog(@"%@ suppressing: %@", [self className], latest);
             latest = nil;
         }
@@ -269,25 +257,6 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
     return allClear;
 }
 
-#ifdef PL_CRASH_COMPATABLE
-
-#pragma mark - PLCrashReport
-
-+ (NSString*) crashReportSignature:(PLCrashReport*) report
-{
-    return nil;
-}
-
-+ (instancetype) windowForCrashReporter:(PLCrashReporter*) reporter
-{
-    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
-    window.mode = ILReportWindowCrashMode;
-    window.reporter = reporter;
-    return window;
-}
-
-#endif
-
 #pragma mark - Screenshots
 
 + (NSImage*) screenshotWindow:(NSWindow*) window
@@ -308,8 +277,8 @@ exit:
 + (NSArray*) windowScreenshots
 {
     NSMutableArray* screenShots = [NSMutableArray new];
-    for( NSWindow* window in [NSApp windows]) {
-        if( ![window isKindOfClass:NSClassFromString(@"NSCarbonMenuWindow")] // don't screenshot the menus
+    for (NSWindow* window in [NSApp windows]) {
+        if (![window isKindOfClass:NSClassFromString(@"NSCarbonMenuWindow")] // don't screenshot the menus
         &&  ![[window windowController] isKindOfClass:[ILReportWindow class]] // or this error report itself
         &&  [window isVisible]) { // ignore offscreen windows
             NSDictionary* windowInfo = @{
@@ -339,7 +308,6 @@ exit:
     return logLines;
 }
 
-
 + (void) restartApp
 {
     static int fatal_signals[] = {SIGABRT, SIGBUS, SIGFPE, SIGILL, SIGSEGV, SIGTRAP};
@@ -366,35 +334,43 @@ exit:
 + (NSString*) byteSizeAsString:(NSInteger) fsSize {
     static const int KILO = 1024;
     
-    if (fsSize == 0)
+    if (fsSize == 0) {
         return NSLocalizedString( @"", @"File size, for empty files and directories");
+    }
     
-    if (fsSize < KILO)
+    if (fsSize < KILO) {
         return [NSString stringWithFormat:NSLocalizedString( @"%i Bytes", @"File size, for items that are less than 1 kilobyte"), fsSize];
+    }
     
     double numK = (double) fsSize / KILO;
-    if (numK < KILO)
+    if (numK < KILO) {
         return [NSString stringWithFormat:NSLocalizedString( @"%.1f KB", @"File size in Kilobytes"), numK];
+    }
     
     double numMB = numK / KILO;
-    if (numMB < KILO)
+    if (numMB < KILO) {
         return [NSString stringWithFormat:NSLocalizedString(@"%.1f MB", @"File size in Megabytes"), numMB];
+    }
     
     double numGB = numMB / KILO;
-    if (numGB < KILO)
+    if (numGB < KILO) {
         return [NSString stringWithFormat:NSLocalizedString( @"%.1f GB", @"File size in Gigabytes"), numGB];
+    }
     
     double numTB = numGB / KILO;
-    if (numTB < KILO)
+    if (numTB < KILO) {
         return [NSString stringWithFormat:NSLocalizedString( @"%.1f TB", @"File size in Terrabytes"), numTB];
+    }
     
     double numPB = numTB / KILO;
-    if (numPB < KILO)
+    if (numPB < KILO) {
         return [NSString stringWithFormat:NSLocalizedString( @"%.1f PB", @"File size in Petabytes"), numPB];
+    }
     
     double numEB = numPB / KILO;
-    if (numEB < KILO)
+    if (numEB < KILO) {
         return [NSString stringWithFormat:NSLocalizedString( @"%.1f EB", @"File size in Exabytes"), numEB];
+    }
     
     return NSLocalizedString(@"Large",  @"File size, for really large files");
 }
@@ -406,14 +382,14 @@ exit:
 {
     NSMutableArray* filtered = [NSMutableArray new];
 
-    for( id item in array) {
-        if( [item isKindOfClass:[NSData class]]) {
+    for (id item in array) {
+        if ([item isKindOfClass:[NSData class]]) {
             [filtered addObject:[NSString stringWithFormat:@"<%@ data>", [self byteSizeAsString:[item length]]]];
         }
-        else if( [item isKindOfClass:[NSDictionary class]]) {
+        else if ([item isKindOfClass:[NSDictionary class]]) {
             [filtered addObject:[self filterDataFromDictionary:item]];
         }
-        else if( [item isKindOfClass:[NSArray class]]) {
+        else if ([item isKindOfClass:[NSArray class]]) {
             [filtered addObject:[self filterDataFromArray:item]];
         }
         else {
@@ -431,15 +407,15 @@ exit:
 {
     NSMutableDictionary* filtered = [NSMutableDictionary new];
 
-    for( NSString* key in [dictionary allKeys]) {
+    for (NSString* key in [dictionary allKeys]) {
         id value = [dictionary objectForKey:key];
-        if( [value isKindOfClass:[NSData class]]) {
+        if ([value isKindOfClass:[NSData class]]) {
             value = [NSString stringWithFormat:@"<%@ data>", [self byteSizeAsString:[value length]]];
         }
-        else if( [value isKindOfClass:[NSDictionary class]]) {
+        else if ([value isKindOfClass:[NSDictionary class]]) {
             value = [self filterDataFromDictionary:value];
         }
-        else if( [value isKindOfClass:[NSArray class]]) {
+        else if ([value isKindOfClass:[NSArray class]]) {
             value = [self filterDataFromArray:value];
         }
         [filtered setObject:value forKey:key];
@@ -529,7 +505,7 @@ exit:
 - (BOOL) checkConfig // check for email or submit urls, one is enough
 {
     NSArray* infoKeys = [[[NSBundle mainBundle] infoDictionary] allKeys];
-    return ([infoKeys containsObject:ILReportWindowSubmitEmailKey] || [infoKeys containsObject:ILReportWindowSubmitURLKey]);
+    return [infoKeys containsObject:ILReportWindowSubmitURLKey];
 }
 
 - (void) runModal
@@ -561,7 +537,7 @@ exit:
         [self.window orderFrontRegardless];
         self.modalSession = [NSApp beginModalSessionForWindow:self.window];
     }
-    else NSLog(@"%@ please configure a %@ or %@ in your apps Info.plist", [self className], ILReportWindowSubmitEmailKey, ILReportWindowSubmitURLKey);
+    else NSLog(@"%@ please configure a %@ in your apps Info.plist", [self className], ILReportWindowSubmitURLKey);
 }
 
 // TODO run modal for window with parameters 
@@ -736,17 +712,13 @@ exit:
     }
     else if( [[url scheme] isEqualToString:@"http"]) { // it it's *just* HTTP prompt the user for permission to send in the clear
         NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSURL* emailURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowSubmitEmailKey]];
         NSAlert* plaintextAlert = [NSAlert new];
         plaintextAlert.alertStyle = NSCriticalAlertStyle;
         plaintextAlert.messageText = ILLocalizedString(ILReportWindowInsecureConnectionString);
         plaintextAlert.informativeText = [NSString stringWithFormat:ILLocalizedString(ILReportWindowInsecureConnectionInformationString), appName];
         [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowCancelString)];
         [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowSendString)];
-        if( emailURL) { // backup email key is specified, offer to email it instead
-            [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowEmailString)];
-            plaintextAlert.informativeText = [plaintextAlert.informativeText stringByAppendingString:ILLocalizedString(ILReportWindowInsecureConnectionEmailAlternateString)];
-        }
+
         [plaintextAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
             if( returnCode == NSAlertFirstButtonReturn) {
                 [self close]; // this is a user cancel, immediate close
@@ -754,37 +726,12 @@ exit:
             else if( returnCode == NSAlertSecondButtonReturn) {
                 [self postReportToWebServer:url];
             }
-            else if( returnCode == NSAlertThirdButtonReturn) { // backup email key is specified
-                [self emailReportTo:emailURL];
-            }
         }];
     }
     else {
         NSBeep();
         NSLog(@"%@ unkown scheme: %@ comments:\n\n%@", [self className], url, self.comments.textStorage.string);
         [self close]; // invalid scheme in config, developer error, immediate close
-    }
-}
-
-- (void) reportConnectionError
-{
-    NSURL* emailURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowSubmitEmailKey]];
-    if( emailURL) { // backup email key is specified
-        NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSAlert* alert = [NSAlert new];
-        alert.alertStyle = NSCriticalAlertStyle;
-        alert.messageText = ILLocalizedString(ILReportWindowSubmitFailedString);
-        alert.informativeText = [NSString stringWithFormat:ILLocalizedString(ILReportWindowSubmitFailedInformationString), appName, emailURL];
-        [alert addButtonWithTitle:ILLocalizedString(ILReportWindowEmailString)];
-        [alert addButtonWithTitle:ILLocalizedString(ILReportWindowCancelString)];
-        [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-            if( returnCode == NSAlertFirstButtonReturn) {
-                [self emailReportTo:emailURL];
-            }
-            else if( returnCode == NSAlertSecondButtonReturn) {
-                [self close]; // user cancel, immediate close
-            }
-        }];
     }
 }
 
@@ -854,16 +801,16 @@ exit:
     NSString* defaultsUsername = [[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserFullNameKey];
     NSString* defaultsEmail = [[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserEmailKey];
 
-    if( defaultsUsername) {
+    if (defaultsUsername) {
         self.fullname.stringValue = defaultsUsername;
     }
     
-    if( defaultsEmail) {
+    if (defaultsEmail) {
         self.emailaddress.stringValue = defaultsEmail;
     }
     
     // setup the window depending on the report mode
-    if( self.mode == ILReportWindowCrashMode) {
+    if (self.mode == ILReportWindowCrashMode) {
         self.window.title = ILLocalizedString(ILReportWindowCrashReportString);
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowCrashedString)];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowReportDispositionString);
@@ -871,7 +818,7 @@ exit:
         self.screenshots.state = NSOffState;
         self.screenshots.enabled = NO;
     }
-    else if( self.mode == ILReportWindowErrorMode) {
+    else if (self.mode == ILReportWindowErrorMode) {
         self.window.title = ILLocalizedString(ILReportWindowErrorReportString);
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowReportedErrorString)];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
@@ -880,7 +827,7 @@ exit:
         self.screenshots.state = NSOnState;
         self.screenshots.enabled = YES;
     }
-    else if( self.mode == ILReportWindowExceptionMode) {
+    else if (self.mode == ILReportWindowExceptionMode) {
         self.window.title = ILLocalizedString(ILReportWindowExceptionReportString);
         self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowRaisedExceptionString)];
         self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
@@ -900,7 +847,7 @@ exit:
     }
 
     // set the screenshots enabled based on app plist and user preference, show it as enabled
-    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey]) {
+    if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey]) {
         self.screenshots.enabled = YES;
         self.screenshots.state = NSOnState;
     }
@@ -916,19 +863,19 @@ exit:
     [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:ILLocalizedString(ILReportWindowCommentsString) attributes:commentsAttributes]];
     
     // if the error wasn't explicity set, grab the last one
-    if( self.error) {
+    if (self.error) {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:self.error] attributes:commentsAttributes]];
     }
     
-    if( self.exception) {
+    if (self.exception) {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Exception -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow exceptionReport:self.exception] attributes:commentsAttributes]];
     }
 
     // system crash reports
     NSString* reportPath = [ILReportWindow latestSystemCrashReport];
-    if( reportPath) {
+    if (reportPath) {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
 
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
@@ -941,11 +888,11 @@ exit:
 
     [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
 
-    for( NSString* reportPath in [ILReportWindow systemCrashReports]) {
+    for (NSString* reportPath in [ILReportWindow systemCrashReports]) {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
     }
 
-    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey]) {
+    if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey]) {
         NSDictionary* defaultsDictionary = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         defaultsDictionary = [[self class] filterDataFromDictionary:defaultsDictionary];
         NSString* defaultsString = [defaultsDictionary description];
@@ -953,12 +900,12 @@ exit:
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:defaultsString attributes:commentsAttributes]];
     }
     
-    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey]) {
+    if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey]) {
         [self takeScreenshots];
     }
 
     // if the keys are set in the main bundle info keys, include the syslog and user defaults
-    if( [ILReportWindow isFeatureEnabled:ILReportWindowIncludeSyslogKey]) {
+    if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeSyslogKey]) {
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow grepSyslog] attributes:commentsAttributes]];
     }
@@ -971,9 +918,9 @@ exit:
     self.send.enabled = YES;
     [self.progress stopAnimation:self];
     
-    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]) {
         self.remember.state = NSOnState;
-        if(self.mode != ILReportWindowBugMode) { // present the window and send the report, showing them that we're doing it, they can canel and add comments
+        if (self.mode != ILReportWindowBugMode) { // present the window and send the report, showing them that we're doing it, they can canel and add comments
             [self performSelector:@selector(onSend:) withObject:self afterDelay:0];
         }
     }
@@ -984,7 +931,7 @@ exit:
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    if( self.modalSession) {
+    if (self.modalSession) {
         [NSApp endModalSession:self.modalSession];
         [[NSExceptionHandler defaultExceptionHandler] setDelegate:self.exceptionDelegate];
         [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:self.exceptionMask];
@@ -997,8 +944,12 @@ exit:
 
 - (IBAction)onCancel:(id)sender
 {
-    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
-    else [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
+    if (self.remember.state ) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
+    }
+    else {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
+    }
 
     // are we currently sending? stop that
     self.comments.editable = YES;
@@ -1012,23 +963,27 @@ exit:
 
 - (IBAction)onSend:(id)sender
 {
-    if( self.remember.state ) [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
-    else [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
+    if (self.remember.state ) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
+    }
+    else {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
+    }
 
     // update the provided name and email if they differ from the defualts
     NSString* providedName = self.fullname.stringValue;
     NSString* providedEmail = self.emailaddress.stringValue;
 
-    if( ![providedName isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserFullNameKey]]) {
+    if (![providedName isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserFullNameKey]]) {
         [[NSUserDefaults standardUserDefaults] setObject:providedName forKey:ILReportWindowUserFullNameKey];
     }
     
-    if( ![providedEmail isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserEmailKey]]) {
+    if (![providedEmail isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserEmailKey]]) {
         [[NSUserDefaults standardUserDefaults] setObject:providedEmail forKey:ILReportWindowUserEmailKey];
     }
     
     // if the auto-restart timer is counting down, we've already submitted the report
-    if( self.autoRestartTimer) { // advance it to the end and fire it
+    if (self.autoRestartTimer) { // advance it to the end and fire it
         self.autoRestartSeconds = 1;
         [self autoRestartTimer:self.autoRestartTimer];
     }
@@ -1119,17 +1074,13 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     //    NSString* bodyString = [[NSString alloc] initWithData:self.responseBody encoding:NSUTF8StringEncoding];
     //    NSLog(@"%@ response body: %@", bodyString);
     
-    if( self.response.statusCode == 200 ) { // OK!
+    if (self.response.statusCode == 200 ) { // OK!
         self.status.stringValue = [NSString stringWithFormat:@"%C", 0x2713]; // CHECK MARK Unicode: U+2713, UTF-8: E2 9C 93
-#ifdef PL_CRASH_COMPATABLE
-        [self.reporter purgePendingCrashReport];
-#endif
         [self closeAfterReportComplete];
     }
     else { // not ok, present error
         self.status.stringValue = [NSString stringWithFormat:@"%li %C", (long)self.response.statusCode, 0x274C]; // CROSS MARK Unicode: U+274C
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:ILReportWindowAutoSubmitKey]; // disable auto-submit
-        [self reportConnectionError]; // offer to email or cancel
     }
 }
 
@@ -1140,14 +1091,12 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     NSBeep();
     self.status.stringValue = [NSString stringWithFormat:@"%C", 0x274C]; // CROSS MARK Unicode: U+274C
     
-    if( connectionError ) { // log it to the console
+    if (connectionError) { // log it to the console
         NSLog(@"%@ connection to: %@ failed: %@", [self className], connection.currentRequest.URL, [ILReportWindow errorReport:connectionError]);
         NSDictionary* commentsAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:9]};
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:connectionError] attributes:commentsAttributes]];
     }
-
-    [self reportConnectionError]; // offer to email or cancel
 }
 
 - (BOOL)connectionShouldUseCredentialStorage:(NSURLConnection *)connection

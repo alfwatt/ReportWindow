@@ -3,8 +3,7 @@
 @class ILReportWindow;
 
 /** @class ILReportingApplicaiton 
-    @description NSApplication sublcass which overrides willPresentError: and sets up error reporting 
-
+    @description NSApplication sublcass which overrides willPresentError: and sets up error reporting
  */
 @interface ILReportingApplication : NSApplication
 @property(nonatomic,retain) ILReportWindow* reportWindow;

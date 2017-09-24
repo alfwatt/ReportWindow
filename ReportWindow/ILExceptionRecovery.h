@@ -1,4 +1,3 @@
-
 #import <Foundation/Foundation.h>
 
 /** @return an NSError with recovery options for the NSException provided */
