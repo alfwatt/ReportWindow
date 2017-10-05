@@ -1038,14 +1038,18 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
                                [ILReportWindow byteSizeAsString:totalBytesWritten],
                                [ILReportWindow byteSizeAsString:totalBytesExpectedToWrite],
                                0x2191]; // UPWARDS ARROW Unicode: U+2191, UTF-8: E2 86 91
+#if DEBUG
     NSLog(@"%@ post: %li/%li bytes", [self className], (long)totalBytesWritten,(long)totalBytesExpectedToWrite);
+#endif
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.responseBody appendData:data];
     self.status.stringValue = [NSString stringWithFormat:@"%@ %C",[ILReportWindow byteSizeAsString:self.responseBody.length], 0x2193]; //↓ DOWNWARDS ARROW Unicode: U+2193, UTF-8: E2 86 93
-    NSLog(@"%@ read: %li bytes", self.className, (unsigned long)self.responseBody.length);
+#if DEBUG
+    NSLog(@"%@ read: %li bytes from: %@", self.className, (unsigned long)self.responseBody.length, connection.currentRequest.URL);
+#endif
 }
 
 /* intercept redirects (we don't need to load the resulting page ourselves), if there was an error ask the workspace to open the URL */
@@ -1069,8 +1073,9 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
 - (void)connectionDidFinishLoading:(NSURLConnection *) connection
 {
-    NSLog(@"%@ report submitted status: %li", [self className], (long)self.response.statusCode);
-    
+#if DEBUG
+    NSLog(@"%@ report submitted status: %li from: %@", [self className], (long)self.response.statusCode, connection.currentRequest.URL);
+#endif
     //    NSString* bodyString = [[NSString alloc] initWithData:self.responseBody encoding:NSUTF8StringEncoding];
     //    NSLog(@"%@ response body: %@", bodyString);
     
