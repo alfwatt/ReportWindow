@@ -43,7 +43,7 @@ static NSMutableDictionary* ILHandlerRegistry;
 
 + (BOOL)isCommonSystemException:(NSException *)exception
 {
-    return ([exception.name isEqualTo:NSAccessibilityException]); // autolayout probably worth reporting for now
+    return ([exception.name isEqualTo:@"NSAccessibilityException"]); // autolayout probably worth reporting for now
 }
 
 #pragma mark - Test Exception and Recovery Handler
