@@ -12,11 +12,11 @@
 {
     // register as exception handler delegate
     [NSExceptionHandler defaultExceptionHandler].exceptionHandlingMask =
-//        NSHandleUncaughtExceptionMask
-        NSHandleUncaughtSystemExceptionMask
+      ( NSHandleUncaughtExceptionMask
+      | NSHandleUncaughtSystemExceptionMask
       | NSHandleUncaughtRuntimeErrorMask
-      | NSHandleTopLevelExceptionMask
-      | NSHandleOtherExceptionMask;
+      | NSHandleTopLevelExceptionMask);
+//      | NSHandleOtherExceptionMask;
     [NSExceptionHandler defaultExceptionHandler].delegate = self;
 
     // defer this to after runloop start so that the app doesn't start twice

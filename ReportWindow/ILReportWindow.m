@@ -437,7 +437,7 @@ exit:
 {
     ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
     
-    if( [[[error userInfo] objectForKey:ILReportWindowTreatErrorAsBugKey] boolValue]) {
+    if ([[[error userInfo] objectForKey:ILReportWindowTreatErrorAsBugKey] boolValue]) {
         window.mode = ILReportWindowBugMode;
     }
     else {
@@ -469,7 +469,7 @@ exit:
 - (void) takeScreenshots
 {
     NSArray* screenshots = [ILReportWindow windowScreenshots]; // TODO process these for size, maybe 8-bit greyscale?
-    for( NSDictionary* screenshot in screenshots) {
+    for (NSDictionary* screenshot in screenshots) {
         NSDictionary* commentsAttributes = @{NSFontAttributeName: [NSFont fontWithName:@"Menlo" size:9]};
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Window Screenshot -\n\n" attributes:commentsAttributes]];
 
@@ -488,13 +488,13 @@ exit:
 {
     NSString* reportSignature = nil;
 
-    if( self.mode == ILReportWindowCrashMode) {
+    if (self.mode == ILReportWindowCrashMode) {
         reportSignature = [ILReportWindow latestSystemCrashReport];
     }
-    else if( self.mode == ILReportWindowExceptionMode) {
+    else if (self.mode == ILReportWindowExceptionMode) {
         reportSignature = [ILReportWindow exceptionSignature:self.exception];
     }
-    else if( self.mode == ILReportWindowErrorMode) {
+    else if (self.mode == ILReportWindowErrorMode) {
         reportSignature = [ILReportWindow errorSignature:self.error];
     }
     // else generate a a UUID or timestamp for a bug report?
@@ -512,16 +512,16 @@ exit:
 {
     NSString* reportSignature = [self reportSignature];
     
-    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowIgnoreKey]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowIgnoreKey]) {
         return; // quietly ignore reports if the user doesn't care
     }
-    else if(reportSignature && [ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]
+    else if (reportSignature && [ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]
       && [[[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey] containsObject:reportSignature]) {
         NSLog(@"%@ suppressing: %@", [self className], reportSignature);
         return;
     }
     
-    if( [self checkConfig]) {
+    if ([self checkConfig]) {
         // clear the underlying exception handler
         self.exceptionHandler = NSGetUncaughtExceptionHandler();
         NSSetUncaughtExceptionHandler(nil);
@@ -549,16 +549,19 @@ exit:
     if(uuid) CFRelease(uuid);
 
 #ifdef PL_CRASH_COMPATABLE
-    if( self.reporter) {
+    if (self.reporter) {
         NSError* prepError = nil;
         // either pull the pending report of create a new one
-        if( self.reporter.hasPendingCrashReport )
+        if (self.reporter.hasPendingCrashReport ) {
             self.crashData = [self.reporter loadPendingCrashReportDataAndReturnError:&prepError];
-        else
+        }
+        else {
             self.crashData = [self.reporter generateLiveReportAndReturnError:&prepError];
+        }
         
-        if( !self.crashData)
+        if (!self.crashData) {
             NSLog(@"%@ error when perparing report data: %@", [self className], prepError);
+        }
     }
 #endif
 }
@@ -1039,7 +1042,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
                                [ILReportWindow byteSizeAsString:totalBytesExpectedToWrite],
                                0x2191]; // UPWARDS ARROW Unicode: U+2191, UTF-8: E2 86 91
 #if DEBUG
-    NSLog(@"%@ post: %li/%li bytes", [self className], (long)totalBytesWritten,(long)totalBytesExpectedToWrite);
+    NSLog(@"%@ post: %li/%li bytes", self.className, (long)totalBytesWritten,(long)totalBytesExpectedToWrite);
 #endif
 }
 
