@@ -25,7 +25,8 @@
         NSString* latestSystemCrash = [ILReportWindow latestSystemCrashReport];
         if (latestSystemCrash && ![NSApp modalWindow]) { // don't prompt if there is already a modal window on screen
             self.reportWindow = [ILReportWindow windowForSystemCrashReport:latestSystemCrash];
-            [self.reportWindow runModal];
+            [self.reportWindow showWindow:self];
+            [[self.reportWindow window] makeKeyAndOrderFront:self]; // don't be modal
         }
     }];
 

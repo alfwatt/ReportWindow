@@ -706,14 +706,15 @@ exit:
     self.reportUUID = [NSString stringWithString:CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault,uuid))];
     if(uuid) CFRelease(uuid);
     
-    // if it's a mailto: create an email message with the support address
-    if( [[url scheme] isEqualToString:@"mailto"]) {
+    /* if it's a mailto: create an email message with the support address
+    if ([[url scheme] isEqualToString:@"mailto"]) {
         [self emailReportTo:url];
     }
-    else if( [[url scheme] isEqualToString:@"https"]) { // if it's HTTPS post the crash report immediatly
+    else */
+    if ([[url scheme] isEqualToString:@"https"]) { // if it's HTTPS post the crash report immediatly
         [self postReportToWebServer:url];
     }
-    else if( [[url scheme] isEqualToString:@"http"]) { // it it's *just* HTTP prompt the user for permission to send in the clear
+    else if ([[url scheme] isEqualToString:@"http"]) { // it it's *just* HTTP prompt the user for permission to send in the clear
         NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
         NSAlert* plaintextAlert = [NSAlert new];
         plaintextAlert.alertStyle = NSCriticalAlertStyle;
