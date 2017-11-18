@@ -220,7 +220,8 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
     for (NSString* filename in [ILReportWindow systemCrashReports]) { // when in doubt
         NSArray* components = [[filename lastPathComponent] componentsSeparatedByString:@"_"];
         NSString* reportDateString = [components objectAtIndex:1];
-        NSDate* reportDate = [NSDate dateWithString:reportDateString];
+        NSDateFormatter* dateFormatter = [NSDateFormatter new];
+        NSDate* reportDate = [dateFormatter dateFromString:reportDateString];
         
         if (!latestDate || [latestDate timeIntervalSinceDate:reportDate] > 0) {
             latestDate = reportDate;
@@ -720,8 +721,8 @@ exit:
         plaintextAlert.alertStyle = NSCriticalAlertStyle;
         plaintextAlert.messageText = ILLocalizedString(ILReportWindowInsecureConnectionString);
         plaintextAlert.informativeText = [NSString stringWithFormat:ILLocalizedString(ILReportWindowInsecureConnectionInformationString), appName];
-        [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowCancelString)];
         [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowSendString)];
+        [plaintextAlert addButtonWithTitle:ILLocalizedString(ILReportWindowCancelString)];
 
         [plaintextAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
             if( returnCode == NSAlertFirstButtonReturn) {

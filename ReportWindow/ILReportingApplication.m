@@ -6,6 +6,17 @@
 
 @implementation ILReportingApplication
 
+- (void) checkForNewCrash:(NSTimer*) timer
+{
+    // TODO present UI to the user asking if we can report a previous crash
+    NSString* latestSystemCrash = [ILReportWindow latestSystemCrashReport];
+    if (latestSystemCrash && ![NSApp modalWindow]) { // don't prompt if there is already a modal window on screen
+        self.reportWindow = [ILReportWindow windowForSystemCrashReport:latestSystemCrash];
+        [self.reportWindow showWindow:self];
+        [[self.reportWindow window] makeKeyAndOrderFront:self]; // don't be modal
+    }
+}
+
 #pragma mark - NSApplication Overrides
 
 - (void) finishLaunching
@@ -20,15 +31,7 @@
     [NSExceptionHandler defaultExceptionHandler].delegate = self;
 
     // defer this to after runloop start so that the app doesn't start twice
-    [NSTimer scheduledTimerWithTimeInterval:5.0 repeats:NO block:^(NSTimer* timer){
-        // TODO present UI to the user asking if we can report a previous crash
-        NSString* latestSystemCrash = [ILReportWindow latestSystemCrashReport];
-        if (latestSystemCrash && ![NSApp modalWindow]) { // don't prompt if there is already a modal window on screen
-            self.reportWindow = [ILReportWindow windowForSystemCrashReport:latestSystemCrash];
-            [self.reportWindow showWindow:self];
-            [[self.reportWindow window] makeKeyAndOrderFront:self]; // don't be modal
-        }
-    }];
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(checkForNewCrash:) userInfo:nil repeats:NO];
 
     [super finishLaunching];
 }
