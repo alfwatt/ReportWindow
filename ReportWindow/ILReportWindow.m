@@ -336,44 +336,44 @@ exit:
     static const int KILO = 1024;
     
     if (fsSize == 0) {
-        return NSLocalizedString( @"", @"File size, for empty files and directories");
+        return NSLocalizedStringFromTableInBundle( @"", nil, [NSBundle bundleForClass:[self class]], @"File size, for empty files and directories");
     }
     
     if (fsSize < KILO) {
-        return [NSString stringWithFormat:NSLocalizedString( @"%i Bytes", @"File size, for items that are less than 1 kilobyte"), fsSize];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%i Bytes", nil, [NSBundle bundleForClass:[self class]], @"File size, for items that are less than 1 kilobyte"), fsSize];
     }
     
     double numK = (double) fsSize / KILO;
     if (numK < KILO) {
-        return [NSString stringWithFormat:NSLocalizedString( @"%.1f KB", @"File size in Kilobytes"), numK];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f KB", nil, [NSBundle bundleForClass:[self class]], @"File size in Kilobytes"), numK];
     }
     
     double numMB = numK / KILO;
     if (numMB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedString(@"%.1f MB", @"File size in Megabytes"), numMB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%.1f MB", nil, [NSBundle bundleForClass:[self class]], @"File size in Megabytes"), numMB];
     }
     
     double numGB = numMB / KILO;
     if (numGB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedString( @"%.1f GB", @"File size in Gigabytes"), numGB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f GB", nil, [NSBundle bundleForClass:[self class]], @"File size in Gigabytes"), numGB];
     }
     
     double numTB = numGB / KILO;
     if (numTB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedString( @"%.1f TB", @"File size in Terrabytes"), numTB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f TB", nil, [NSBundle bundleForClass:[self class]], @"File size in Terrabytes"), numTB];
     }
     
     double numPB = numTB / KILO;
     if (numPB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedString( @"%.1f PB", @"File size in Petabytes"), numPB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f PB", nil, [NSBundle bundleForClass:[self class]], @"File size in Petabytes"), numPB];
     }
     
     double numEB = numPB / KILO;
     if (numEB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedString( @"%.1f EB", @"File size in Exabytes"), numEB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f EB", nil, [NSBundle bundleForClass:[self class]], @"File size in Exabytes"), numEB];
     }
     
-    return NSLocalizedString(@"Large",  @"File size, for really large files");
+    return NSLocalizedStringFromTableInBundle(@"Large", nil, [NSBundle bundleForClass:[self class]],  @"File size, for really large files");
 }
 /*
  @param array of plist entries (String, Number, Array, Dictionary, Data)
