@@ -123,8 +123,7 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
     NSScanner *scanner = [NSScanner scannerWithString:stackTrace];
     NSMutableArray *addresses = [NSMutableArray new];
     NSString *token;
-    while ([scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]
-                                   intoString:&token]) {
+    while ([scanner scanUpToCharactersFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] intoString:&token]) {
         [addresses addObject:token];
     }
     
@@ -174,7 +173,7 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
 {
     NSMutableString* report = [NSMutableString new];
     [report appendString:[NSString stringWithFormat:@"%@: %li\n\n%@", error.domain, (long)error.code, error.userInfo]];
-    if( (error = [[error userInfo] objectForKey:NSUnderlyingErrorKey]) ) { // we have to go deeper
+    if ((error = [[error userInfo] objectForKey:NSUnderlyingErrorKey]) ) { // we have to go deeper
         [report appendString:[NSString stringWithFormat:@"\n\n- Underlying Error -\n\n"]];
         [report appendString:[self errorReport:error]];
     }
@@ -196,12 +195,12 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
     NSError* error = nil;
 
     // find the report directory in the users's library folder
-    for( NSString* libraryDirectory in NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask, YES)) {
+    for (NSString* libraryDirectory in NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask, YES)) {
         NSString* reportsPath = [libraryDirectory stringByAppendingPathComponent:@"Logs/DiagnosticReports"];
         
         // iStumbler_2014-12-07-130612_galaxy.crash for .e.g.
-        for( NSString* fileName in [fm contentsOfDirectoryAtPath:reportsPath error:&error]) {
-            if( [fileName rangeOfString:appName].location == 0) {
+        for (NSString* fileName in [fm contentsOfDirectoryAtPath:reportsPath error:&error]) {
+            if ([fileName rangeOfString:appName].location == 0) {
                 [reports addObject:[reportsPath stringByAppendingPathComponent:fileName]];
             }
         }
@@ -513,7 +512,7 @@ exit:
 {
     NSString* reportSignature = [self reportSignature];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowIgnoreKey]) {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowIgnoreKey] && self.mode != ILReportWindowErrorMode) {
         return; // quietly ignore reports if the user doesn't care
     }
     else if (reportSignature && [ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]
