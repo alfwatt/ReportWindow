@@ -1,0 +1,38 @@
+
+"ILReportWindowCancelString" = "Cancel";
+"ILReportWindowSendString" = "Send";
+"ILReportWindowEmailString" = "Email";
+
+"ILReportWindowReportString" = "Report";
+"ILReportWindowRestartString" = "Restart";
+"ILReportWindowQuitString" = "Quit";
+"ILReportWindowIgnoreString" = "Ignore";
+
+"ILReportWindowCrashReportString" = "Crash Report";
+"ILReportWindowExceptionReportString" = "Exception Report";
+"ILReportWindowErrorReportString" = "Error Report";
+"ILReportWindowBugReportString" = "Bug Report";
+
+"ILReportWindowCrashedString" = "Crashed!";
+"ILReportWindowRaisedExceptionString" = "Raised an Exception";
+"ILReportWindowReportedErrorString" = "Reported an Error";
+"ILReportWindowReportingBugString" = "Bug Report for";
+
+"ILReportWindowInsecureConnectionString" = "Insecure Connection";
+"ILReportWindowInsecureConnectionInformationString" = "%@ does not support secure crash reporting, your crash report will be sent in plaintext and may be observed while in transit.";
+"ILReportWindowInsecureConnectionEmailAlternateString" = "\n\nEmail may be a more secure option, depending on your provider.";
+
+"ILReportWindowCrashDispositionString" = "Click Send to send the Crash report to the devleoper, or Cancel to ignore it.";
+"ILReportWindowErrorDispositionString" = "Click Restart to send the Error report to the devloper and restart the application, or Ignore it.";
+"ILReportWindowBugDispositionString" = "Click Send to send the Bug report to the devleoper, or Cancel to delete it.";
+
+"ILReportWindowCommentsString" = "please enter any comments here";
+"ILReportWindowUserIntroString" = "\n\nReport from: ";
+
+"ILReportWindowSubmitFailedString" = "Submitting Report Failed";
+"ILReportWindowSubmitFailedInformationString" = "%@ was not able to submit the report to: %@\n\n";
+
+"ILReportWindowRestartInString" = "Restart in";
+"ILReportWindowSecondsString" = "seconds";
+
+/* Copyright 2014-2017, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */

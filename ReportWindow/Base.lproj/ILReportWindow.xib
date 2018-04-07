@@ -26,7 +26,7 @@
         <window title="Report" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="cvh-He-0mD">
             <windowStyleMask key="styleMask" titled="YES" resizable="YES"/>
             <rect key="contentRect" x="283" y="305" width="550" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="550" height="300"/>
             <view key="contentView" id="jyF-NN-Bnp">
                 <rect key="frame" x="0.0" y="0.0" width="550" height="500"/>
@@ -73,14 +73,14 @@ DQ
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7wL-7q-0O5">
                         <rect key="frame" x="20" y="51" width="510" height="287"/>
                         <clipView key="contentView" id="LIs-nC-Jmv">
-                            <rect key="frame" x="1" y="1" width="493" height="285"/>
+                            <rect key="frame" x="1" y="1" width="508" height="285"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" smartInsertDelete="YES" id="hc0-Qh-Nhl">
-                                    <rect key="frame" x="0.0" y="0.0" width="493" height="285"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="508" height="285"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="493" height="285"/>
+                                    <size key="minSize" width="508" height="285"/>
                                     <size key="maxSize" width="798" height="10000000"/>
                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 </textView>
@@ -92,7 +92,7 @@ DQ
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="MB8-ce-4WI">
-                            <rect key="frame" x="494" y="1" width="15" height="285"/>
+                            <rect key="frame" x="493" y="1" width="16" height="285"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
