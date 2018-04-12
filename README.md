@@ -50,6 +50,10 @@ Provides an exception recovery mechanisim by converting recognized NSExceptions 
 
 NSApplication subclass which encapsulates all the reporting behaviour.
 
+## L10N
+
+Spanish translation by Juan Pablo Atienza Martínez
+
 ## License
 
     The MIT License (MIT)
