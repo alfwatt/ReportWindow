@@ -1,7 +1,7 @@
 
-"ILReportWindowCancelString" = "Cancel";
+"ILReportWindowCancelString" = "Cancelar";
 "ILReportWindowSendString" = "Send";
-"ILReportWindowEmailString" = "Email";
+"ILReportWindowEmailString" = "Correo electrónico";
 
 "ILReportWindowReportString" = "Report";
 "ILReportWindowRestartString" = "Restart";

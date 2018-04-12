@@ -1,36 +1,31 @@
 
-/* Class = "NSTextFieldCell"; title = "<App Name> <Message> <Do Not Localize>"; ObjectID = "0c9-8s-TIJ"; */
-"0c9-8s-TIJ.title" = "<App Name> <Message> <Do Not Localize>";
-
 /* Class = "NSButtonCell"; title = "Automatically submit reports"; ObjectID = "G4Y-pb-6KX"; */
-"G4Y-pb-6KX.title" = "Automatically submit reports";
+"G4Y-pb-6KX.title" = "Enviar informes automáticamente";
 
 /* Class = "NSTextFieldCell"; title = "Name"; ObjectID = "Obq-sM-cOK"; */
-"Obq-sM-cOK.title" = "Name";
+"Obq-sM-cOK.title" = "Nombre";
 
 /* Class = "NSButtonCell"; title = "Send"; ObjectID = "Q7j-ch-vFr"; */
-"Q7j-ch-vFr.title" = "Send";
+"Q7j-ch-vFr.title" = "Send";/**/
 
 /* Class = "NSTextFieldCell"; placeholderString = "Your Name"; ObjectID = "RUv-8o-2w2"; */
-"RUv-8o-2w2.placeholderString" = "Your Name";
+"RUv-8o-2w2.placeholderString" = "Su nombre";
 
 /* Class = "NSTextFieldCell"; placeholderString = "yourname@example.com"; ObjectID = "TND-hi-hdw"; */
-"TND-hi-hdw.placeholderString" = "yourname@example.com";
+"TND-hi-hdw.placeholderString" = "sunombre@example.com";
 
 /* Class = "NSTextFieldCell"; title = "status"; ObjectID = "YKa-7M-BsS"; */
-"YKa-7M-BsS.title" = "status";
+"YKa-7M-BsS.title" = "status";/**/
 
 /* Class = "NSTextFieldCell"; title = "Comments, problem details and system configuration"; ObjectID = "Yym-M3-N3U"; */
-"Yym-M3-N3U.title" = "Comments, problem details and system configuration";
+"Yym-M3-N3U.title" = "Comentarios, detalles de problema y configuración de sistema";
 
 /* Class = "NSWindow"; title = "Report"; ObjectID = "cvh-He-0mD"; */
-"cvh-He-0mD.title" = "Report";
-
-/* Class = "NSTextFieldCell"; title = "We must have goofed up somewhere! <Do Not Localize>"; ObjectID = "eaE-ef-bop"; */
-"eaE-ef-bop.title" = "We must have goofed up somewhere! <Do Not Localize>";
+"cvh-He-0mD.title" = "Report";/**/
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "q8x-U4-KGK"; */
-"q8x-U4-KGK.title" = "Cancel";
+"q8x-U4-KGK.title" = "Cancelar";
 
 /* Class = "NSTextFieldCell"; title = "Email"; ObjectID = "yjf-xY-hRC"; */
-"yjf-xY-hRC.title" = "Email";
+"yjf-xY-hRC.title" = "Correo electrónico";
+

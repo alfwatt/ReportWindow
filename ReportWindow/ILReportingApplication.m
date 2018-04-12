@@ -136,7 +136,7 @@
             NSDictionary* recoveryInfo = @{
                 NSRecoveryAttempterErrorKey: self,
                 NSLocalizedDescriptionKey: @"Can you handle this error, man!?",
-                NSLocalizedFailureReasonErrorKey: @"There's no Reason Here.",
+                NSLocalizedFailureReasonErrorKey: @"There is no Reason Here.",
                 NSLocalizedRecoverySuggestionErrorKey: @"You're gonna wanna freak out.",
                 NSLocalizedRecoveryOptionsErrorKey: @[@"Ignore", @"Report"]
             };
@@ -144,7 +144,11 @@
             [NSApp presentError:handled];
         }
         else {
-            NSError* userReported = [NSError errorWithDomain:@"net.istumbler.labs" code:-1 userInfo:[[NSBundle mainBundle] infoDictionary]];
+            NSDictionary* errorInfo = @{
+                NSLocalizedDescriptionKey: @"This is a test error",
+                NSLocalizedFailureReasonErrorKey: @"If this had been a real error, the reason would be displayed here."
+            };
+            NSError* userReported = [NSError errorWithDomain:@"net.istumbler.labs" code:-1 userInfo:errorInfo];
             [NSApp presentError:userReported];
         }
     }

@@ -62,7 +62,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 NSString* const ILReportWindowRestartInString = @"ILReportWindowRestartInString";
 NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
-#define ILLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:[self className]]
+#define ILLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:@"ReportWindow"]
 
 #pragma mark - Sparkle Updater Support
 
@@ -824,8 +824,23 @@ exit:
     }
     else if (self.mode == ILReportWindowErrorMode) {
         self.window.title = ILLocalizedString(ILReportWindowErrorReportString);
-        self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowReportedErrorString)];
-        self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
+
+        if (self.error && self.error.localizedDescription) { // add the description to the headline
+            self.headline.stringValue = [NSString stringWithFormat:@"%@ %@: %@",
+                appName, ILLocalizedString(ILReportWindowReportedErrorString), self.error.localizedDescription];
+        }
+        else {
+            self.headline.stringValue = [NSString stringWithFormat:@"%@ %@", appName, ILLocalizedString(ILReportWindowReportedErrorString)];
+        }
+
+        if (self.error && self.error.localizedFailureReason) { // add the failure reason to the disposition
+            self.subhead.stringValue = [NSString stringWithFormat:@"%@\n%@",
+                self.error.localizedFailureReason, ILLocalizedString(ILReportWindowErrorDispositionString)];
+        }
+        else {
+            self.subhead.stringValue = ILLocalizedString(ILReportWindowErrorDispositionString);
+        }
+
         self.send.title = ILLocalizedString(ILReportWindowRestartString);
         self.cancel.title = ILLocalizedString(ILReportWindowIgnoreString);
         self.screenshots.state = NSOnState;
