@@ -43,16 +43,16 @@
 		757D6B0920111B0200C2E96F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ReportWindow.strings; sourceTree = "<group>"; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		758ADC6719C622FD007C9194 /* crash.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crash.php; sourceTree = "<group>"; };
-		75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILReportWindow.m; path = ../../ReportWindow/ReportWindow/ILReportWindow.m; sourceTree = "<group>"; };
-		75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILReportWindow.h; path = ../../ReportWindow/ReportWindow/ILReportWindow.h; sourceTree = "<group>"; };
+		75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportWindow.m; sourceTree = "<group>"; };
+		75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILReportWindow.h; sourceTree = "<group>"; };
 		75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75AF8E6919A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportWindow.h; sourceTree = "<group>"; };
 		75AF8E8419A8F64C003D7B46 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		75DF1AC220796F2A0026BBD8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ReportWindow.strings; sourceTree = "<group>"; };
-		75DF1AC620796FCC0026BBD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = ../../ReportWindow/ReportWindow/Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
-		75DF1AC8207970250026BBD8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = ../../ReportWindow/ReportWindow/en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
-		75DF1ACA207970270026BBD8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = ../../ReportWindow/ReportWindow/es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
+		75DF1AC620796FCC0026BBD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
+		75DF1AC8207970250026BBD8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
+		75DF1ACA207970270026BBD8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		75E667241A3BBABC001E7DC4 /* crash.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = crash.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -338,7 +338,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = ReportWindow/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -386,7 +386,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = ReportWindow/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
