@@ -72,6 +72,7 @@
 		75AF8E5919A8F55E003D7B46 = {
 			isa = PBXGroup;
 			children = (
+				75AF8E6919A8F5AC003D7B46 /* Info.plist */,
 				758ADC6619C622FD007C9194 /* README.md */,
 				75E667241A3BBABC001E7DC4 /* crash.py */,
 				758ADC6719C622FD007C9194 /* crash.php */,
@@ -92,7 +93,6 @@
 		75AF8E6719A8F5AC003D7B46 /* ReportWindow */ = {
 			isa = PBXGroup;
 			children = (
-				75AF8E6919A8F5AC003D7B46 /* Info.plist */,
 				75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */,
 				75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */,
 				75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */,
