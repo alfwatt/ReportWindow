@@ -567,44 +567,49 @@ exit:
 }
 
 // http://tools.ietf.org/html/rfc1867
-
+// the user has apporved the url if it's not secure, go ahead and upload via http or https
+// setup to post the form, generate a UUID for the report, create the boundary and attache the file if needed
 - (void) postReportToWebServer:(NSURL*) approvedURL
 {
-    // the user has apporved the url if it's not secure, go ahead and upload via http or https
-    // setup to post the form, generate a UUID for the report, create the boundary and attache the file if needed
+    BOOL multipart = NO;
     NSMutableURLRequest* uploadRequest = [NSMutableURLRequest new];
-    NSString *boundary = [NSString stringWithFormat:@"++%@", self.reportUUID];
-    NSString *boundaryLine = [NSString stringWithFormat:@"--%@\r\n", boundary];
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+    [uploadRequest setURL:approvedURL];
     NSString* encodedComments = [self.comments.textStorage.string stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSMutableString* requestBody = [NSMutableString new];
-    
-    // put the comments into the primary form-data field
-    [uploadRequest setURL:approvedURL];
-    [uploadRequest addValue:contentType forHTTPHeaderField:@"Content-Type"];
-    [requestBody appendString:boundaryLine];
-    [requestBody appendString:@"Content-Disposition: form-data; name=\"comments\"\r\n\r\n"];
-    [requestBody appendString:encodedComments];
-    [requestBody appendString:@"\r\n"];
-    
-    // TODO send any text attachments in the report
-    
-#ifdef PL_CRASH_COMPATABLE
-    if( self.crashData) { // send the crash report data as the next attachment
-        NSString* crashFileName = [self.reportUUID stringByAppendingPathExtension:@"crashreport"];
 
+    if (multipart) {
+        NSString *boundary = [NSString stringWithFormat:@"++%@", self.reportUUID];
+        NSString *boundaryLine = [NSString stringWithFormat:@"--%@\r\n", boundary];
+        NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
+        
+        // put the comments into the primary form-data field
+        [uploadRequest addValue:contentType forHTTPHeaderField:@"Content-Type"];
         [requestBody appendString:boundaryLine];
-        [requestBody appendString:[NSString stringWithFormat:@"Content-Disposition: attachment; name=\"report\"; filename=\"%@\"\r\n",crashFileName]];
-        [requestBody appendString:@"Content-Transfer-Encoding: base64\r\n\r\n"];
-        [requestBody appendString:[self.crashData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength]];
+        [requestBody appendString:@"Content-Disposition: form-data; name=\"comments\"\r\n\r\n"];
+        [requestBody appendString:encodedComments];
         [requestBody appendString:@"\r\n"];
-    }
+
+#ifdef PL_CRASH_COMPATABLE
+        if (self.crashData) { // send the crash report data as the next attachment
+            NSString* crashFileName = [self.reportUUID stringByAppendingPathExtension:@"crashreport"];
+
+            [requestBody appendString:boundaryLine];
+            [requestBody appendString:[NSString stringWithFormat:@"Content-Disposition: attachment; name=\"report\"; filename=\"%@\"\r\n",crashFileName]];
+            [requestBody appendString:@"Content-Transfer-Encoding: base64\r\n\r\n"];
+            [requestBody appendString:[self.crashData base64EncodedStringWithOptions:NSDataBase64Encoding76CharacterLineLength]];
+            [requestBody appendString:@"\r\n"];
+        }
 #endif
     
-    [requestBody appendString:boundaryLine];
-    [requestBody appendString:@"\r\n"];
+        // TODO send any text attachments in the report
 
-//    NSLog(@"request: \n\nContent-Type: %@\n%@", contentType, requestBody);
+        [requestBody appendString:boundaryLine];
+        [requestBody appendString:@"\r\n"];
+    }
+    else {
+        [uploadRequest addValue:@"text/plain" forHTTPHeaderField:@"Content-Type"];
+        [requestBody appendString:encodedComments];
+    }
     
     uploadRequest.cachePolicy = NSURLRequestReloadIgnoringCacheData;
     uploadRequest.HTTPShouldHandleCookies = NO;
@@ -1103,6 +1108,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
         [self closeAfterReportComplete];
     }
     else { // not ok, present error
+        [self.progress stopAnimation:self];
         self.status.stringValue = [NSString stringWithFormat:@"%li %C", (long)self.response.statusCode, 0x274C]; // CROSS MARK Unicode: U+274C
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:ILReportWindowAutoSubmitKey]; // disable auto-submit
     }
