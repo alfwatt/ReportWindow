@@ -3,6 +3,10 @@ ReportWindow
 
 iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
+GitLab: https://gitlab.com/alfwatt/reportwindow
+
+GitHub: https://github.com/alfwatt/ReportWindow
+
 ## Usage
 
 Indlude ReportWindow.framework and ExceptionHandling.framework in your application project.
@@ -54,11 +58,19 @@ NSApplication subclass which encapsulates all the reporting behaviour.
 
 Spanish translation by Juan Pablo Atienza Martínez
 
+## Release History
+
+### 1.4 - ES Translation
+### 1.3 - macOS 10.10 Support   
+### 1.2 - Remove Email Reporting Method
+### 1.1 - Add ILReportingApplication
+### 1.0 - First!
+
 ## License
 
     The MIT License (MIT)
 
-    Copyright (c) 2014-2017 Alf Watt
+    Copyright (c) 2014-2018 Alf Watt
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
