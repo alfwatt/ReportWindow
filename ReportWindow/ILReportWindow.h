@@ -182,8 +182,10 @@ ILReportWindowMode;
 
 #pragma mark - Utilities
 
-/** @returns contents of the system log which inlcude our application's name */
-+ (NSString*) grepSyslog;
+/** @returns contents of the system log which inlcude our application's name
+    @brief NB that this can block for some time as the system `log` tool is slow
+*/
++ (NSString*) fetchSyslog;
 
 /** clears terminal signal handlers and restarts the app */
 + (void) restartApp;

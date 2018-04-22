@@ -77,6 +77,13 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
 
 @end
 
+#pragma mark - Private
+
+@interface ILReportWindow ()
+@property(nonatomic, retain) NSOperationQueue* gatherQueue;
+
+@end
+
 #pragma mark -
 
 @implementation ILReportWindow
@@ -294,13 +301,15 @@ exit:
 
 #pragma mark - Utilities
 
-+ (NSString*) grepSyslog // grep the syslog for any messages pertaining to us and return the messages
+// log show --info --debug --predicate 'process == "AppName" and senderImagePath endswith "AppName"' --last 12h --style syslog
++ (NSString*) fetchSyslog // grep the syslog for any messages pertaining to us and return the messages
 {
-    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+    NSString* appName = [[[NSBundle mainBundle] executablePath] lastPathComponent];
     NSTask* grep = 	[NSTask new];
     NSPipe* output = [NSPipe pipe];
-    [grep setLaunchPath:@"/usr/bin/grep"];
-    [grep setArguments:@[appName, @"/var/log/system.log"]];
+    NSString* predicate = [NSString stringWithFormat:@"process == \"%@\" and senderImagePath endswith \"%@\"", appName, appName];
+    [grep setLaunchPath:@"/usr/bin/log"];
+    [grep setArguments:@[@"show", @"--predicate", predicate, @"--last", @"1d", @"--info", @"--debug", @"--style", @"syslog"]];
     [grep setStandardInput:[NSPipe pipe]];
     [grep setStandardOutput:output];
     [grep launch];
@@ -877,7 +886,7 @@ exit:
     }
 
     [self.progress startAnimation:self];
-    self.status.stringValue = @"";
+    self.status.stringValue = NSLocalizedStringFromTableInBundle(@"Building Report…", nil, [NSBundle bundleForClass:[self class]], @"Building Report… Status");
     self.comments.editable = NO;
     self.remember.enabled = NO;
     self.send.enabled = NO;
@@ -897,25 +906,6 @@ exit:
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow exceptionReport:self.exception] attributes:commentsAttributes]];
     }
 
-    // system crash reports
-    NSString* reportPath = [ILReportWindow latestSystemCrashReport];
-    if (reportPath) {
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
-
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
-
-        NSString* reportContents = [NSString stringWithContentsOfFile:reportPath encoding:NSUTF8StringEncoding error:nil];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@\n",reportContents] attributes:commentsAttributes]];
-    }
-
-    // list of system crash reports
-
-    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
-
-    for (NSString* reportPath in [ILReportWindow systemCrashReports]) {
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
-    }
-
     if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey]) {
         NSDictionary* defaultsDictionary = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         defaultsDictionary = [[self class] filterDataFromDictionary:defaultsDictionary];
@@ -924,37 +914,90 @@ exit:
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:defaultsString attributes:commentsAttributes]];
     }
     
+    // following report segments might take some time to gather, create a serial queue
+
+    self.gatherQueue = [NSOperationQueue new];
+    self.gatherQueue.maxConcurrentOperationCount = 1;
+
+    // gather crash reports
+    [self.gatherQueue addOperationWithBlock:^{
+        NSString* reportPath = [ILReportWindow latestSystemCrashReport];
+        if (reportPath) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
+
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
+
+                NSString* reportContents = [NSString stringWithContentsOfFile:reportPath encoding:NSUTF8StringEncoding error:nil];
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@\n",reportContents] attributes:commentsAttributes]];
+            }];
+        }
+    }];
+    
+    // list of system crash reports
+    [self.gatherQueue addOperationWithBlock:^{
+        NSArray* crashReports = [ILReportWindow systemCrashReports];
+        
+        if (crashReports && crashReports.count > 0) {
+            [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
+
+            for (NSString* reportPath in crashReports) {
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
+            }
+        }
+    }];
+
     if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeWindowScreenshotsKey]) {
-        [self takeScreenshots];
+        [self.gatherQueue addOperationWithBlock:^{
+            [self takeScreenshots];
+        }];
     }
 
     // if the keys are set in the main bundle info keys, include the syslog and user defaults
     if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeSyslogKey]) {
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow grepSyslog] attributes:commentsAttributes]];
+        [self.gatherQueue addOperationWithBlock:^{
+            NSString* logString = [ILReportWindow fetchSyslog];
+            if (logString && logString.length > 0) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
+                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:logString attributes:commentsAttributes]];
+                }];
+            }
+        }];
     }
 
-    // select the 'please enter any notes' line for replacment
-    [self.comments setSelectedRange:NSMakeRange(0,[self.comments.textStorage.string rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location)];
-    
-    self.comments.editable = YES;
-    self.remember.enabled = YES;
-    self.send.enabled = YES;
-    [self.progress stopAnimation:self];
-    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]) {
-        self.remember.state = NSOnState;
-        if (self.mode != ILReportWindowBugMode) { // present the window and send the report, showing them that we're doing it, they can canel and add comments
-            [self performSelector:@selector(onSend:) withObject:self afterDelay:0];
-        }
-    }
-    else self.remember.state = NSOffState;
+
+    // add this to the end of the gather queue, so that the UI will enable when other opations are complete
+    [self.gatherQueue addOperationWithBlock:^{
+        [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+            self.status.stringValue = @"";
+            self.comments.editable = YES;
+            self.remember.enabled = YES;
+            self.send.enabled = YES;
+            [self.progress stopAnimation:self];
+            // select the 'please enter any notes' line for replacment
+            [self.comments setSelectedRange:NSMakeRange(0, [self.comments.textStorage.string rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location)];
+
+            // automatically submit if configured to do so
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]) {
+                self.remember.state = NSOnState;
+                if (self.mode != ILReportWindowBugMode) { // present the window and send the report, showing them that we're doing it, they can canel and add comments
+                    [self performSelector:@selector(onSend:) withObject:self afterDelay:0];
+                }
+            }
+            else self.remember.state = NSOffState;
+        }];
+    }];
 }
 
 #pragma mark - NSWindowDelegate
 
 - (void)windowWillClose:(NSNotification *)notification
 {
+    if (self.gatherQueue) {
+        [self.gatherQueue waitUntilAllOperationsAreFinished];
+    }
+
     if (self.modalSession) {
         [NSApp endModalSession:self.modalSession];
         [[NSExceptionHandler defaultExceptionHandler] setDelegate:self.exceptionDelegate];
