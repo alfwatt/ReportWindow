@@ -1,11 +1,11 @@
-#import <Cocoa/Cocoa.h>
+#import <SparkKit/SparkKit.h>
 
 @class ILReportWindow;
 
 /** @class ILReportingApplicaiton 
     @description NSApplication sublcass which overrides willPresentError: and sets up error reporting
  */
-@interface ILReportingApplication : NSApplication
+@interface ILReportingApplication : ILApplication
 @property(nonatomic,retain) ILReportWindow* reportWindow;
 
 #pragma mark - IBActions
@@ -14,4 +14,4 @@
 
 @end
 
-/* Copyright 2014-2017, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
+/* Copyright 2014-2018, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */

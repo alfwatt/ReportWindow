@@ -1,4 +1,4 @@
-#import <Cocoa/Cocoa.h>
+#import <SparkKit/SparkKit.h>
 
 #pragma mark - NSUserDefaults keys
 
@@ -165,6 +165,7 @@ ILReportWindowMode;
 + (NSString*) systemCrashReportSignature:(NSString*) filename;
 + (BOOL) clearSystemCrashReports;
 
+#if IL_APP_KIT
 #pragma mark - Screenshots
 
 /** @param NSWindow* window -- the window to make a screenshot of
@@ -179,6 +180,8 @@ ILReportWindowMode;
     ILReportPDFData - [window dataWithPDFInsideRect:[window frame]] of the window
 */
 + (NSArray*) windowScreenshots;
+
+#endif
 
 #pragma mark - Utilities
 

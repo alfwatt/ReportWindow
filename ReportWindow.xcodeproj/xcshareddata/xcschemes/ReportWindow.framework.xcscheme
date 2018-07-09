@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "75AF8E6419A8F5AC003D7B46"
-               BuildableName = "ReportWindow.framework"
-               BlueprintName = "ReportWindow"
+               BuildableName = "ReportWindow (macOS).framework"
+               BlueprintName = "ReportWindow (macOS)"
                ReferencedContainer = "container:ReportWindow.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,8 +46,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "75AF8E6419A8F5AC003D7B46"
-            BuildableName = "ReportWindow.framework"
-            BlueprintName = "ReportWindow"
+            BuildableName = "ReportWindow (macOS).framework"
+            BlueprintName = "ReportWindow (macOS)"
             ReferencedContainer = "container:ReportWindow.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

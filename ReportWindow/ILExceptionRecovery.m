@@ -14,8 +14,8 @@ static NSMutableDictionary* ILHandlerRegistry;
 {
     ILHandlerRegistry = [NSMutableDictionary new];
     
-    for ( ILExceptionRecovery* handler in handlers) {
-        if( ![[ILHandlerRegistry allKeys] containsObject:handler.exceptionName])
+    for (ILExceptionRecovery* handler in handlers) {
+        if(![[ILHandlerRegistry allKeys] containsObject:handler.exceptionName])
             [ILHandlerRegistry setObject:[NSMutableArray new] forKey:handler.exceptionName];
         
         [[ILHandlerRegistry objectForKey:handler.exceptionName] addObject:handler];
@@ -30,8 +30,8 @@ static NSMutableDictionary* ILHandlerRegistry;
 + (ILExceptionRecovery*) registeredHandlerForException:(NSException*) exception
 {
     ILExceptionRecovery* matchedHandler = nil;
-    for( ILExceptionRecovery* candidateHandler in [self registeredHandlersForExceptionName:[exception name]]) {
-        if ( [candidateHandler canHandleException:exception]) { // take the first match
+    for (ILExceptionRecovery* candidateHandler in [self registeredHandlersForExceptionName:[exception name]]) {
+        if ([candidateHandler canHandleException:exception]) { // take the first match
             matchedHandler = candidateHandler;
             break;
         }
@@ -41,7 +41,7 @@ static NSMutableDictionary* ILHandlerRegistry;
 
 #pragma mark - System Exception Identification
 
-+ (BOOL)isCommonSystemException:(NSException *)exception
++ (BOOL) isCommonSystemException:(NSException *)exception
 {
     return ([exception.name isEqualTo:@"NSAccessibilityException"]); // autolayout probably worth reporting for now
 }
@@ -127,11 +127,11 @@ static NSString* const ILTestHandeledExceptionPattern = @"Testing Handeled Excep
 
 #pragma mark - NSErrorRecovery
 
-- (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
+- (BOOL) attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
 {
     return self.exceptionRecoveryAttempt(error,recoveryOptionIndex);
 }
 
 @end
 
-/* Copyright 2014-2017, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
+/* Copyright 2014-2018, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */

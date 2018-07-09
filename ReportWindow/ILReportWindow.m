@@ -264,6 +264,7 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
     return allClear;
 }
 
+#if IL_APP_KIT
 #pragma mark - Screenshots
 
 + (NSImage*) screenshotWindow:(NSWindow*) window
@@ -298,6 +299,8 @@ exit:
     }
     return screenShots;
 }
+
+#endif
 
 #pragma mark - Utilities
 
