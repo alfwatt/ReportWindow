@@ -90,7 +90,7 @@
 		75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportWindow.m; sourceTree = "<group>"; };
 		75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILReportWindow.h; sourceTree = "<group>"; };
 		75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		75AF8E6919A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		75AF8E6919A8F5AC003D7B46 /* ReportWindow.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ReportWindow.plist; sourceTree = "<group>"; };
 		75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportWindow.h; sourceTree = "<group>"; };
 		75DF1AC220796F2A0026BBD8 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ReportWindow.strings; sourceTree = "<group>"; };
 		75DF1AC620796FCC0026BBD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
@@ -123,13 +123,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7578315520F57BBE00159E5F /* cgi-bin */ = {
+			isa = PBXGroup;
+			children = (
+				75E667241A3BBABC001E7DC4 /* crash.py */,
+				758ADC6719C622FD007C9194 /* crash.php */,
+			);
+			name = "cgi-bin";
+			sourceTree = "<group>";
+		};
 		75AF8E5919A8F55E003D7B46 = {
 			isa = PBXGroup;
 			children = (
-				75AF8E6919A8F5AC003D7B46 /* Info.plist */,
 				758ADC6619C622FD007C9194 /* README.md */,
-				75E667241A3BBABC001E7DC4 /* crash.py */,
-				758ADC6719C622FD007C9194 /* crash.php */,
+				75AF8E6919A8F5AC003D7B46 /* ReportWindow.plist */,
+				7578315520F57BBE00159E5F /* cgi-bin */,
 				75AF8E6719A8F5AC003D7B46 /* ReportWindow */,
 				75AF8E8619A8F658003D7B46 /* Frameworks */,
 				75AF8E6619A8F5AC003D7B46 /* Products */,
@@ -448,7 +456,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = ReportWindow.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -496,7 +504,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Info.plist";
+				INFOPLIST_FILE = ReportWindow.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
