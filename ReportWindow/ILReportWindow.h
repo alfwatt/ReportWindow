@@ -113,20 +113,25 @@ typedef enum
 }
 ILReportWindowMode;
 
+#if IL_APP_KIT
 @interface ILReportWindow : NSWindowController <NSURLConnectionDelegate>
-@property(nonatomic,retain) IBOutlet NSTextField* headline;
-@property(nonatomic,retain) IBOutlet NSTextField* subhead;
-@property(nonatomic,retain) IBOutlet NSTextField* fullname;
-@property(nonatomic,retain) IBOutlet NSTextField* emailaddress;
-@property(nonatomic,retain) IBOutlet NSTextView* comments;
+@property(nonatomic,assign) NSModalSession modalSession;
 @property(nonatomic,retain) IBOutlet NSButton* screenshots;
 @property(nonatomic,retain) IBOutlet NSButton* remember;
-@property(nonatomic,retain) IBOutlet NSTextField* status;
-@property(nonatomic,retain) IBOutlet NSProgressIndicator* progress;
-@property(nonatomic,retain) IBOutlet NSButton* cancel;
-@property(nonatomic,retain) IBOutlet NSButton* send;
+#elif IL_UI_KIT
+@interface ILReportWindow : UIViewController <NSURLConnectionDelegate>
+@property(nonatomic,retain) IBOutlet UIWindow* window;
+#endif
+@property(nonatomic,retain) IBOutlet ILProgressView* progress;
+@property(nonatomic,retain) IBOutlet ILLabel* headline;
+@property(nonatomic,retain) IBOutlet ILLabel* subhead;
+@property(nonatomic,retain) IBOutlet ILTextField* fullname;
+@property(nonatomic,retain) IBOutlet ILTextField* emailaddress;
+@property(nonatomic,retain) IBOutlet ILTextView* comments;
+@property(nonatomic,retain) IBOutlet ILLabel* status;
+@property(nonatomic,retain) IBOutlet ILButton* cancel;
+@property(nonatomic,retain) IBOutlet ILButton* send;
 @property(nonatomic,assign) ILReportWindowMode mode;
-@property(nonatomic,assign) NSModalSession modalSession;
 @property(nonatomic,retain) NSString* reportUUID;
 @property(nonatomic,retain) NSError* error;
 @property(nonatomic,retain) NSException* exception;
@@ -184,7 +189,7 @@ ILReportWindowMode;
 #endif
 
 #pragma mark - Utilities
-
+#if IL_APP_KIT
 /** @returns contents of the system log which inlcude our application's name
     @brief NB that this can block for some time as the system `log` tool is slow
 */
@@ -192,6 +197,7 @@ ILReportWindowMode;
 
 /** clears terminal signal handlers and restarts the app */
 + (void) restartApp;
+#endif
 
 #pragma mark - Factory Methods
 

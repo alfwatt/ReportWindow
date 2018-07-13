@@ -2,7 +2,9 @@
 #import "ILExceptionRecovery.h"
 #import "ILReportWindow.h"
 
+#if IL_APP_KIT
 #import <ExceptionHandling/ExceptionHandling.h>
+#endif
 
 @implementation ILReportingApplication
 
@@ -10,15 +12,20 @@
 {
     // TODO present UI to the user asking if we can report a previous crash
     NSString* latestSystemCrash = [ILReportWindow latestSystemCrashReport];
+#if IL_APP_KIT
     if (latestSystemCrash && ![NSApp modalWindow]) { // don't prompt if there is already a modal window on screen
         self.reportWindow = [ILReportWindow windowForSystemCrashReport:latestSystemCrash];
         [self.reportWindow showWindow:self];
         [[self.reportWindow window] makeKeyAndOrderFront:self]; // don't be modal
     }
+#else
+    NSLog(@"latestSystemCrash: %@", latestSystemCrash);
+#endif
 }
 
 #pragma mark - NSApplication Overrides
 
+#if IL_APP_KIT
 - (void) finishLaunching
 {
     // register as exception handler delegate
@@ -35,6 +42,7 @@
 
     [super finishLaunching];
 }
+#endif
 
 #pragma mark - NSResponder Overrides
 
@@ -54,6 +62,7 @@
 }
 */
 
+#if IL_APP_KIT
 - (BOOL) presentError:(NSError *)error
 {
     BOOL wasRecovered = NO;
@@ -84,9 +93,10 @@
         [self.reportWindow runModal];
     }
 }
+#endif
 
 #pragma mark - NSExceptionHandling
-
+#if IL_APP_KIT
 - (BOOL)exceptionHandler:(NSExceptionHandler *)exceptionHandler
    shouldHandleException:(NSException *)exception
                     mask:(NSUInteger)mask
@@ -108,6 +118,7 @@
 
     return NO;
 }
+#endif
 
 #pragma mark - NSErrorRecoveryAttempting
 
@@ -121,6 +132,7 @@
 
 - (void) reportBug:(id) sender
 {
+#if IL_APP_KIT
     // check for snag keys to see if we need to do something, excpetioal
     NSEventModifierFlags currentFlags = [[NSApp currentEvent] modifierFlags];
     
@@ -164,6 +176,7 @@
         self.reportWindow = [ILReportWindow windowForBug];
         [self.reportWindow runModal];
     }
+#endif
 }
 
 @end

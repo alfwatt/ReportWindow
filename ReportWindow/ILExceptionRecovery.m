@@ -1,6 +1,6 @@
 
 #import "ILExceptionRecovery.h"
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
 
 NSString* const ILUnderlyingException = @"ILUnderlyingException";
 
@@ -43,7 +43,7 @@ static NSMutableDictionary* ILHandlerRegistry;
 
 + (BOOL) isCommonSystemException:(NSException *)exception
 {
-    return ([exception.name isEqualTo:@"NSAccessibilityException"]); // autolayout probably worth reporting for now
+    return ([exception.name isEqual:@"NSAccessibilityException"]); // autolayout probably worth reporting for now
 }
 
 #pragma mark - Test Exception and Recovery Handler

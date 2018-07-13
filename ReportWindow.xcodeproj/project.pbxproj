@@ -11,6 +11,15 @@
 		7504642919E2683F008388F1 /* ILExceptionRecovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504642719E2683F008388F1 /* ILExceptionRecovery.m */; };
 		7518D82D1A4D5CBE00BA6E23 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7518D82E1A4D5CBE00BA6E23 /* ILReportingApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */; };
+		756572FE20F8F6A100CAA0A4 /* ILExceptionRecovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504642719E2683F008388F1 /* ILExceptionRecovery.m */; };
+		756572FF20F8F6A100CAA0A4 /* ILReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */; };
+		7565730020F8F6A100CAA0A4 /* ILReportingApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */; };
+		7565730420F8F6A100CAA0A4 /* ReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7565730520F8F6A100CAA0A4 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7565730620F8F6A100CAA0A4 /* ILExceptionRecovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 7504642619E2683F008388F1 /* ILExceptionRecovery.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7565730720F8F6A100CAA0A4 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7565731720F8F6F000CAA0A4 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578304120F3163B00159E5F /* SparkKit.framework */; };
+		7565732520F91FD200CAA0A4 /* ILReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7565732420F91FD200CAA0A4 /* ILReportWindow.xib */; };
 		7578304820F316B400159E5F /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578303D20F3163B00159E5F /* SparkKit.framework */; };
 		757D6B0820111B0200C2E96F /* ReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 757D6B0A20111B0200C2E96F /* ReportWindow.strings */; };
 		75A2DEC01F76F9E900BFE0B2 /* ILReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */; };
@@ -20,6 +29,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
+		7565730B20F8F6A100CAA0A4 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.app";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE).h",
+			);
+			script = "sdef \"$INPUT_FILE_PATH\" | sdp -fh -o \"$DERIVED_FILES_DIR\" --basename \"$INPUT_FILE_BASE\" --bundleid com.apple.mail\n";
+		};
 		75D696FA19B58880005FE4FF /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
@@ -34,6 +54,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		7565731520F8F6E300CAA0A4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 75F5A93D1D1A134A00A17804;
+			remoteInfo = "SparkKit (iOS)";
+		};
 		7578303C20F3163B00159E5F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
@@ -83,6 +110,8 @@
 		7504642719E2683F008388F1 /* ILExceptionRecovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ILExceptionRecovery.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ILReportingApplication.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ILReportingApplication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7565730F20F8F6A100CAA0A4 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7565732420F91FD200CAA0A4 /* ILReportWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ILReportWindow.xib; path = ../../ReportWindow/iOS/ILReportWindow.xib; sourceTree = "<group>"; };
 		7578303420F3163B00159E5F /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = "<group>"; };
 		757D6B0920111B0200C2E96F /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ReportWindow.strings; sourceTree = "<group>"; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
@@ -100,6 +129,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7565730120F8F6A100CAA0A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7565731720F8F6F000CAA0A4 /* SparkKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75AF8E6119A8F5AC003D7B46 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -111,12 +148,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7565732220F91F3D00CAA0A4 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				7565732420F91FD200CAA0A4 /* ILReportWindow.xib */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		7565732320F91F4800CAA0A4 /* macOS */ = {
+			isa = PBXGroup;
+			children = (
+				75DF1AC320796FAE0026BBD8 /* ILReportWindow.xib */,
+			);
+			path = macOS;
+			sourceTree = "<group>";
+		};
 		7578303520F3163B00159E5F /* Products */ = {
 			isa = PBXGroup;
 			children = (
 				7578303D20F3163B00159E5F /* SparkKit.framework */,
-				7578303F20F3163B00159E5F /* Sparky.app */,
 				7578304120F3163B00159E5F /* SparkKit.framework */,
+				7578303F20F3163B00159E5F /* Sparky.app */,
 				7578304320F3163B00159E5F /* Sparky.app */,
 				7578304520F3163B00159E5F /* Sparky TV.app */,
 			);
@@ -139,6 +192,8 @@
 				75AF8E6919A8F5AC003D7B46 /* ReportWindow.plist */,
 				7578315520F57BBE00159E5F /* cgi-bin */,
 				75AF8E6719A8F5AC003D7B46 /* ReportWindow */,
+				7565732320F91F4800CAA0A4 /* macOS */,
+				7565732220F91F3D00CAA0A4 /* iOS */,
 				75AF8E8619A8F658003D7B46 /* Frameworks */,
 				75AF8E6619A8F5AC003D7B46 /* Products */,
 			);
@@ -148,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */,
+				7565730F20F8F6A100CAA0A4 /* ReportWindow.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,7 +218,6 @@
 				7504642719E2683F008388F1 /* ILExceptionRecovery.m */,
 				7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */,
 				7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */,
-				75DF1AC320796FAE0026BBD8 /* ILReportWindow.xib */,
 				757D6B0A20111B0200C2E96F /* ReportWindow.strings */,
 			);
 			path = ReportWindow;
@@ -179,6 +234,17 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		7565730320F8F6A100CAA0A4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7565730420F8F6A100CAA0A4 /* ReportWindow.h in Headers */,
+				7565730520F8F6A100CAA0A4 /* ILReportWindow.h in Headers */,
+				7565730620F8F6A100CAA0A4 /* ILExceptionRecovery.h in Headers */,
+				7565730720F8F6A100CAA0A4 /* ILReportingApplication.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75AF8E6219A8F5AC003D7B46 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,6 +259,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		756572FA20F8F6A100CAA0A4 /* ReportWindow (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7565730C20F8F6A100CAA0A4 /* Build configuration list for PBXNativeTarget "ReportWindow (iOS)" */;
+			buildPhases = (
+				756572FD20F8F6A100CAA0A4 /* Sources */,
+				7565730320F8F6A100CAA0A4 /* Headers */,
+				7565730120F8F6A100CAA0A4 /* Frameworks */,
+				7565730820F8F6A100CAA0A4 /* Resources */,
+			);
+			buildRules = (
+				7565730B20F8F6A100CAA0A4 /* PBXBuildRule */,
+			);
+			dependencies = (
+				7565731620F8F6E300CAA0A4 /* PBXTargetDependency */,
+			);
+			name = "ReportWindow (iOS)";
+			productName = CrashReportWindow;
+			productReference = 7565730F20F8F6A100CAA0A4 /* ReportWindow.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		75AF8E6419A8F5AC003D7B46 /* ReportWindow (macOS) */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 75AF8E7A19A8F5AC003D7B46 /* Build configuration list for PBXNativeTarget "ReportWindow (macOS)" */;
@@ -247,6 +333,7 @@
 			projectRoot = "";
 			targets = (
 				75AF8E6419A8F5AC003D7B46 /* ReportWindow (macOS) */,
+				756572FA20F8F6A100CAA0A4 /* ReportWindow (iOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -290,6 +377,14 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7565730820F8F6A100CAA0A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7565732520F91FD200CAA0A4 /* ILReportWindow.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75AF8E6319A8F5AC003D7B46 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -302,6 +397,16 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		756572FD20F8F6A100CAA0A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				756572FE20F8F6A100CAA0A4 /* ILExceptionRecovery.m in Sources */,
+				756572FF20F8F6A100CAA0A4 /* ILReportWindow.m in Sources */,
+				7565730020F8F6A100CAA0A4 /* ILReportingApplication.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		75AF8E6019A8F5AC003D7B46 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -315,6 +420,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7565731620F8F6E300CAA0A4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SparkKit (iOS)";
+			targetProxy = 7565731520F8F6E300CAA0A4 /* PBXContainerItemProxy */;
+		};
 		7578304720F3164900159E5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "SparkKit (macOS)";
@@ -345,6 +455,106 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		7565730D20F8F6A100CAA0A4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = ReportWindow.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.istumbler.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ReportWindow;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		7565730E20F8F6A100CAA0A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_VERSION = A;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = ReportWindow.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "net.istumbler.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = ReportWindow;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		75AF8E5E19A8F55E003D7B46 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -520,6 +730,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7565730C20F8F6A100CAA0A4 /* Build configuration list for PBXNativeTarget "ReportWindow (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7565730D20F8F6A100CAA0A4 /* Debug */,
+				7565730E20F8F6A100CAA0A4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		75AF8E5D19A8F55E003D7B46 /* Build configuration list for PBXProject "ReportWindow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
