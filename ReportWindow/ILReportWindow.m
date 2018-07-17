@@ -450,7 +450,7 @@ exit:
 + (instancetype) windowForSystemCrashReport:(NSString*) crashReportPath
 {
 #if IL_APP_KIT
-    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className];
+    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
     window.mode = ILReportWindowCrashMode;
     return window;
 #else
@@ -658,8 +658,12 @@ exit:
     uploadRequest.HTTPMethod = @"POST";
     uploadRequest.HTTPBody = [requestBody dataUsingEncoding:NSUTF8StringEncoding]; // post data
     
-    // add the comments, link the file and
+    // TODO move over to NSURLSession
+    // NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]]; // no cookies for us, thanks
+    // NSURLSessionUploadTask* upload = [session uploadTaskWithRequest:uploadRequest fromData:[requestBody dataUsingEncoding:NSUTF8StringEncoding]];
+
     NSURLConnection* upload = [NSURLConnection connectionWithRequest:uploadRequest delegate:self];
+    
     self.responseBody = [NSMutableData new];
 #if IL_APP_KIT
     [upload scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSModalPanelRunLoopMode];
@@ -767,8 +771,8 @@ exit:
         [self postReportToWebServer:url];
     }
     else if ([[url scheme] isEqualToString:@"http"]) { // it it's *just* HTTP prompt the user for permission to send in the clear
-        NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
 #if IL_APP_KIT
+        NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
         NSAlert* plaintextAlert = [NSAlert new];
         plaintextAlert.alertStyle = NSCriticalAlertStyle;
         plaintextAlert.messageText = ILLocalizedString(ILReportWindowInsecureConnectionString);
@@ -854,7 +858,7 @@ exit:
 #endif
 }
 
-#pragma mark - NSWindowController
+#pragma mark - NSNibAwakening
 
 - (void) awakeFromNib
 {
@@ -1068,6 +1072,8 @@ exit:
 #endif
         }];
     }];
+    
+    [super awakeFromNib];
 }
 
 #pragma mark - NSWindowDelegate
@@ -1178,19 +1184,92 @@ exit:
     }
 }
 
+#pragma mark - NSURLSessionTaskDelegate
+
+- (void) URLSession:(NSURLSession*)session
+    task:(NSURLSessionTask*)task
+    willPerformHTTPRedirection:(NSHTTPURLResponse*)redirect
+    newRequest:(NSURLRequest*)request
+    completionHandler:(void (^)(NSURLRequest* _Nullable))completionHandler
+{
+    if (redirect && (redirect.statusCode == 302)) { // we got redirected
+        Class sparkeUpdater = NSClassFromString(ILReportWindowSparkleUpdaterClass); // check to see if the updater is present
+        if (sparkeUpdater && [[[sparkeUpdater sharedUpdater] feedURL] isEqual:redirect.URL]) { // we were redirected to the update page
+            [[sparkeUpdater sharedUpdater] checkForUpdates:self];
+        }
+        else { //  display the page to the user
+            NSLog(@"%@ error submitting a report: %li redirect: %@", self.class, (long)self.response.statusCode, redirect.URL);
+#if IL_APP_KIT
+            [[NSWorkspace sharedWorkspace] openURL:redirect.URL];
+#elif IL_UI_KIT
+            [[UIApplication sharedApplication] openURL:redirect.URL options:@{} completionHandler:nil];
+#endif
+        }
+    }
+}
+
+- (void) URLSession:(NSURLSession*)session
+    task:(NSURLSessionTask*)task
+    didSendBodyData:(int64_t)bytesSent
+    totalBytesSent:(int64_t)totalBytesSent
+    totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
+{
+    self.status.text = [NSString stringWithFormat:@"%@/%@ %C",
+        [ILReportWindow byteSizeAsString:totalBytesSent],
+        [ILReportWindow byteSizeAsString:totalBytesExpectedToSend],
+        0x2191]; // UPWARDS ARROW Unicode: U+2191, UTF-8: E2 86 91
+#if DEBUG
+    NSLog(@"%@ post: %li/%li bytes", self.class, (long)totalBytesSent,(long)totalBytesExpectedToSend);
+#endif
+}
+
+- (void) URLSession:(NSURLSession*)session task:(NSURLSessionTask*)task didCompleteWithError:(NSError*)error
+{
+    if ([task.response isKindOfClass:[NSHTTPURLResponse class]]) {
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)task.response;
+        
+        if (httpResponse.statusCode == 200) { // OK!
+            self.status.text = [NSString stringWithFormat:@"%C", 0x2713]; // CHECK MARK Unicode: U+2713, UTF-8: E2 9C 93
+            [self closeAfterReportComplete];
+        }
+        else { // not ok, present error
+            [self.progress stopAnimating];
+            self.status.text = [NSString stringWithFormat:@"%li %C", (long)httpResponse.statusCode, 0x274C]; // CROSS MARK Unicode: U+274C
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:ILReportWindowAutoSubmitKey]; // disable auto-submit
+        }
+    }
+}
+
+#pragma mark - NSURLSessionDataDelegate
+
+
+- (void) URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask didReceiveData:(NSData*)data
+{
+    [self.responseBody appendData:data];
+    self.status.text = [NSString stringWithFormat:@"%@ %C",
+        [ILReportWindow byteSizeAsString:self.responseBody.length],
+        0x2193]; //↓ DOWNWARDS ARROW Unicode: U+2193, UTF-8: E2 86 93
+#if DEBUG
+    NSLog(@"%@ read: %li bytes from: %@", self.class, (unsigned long)self.responseBody.length, dataTask.currentRequest.URL);
+#endif
+}
+
+#pragma mark - DEPRICATED
 #pragma mark - NSURLConnectionDataDelegate
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)URLresponse
+//
+- (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)URLresponse
 {
     if( [URLresponse isKindOfClass:[NSHTTPURLResponse class]]) {
         self.response = (NSHTTPURLResponse*)URLresponse;
     }
 }
 
-- (void)connection:(NSURLConnection *)connection
-   didSendBodyData:(NSInteger)bytesWritten
- totalBytesWritten:(NSInteger)totalBytesWritten
-totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
+//
+- (void) connection:(NSURLConnection *)connection
+    didSendBodyData:(NSInteger)bytesWritten
+    totalBytesWritten:(NSInteger)totalBytesWritten
+    totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 {
     self.status.text = [NSString stringWithFormat:@"%@/%@ %C",
         [ILReportWindow byteSizeAsString:totalBytesWritten],
@@ -1201,10 +1280,13 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 #endif
 }
 
+//
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.responseBody appendData:data];
-    self.status.text = [NSString stringWithFormat:@"%@ %C",[ILReportWindow byteSizeAsString:self.responseBody.length], 0x2193]; //↓ DOWNWARDS ARROW Unicode: U+2193, UTF-8: E2 86 93
+    self.status.text = [NSString stringWithFormat:@"%@ %C",
+        [ILReportWindow byteSizeAsString:self.responseBody.length],
+        0x2193]; //↓ DOWNWARDS ARROW Unicode: U+2193, UTF-8: E2 86 93
 #if DEBUG
     NSLog(@"%@ read: %li bytes from: %@", self.class, (unsigned long)self.responseBody.length, connection.currentRequest.URL);
 #endif
@@ -1250,8 +1332,6 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
     }
 }
 
-#pragma mark - NSURlConnectionDelegate
-
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)connectionError
 {
 #if IL_APP_KIT
@@ -1274,4 +1354,4 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite
 
 @end
 
-/* Copyright 2014-2017, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
+/* Copyright 2014-2018, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
