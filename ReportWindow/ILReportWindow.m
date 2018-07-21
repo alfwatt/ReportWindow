@@ -1172,7 +1172,7 @@ exit:
         self.autoRestartTimer = nil;
 #ifdef DEBUG
         exit(-1);
-#else
+#elif IL_APP_KIT
         [ILReportWindow restartApp];
 #endif
     }
