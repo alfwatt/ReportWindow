@@ -1016,11 +1016,13 @@ exit:
         NSArray* crashReports = [ILReportWindow systemCrashReports];
         
         if (crashReports && crashReports.count > 0) {
-            [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
 
-            for (NSString* reportPath in crashReports) {
-                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
-            }
+                for (NSString* reportPath in crashReports) {
+                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
+                }
+            }];
         }
     }];
 
