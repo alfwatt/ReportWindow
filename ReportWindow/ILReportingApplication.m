@@ -113,8 +113,10 @@
     }
 
     // could not or did not recover, report the exception
-    self.reportWindow = [ILReportWindow windowForException:exception];
-    [self.reportWindow runModal];
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        self.reportWindow = [ILReportWindow windowForException:exception];
+        [self.reportWindow runModal];
+    }];
 
     return NO;
 }

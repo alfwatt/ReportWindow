@@ -145,21 +145,21 @@ ILReportWindowMode;
 
 #pragma mark - Exceptions
 
-/** @param NSException* exception
+/** @param exception to build a report from
     @returns NSString* report of the provided exception with stack trace, and all avalaible details */
 + (NSString*) exceptionReport:(NSException*) exception;
 
-/** @param exception
+/** @param exception to build a signature for
     @returns unique signature for an exception */
 + (NSString*) exceptionSignature:(NSException*) exception;
 
 #pragma mark - Errors
 
-/** @param error
+/** @param error to build a report from
     @returns report of the provided error with all nested errors and available details */
 + (NSString*) errorReport:(NSError*) error;
 
-/** @param error
+/** @param error to build a signature for
     @returns unique signature for a particular error */
 + (NSString*) errorSignature:(NSError*) error;
 
@@ -173,7 +173,7 @@ ILReportWindowMode;
 #if IL_APP_KIT
 #pragma mark - Screenshots
 
-/** @param NSWindow* window -- the window to make a screenshot of
+/** @param window -- the NSWindow* to make a screenshot of
     @returns NSImage* -- the screenshot
 */
 + (NSImage*) screenshotWindow:(NSWindow*) window;

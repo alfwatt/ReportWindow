@@ -203,7 +203,7 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
 {
     NSMutableArray* reports = [NSMutableArray array];
     NSFileManager* fm = [NSFileManager defaultManager];
-    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleExecutableKey];
     NSError* error = nil;
 
     // find the report directory in the users's library folder
@@ -841,7 +841,7 @@ exit:
         self.autoRestartTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(autoRestartTimer:) userInfo:nil repeats:YES];
         self.send.enabled = YES; // enabled so the user can skip the timer
 #if IL_APP_KIT
-        self.remember.enabled = YES; // enabled so the user can skip the
+        self.remember.enabled = YES; // enabled so the user can skip the timer
 #endif
     }
     else if( self.mode == ILReportWindowErrorMode || self.mode == ILReportWindowExceptionMode) { // user prompted hit submit button
@@ -1282,7 +1282,6 @@ exit:
 #endif
 }
 
-//
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.responseBody appendData:data];
