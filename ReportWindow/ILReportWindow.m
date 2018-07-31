@@ -1051,7 +1051,7 @@ exit:
                 }
             }
 
-            self.status.stringValue = @"";
+            self.status.text = @"";
             self.comments.editable = YES;
 #if IL_APP_KIT
             self.remember.enabled = YES;

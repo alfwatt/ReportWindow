@@ -52,14 +52,14 @@ extern NSString* const ILUnderlyingException; /* NSError userInfo key for the un
 
 #pragma mark - Recovery Handling
 
-/** @param exception
+/** @param exception we may be able to handle
     @returns true if the handler can generate a recoverable error for the exception */
 - (BOOL) canHandleException:(NSException*) exception;
 
-/** @param exception
+/** @param exception we may be able to recover from
     @returns a recoverable NSError object for the exception using the generator provided */
 - (NSError*) recoverableErrorForException:(NSException*) exception;
 
 @end
 
-/* Copyright 2014-2017, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
+/* Copyright 2014-2018, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
