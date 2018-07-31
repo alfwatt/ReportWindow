@@ -801,24 +801,6 @@ exit:
 
 - (void) closeAfterReportComplete
 {
-    // record the signature
-    NSString* reportSignature = [self reportSignature];
-    if( reportSignature)
-    {
-        NSArray* reported = [[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey];
-        if( reported) {
-            if( ![reported containsObject:reportSignature]) {
-                reported = [reported arrayByAddingObject:reportSignature];
-            }
-        }
-        else {
-            reported = @[reportSignature];
-        }
-        
-        [[NSUserDefaults standardUserDefaults] setObject:reported forKey:ILReportWindowReportedSignaturesKey];
-        [[NSUserDefaults standardUserDefaults] synchronize]; // imporant cause we might quit the app next
-    }
-
     // assuming everything went well, trash the latest system crash report
     NSString* lastCrashReport = [ILReportWindow latestSystemCrashReport];
     if( lastCrashReport) {
@@ -1050,7 +1032,26 @@ exit:
     // add this to the end of the gather queue, so that the UI will enable when other opations are complete
     [self.gatherQueue addOperationWithBlock:^{
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-            self.status.text = @"";
+            if ([ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]) {
+                // record the signature now, so that if user cancels, they won't be prompted again
+                NSString* reportSignature = [self reportSignature];
+                if (reportSignature) {
+                    NSArray* reported = [[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey];
+                    if (reported) {
+                        if (![reported containsObject:reportSignature]) {
+                            reported = [reported arrayByAddingObject:reportSignature];
+                        }
+                    }
+                    else {
+                        reported = @[reportSignature];
+                    }
+                    
+                    [[NSUserDefaults standardUserDefaults] setObject:reported forKey:ILReportWindowReportedSignaturesKey];
+                    [[NSUserDefaults standardUserDefaults] synchronize]; // imporant cause we might quit the app next
+                }
+            }
+
+            self.status.stringValue = @"";
             self.comments.editable = YES;
 #if IL_APP_KIT
             self.remember.enabled = YES;
