@@ -26,7 +26,7 @@
         <window title="Report" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="cvh-He-0mD">
             <windowStyleMask key="styleMask" titled="YES" resizable="YES"/>
             <rect key="contentRect" x="283" y="305" width="550" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <value key="minSize" type="size" width="550" height="300"/>
             <view key="contentView" id="jyF-NN-Bnp">
                 <rect key="frame" x="0.0" y="0.0" width="550" height="500"/>
@@ -87,11 +87,11 @@ DQ
                                 </textView>
                             </subviews>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="hPv-Ga-Ffx">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="hPv-Ga-Ffx">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="MB8-ce-4WI">
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="MB8-ce-4WI">
                             <rect key="frame" x="494" y="1" width="15" height="284"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
