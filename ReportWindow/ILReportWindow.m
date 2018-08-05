@@ -95,8 +95,8 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
 {
     BOOL explicit = NO;
 
-    if( [[NSUserDefaults standardUserDefaults] objectForKey:key]) { // the key exists
-        explicit = ![[NSUserDefaults standardUserDefaults] boolForKey:key]; // if set to 'NO' it's explicit
+    if( [NSUserDefaults.standardUserDefaults objectForKey:key]) { // the key exists
+        explicit = ![NSUserDefaults.standardUserDefaults boolForKey:key]; // if set to 'NO' it's explicit
     }
 
     return explicit;
@@ -242,7 +242,7 @@ NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
 
     // check to see if it's aleaday been reported, though
     if ([ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]) {
-        NSArray* signatures = [[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey];
+        NSArray* signatures = [NSUserDefaults.standardUserDefaults arrayForKey:ILReportWindowReportedSignaturesKey];
         if (signatures && [signatures containsObject:latest]) {
             NSLog(@"%@ suppressing: %@", self.class, latest);
             latest = nil;
@@ -551,11 +551,11 @@ exit:
 {
     NSString* reportSignature = [self reportSignature];
     
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowIgnoreKey] && self.mode != ILReportWindowErrorMode) {
+    if ([NSUserDefaults.standardUserDefaults boolForKey:ILReportWindowIgnoreKey] && self.mode != ILReportWindowErrorMode) {
         return; // quietly ignore reports if the user doesn't care
     }
     else if (reportSignature && [ILReportWindow isFeatureEnabled:ILReportWindowSuppressDuplicatesKey]
-      && [[[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey] containsObject:reportSignature]) {
+      && [[NSUserDefaults.standardUserDefaults arrayForKey:ILReportWindowReportedSignaturesKey] containsObject:reportSignature]) {
         NSLog(@"%@ suppressing: %@", self.class, reportSignature);
         return;
     }
@@ -813,7 +813,7 @@ exit:
     }
 
     // if we want to auto-submit an error or exception, then start a timer before restarting the app
-    if( [[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]
+    if( [NSUserDefaults.standardUserDefaults boolForKey:ILReportWindowAutoSubmitKey]
      && (self.mode == ILReportWindowErrorMode || self.mode == ILReportWindowExceptionMode)) {
         NSDictionary* info = [[NSBundle mainBundle] infoDictionary];
         self.autoRestartSeconds = ([[info allKeys] containsObject:ILReportWindowAutoRestartSecondsKey]
@@ -848,8 +848,8 @@ exit:
     NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
  
     // setup the username and email fields for uesrs we know them from
-    NSString* defaultsUsername = [[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserFullNameKey];
-    NSString* defaultsEmail = [[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserEmailKey];
+    NSString* defaultsUsername = [NSUserDefaults.standardUserDefaults stringForKey:ILReportWindowUserFullNameKey];
+    NSString* defaultsEmail = [NSUserDefaults.standardUserDefaults stringForKey:ILReportWindowUserEmailKey];
 
     if (defaultsUsername) {
 #if IL_APP_KIT
@@ -966,7 +966,7 @@ exit:
     }
 
     if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey]) {
-        NSDictionary* defaultsDictionary = [[NSUserDefaults standardUserDefaults] persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
+        NSDictionary* defaultsDictionary = [NSUserDefaults.standardUserDefaults persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         defaultsDictionary = [[self class] filterDataFromDictionary:defaultsDictionary];
         NSString* defaultsString = [defaultsDictionary description];
         [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Application Defaults -\n\n" attributes:commentsAttributes]];
@@ -1036,7 +1036,7 @@ exit:
                 // record the signature now, so that if user cancels, they won't be prompted again
                 NSString* reportSignature = [self reportSignature];
                 if (reportSignature) {
-                    NSArray* reported = [[NSUserDefaults standardUserDefaults] arrayForKey:ILReportWindowReportedSignaturesKey];
+                    NSArray* reported = [NSUserDefaults.standardUserDefaults arrayForKey:ILReportWindowReportedSignaturesKey];
                     if (reported) {
                         if (![reported containsObject:reportSignature]) {
                             reported = [reported arrayByAddingObject:reportSignature];
@@ -1046,8 +1046,8 @@ exit:
                         reported = @[reportSignature];
                     }
                     
-                    [[NSUserDefaults standardUserDefaults] setObject:reported forKey:ILReportWindowReportedSignaturesKey];
-                    [[NSUserDefaults standardUserDefaults] synchronize]; // imporant cause we might quit the app next
+                    [NSUserDefaults.standardUserDefaults setObject:reported forKey:ILReportWindowReportedSignaturesKey];
+                    [NSUserDefaults.standardUserDefaults synchronize]; // imporant cause we might quit the app next
                 }
             }
 
@@ -1062,7 +1062,7 @@ exit:
             [self.comments setSelectedRange:NSMakeRange(0, [self.comments.textStorage.string rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]].location)];
 
             // automatically submit if configured to do so
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:ILReportWindowAutoSubmitKey]) {
+            if ([NSUserDefaults.standardUserDefaults boolForKey:ILReportWindowAutoSubmitKey]) {
 #if IL_APP_KIT
                 self.remember.state = NSOnState;
 #endif
@@ -1103,10 +1103,10 @@ exit:
 {
 #if IL_APP_KIT
     if (self.remember.state ) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
+        [NSUserDefaults.standardUserDefaults setBool:YES forKey:ILReportWindowAutoSubmitKey];
     }
     else {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
+        [NSUserDefaults.standardUserDefaults removeObjectForKey:ILReportWindowAutoSubmitKey];
     }
 #endif
 
@@ -1128,10 +1128,10 @@ exit:
 {
 #if IL_APP_KIT
     if (self.remember.state ) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:ILReportWindowAutoSubmitKey];
+        [NSUserDefaults.standardUserDefaults setBool:YES forKey:ILReportWindowAutoSubmitKey];
     }
     else {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:ILReportWindowAutoSubmitKey];
+        [NSUserDefaults.standardUserDefaults removeObjectForKey:ILReportWindowAutoSubmitKey];
     }
 #endif
 
@@ -1139,12 +1139,12 @@ exit:
     NSString* providedName = self.fullname.text;
     NSString* providedEmail = self.emailaddress.text;
 
-    if (![providedName isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserFullNameKey]]) {
-        [[NSUserDefaults standardUserDefaults] setObject:providedName forKey:ILReportWindowUserFullNameKey];
+    if (![providedName isEqualToString:[NSUserDefaults.standardUserDefaults stringForKey:ILReportWindowUserFullNameKey]]) {
+        [NSUserDefaults.standardUserDefaults setObject:providedName forKey:ILReportWindowUserFullNameKey];
     }
     
-    if (![providedEmail isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:ILReportWindowUserEmailKey]]) {
-        [[NSUserDefaults standardUserDefaults] setObject:providedEmail forKey:ILReportWindowUserEmailKey];
+    if (![providedEmail isEqualToString:[NSUserDefaults.standardUserDefaults stringForKey:ILReportWindowUserEmailKey]]) {
+        [NSUserDefaults.standardUserDefaults setObject:providedEmail forKey:ILReportWindowUserEmailKey];
     }
     
     // if the auto-restart timer is counting down, we've already submitted the report
@@ -1238,7 +1238,7 @@ exit:
         else { // not ok, present error
             [self.progress stopAnimating];
             self.status.text = [NSString stringWithFormat:@"%li %C", (long)httpResponse.statusCode, 0x274C]; // CROSS MARK Unicode: U+274C
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:ILReportWindowAutoSubmitKey]; // disable auto-submit
+            [NSUserDefaults.standardUserDefaults setBool:NO forKey:ILReportWindowAutoSubmitKey]; // disable auto-submit
         }
     }
 }
@@ -1330,7 +1330,7 @@ exit:
     else { // not ok, present error
         [self.progress stopAnimating];
         self.status.text = [NSString stringWithFormat:@"%li %C", (long)self.response.statusCode, 0x274C]; // CROSS MARK Unicode: U+274C
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:ILReportWindowAutoSubmitKey]; // disable auto-submit
+        [NSUserDefaults.standardUserDefaults setBool:NO forKey:ILReportWindowAutoSubmitKey]; // disable auto-submit
     }
 }
 
