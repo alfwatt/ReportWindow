@@ -1,0 +1,24 @@
+# iOS CircleCI 2.0 configuration file
+#
+
+version: 2
+jobs:
+  build:
+
+    macos:
+      xcode: "10.0.0"
+
+    steps:
+      - checkout
+
+      - run:
+          name: Clone KitBridge
+          command: git clone https://github.com/alfwatt/KitBridge.git ../KitBridge
+
+      - run:
+          name: Build Soup
+          command: xcodebuild -scheme "ReportWindow (iOS)"
+
+      - run:
+          name: Build addresses
+          command: xcodebuild -scheme "ReportWindow (macOS)"

@@ -110,6 +110,7 @@
 		7504642719E2683F008388F1 /* ILExceptionRecovery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ILExceptionRecovery.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ILReportingApplication.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ILReportingApplication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7552D95B21619A69004FF8C8 /* config.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = config.yml; path = .circleci/config.yml; sourceTree = "<group>"; };
 		7565730F20F8F6A100CAA0A4 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7565732420F91FD200CAA0A4 /* ILReportWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ILReportWindow.xib; path = ../../ReportWindow/iOS/ILReportWindow.xib; sourceTree = "<group>"; };
 		7578303420F3163B00159E5F /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = "<group>"; };
@@ -148,6 +149,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7552D95621619A49004FF8C8 /* Packaging */ = {
+			isa = PBXGroup;
+			children = (
+				7552D95B21619A69004FF8C8 /* config.yml */,
+			);
+			name = Packaging;
+			sourceTree = "<group>";
+		};
 		7565732220F91F3D00CAA0A4 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +205,7 @@
 				7565732220F91F3D00CAA0A4 /* iOS */,
 				75AF8E8619A8F658003D7B46 /* Frameworks */,
 				75AF8E6619A8F5AC003D7B46 /* Products */,
+				7552D95621619A49004FF8C8 /* Packaging */,
 			);
 			sourceTree = "<group>";
 		};
