@@ -16,6 +16,10 @@ jobs:
           command: git clone https://github.com/alfwatt/KitBridge.git ../KitBridge
 
       - run:
+          name: Clone SparkKit
+          command: git clone https://github.com/alfwatt/SparkKit.git ../SparkKit
+
+      - run:
           name: Build ReportWindow (iOS)
           command: xcodebuild -scheme "ReportWindow (iOS)"
 
