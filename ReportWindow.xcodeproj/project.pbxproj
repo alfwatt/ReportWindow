@@ -120,7 +120,6 @@
 		7552D97221619E81004FF8C8 /* crash.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = crash.py; sourceTree = "<group>"; };
 		7552D97321619E81004FF8C8 /* crash.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crash.php; sourceTree = "<group>"; };
 		7552D98921619EC1004FF8C8 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7552D98A21619EC2004FF8C8 /* ReportWindow (macOS) copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ReportWindow (macOS) copy-Info.plist"; path = "/Users/alf/Source/ReportWindow/ReportWindow (macOS) copy-Info.plist"; sourceTree = "<absolute>"; };
 		7578303420F3163B00159E5F /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = "<group>"; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportWindow.m; sourceTree = "<group>"; };
@@ -219,7 +218,6 @@
 				75AF8E8619A8F658003D7B46 /* Frameworks */,
 				75AF8E6619A8F5AC003D7B46 /* Products */,
 				7552D95621619A49004FF8C8 /* Packaging */,
-				7552D98A21619EC2004FF8C8 /* ReportWindow (macOS) copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
