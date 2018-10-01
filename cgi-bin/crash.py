@@ -1,17 +1,14 @@
 #!/usr/bin/python
-#
-# This script is designed to run inside of mod_python: https://wiki.python.org/moin/ModPython
-#
-#
 
 import md5
 import sha
 import cgi
-import mod_python
 
 from datetime import datetime
+from mod_python import util
 
 # directory for storing the reports
+reports_label = "crash_"
 reports_dir = "/var/log/crashes/"
 
 # success and error pages
@@ -23,10 +20,17 @@ report_email = "support@example.com"
 report_subject = "Trouble Report: "
 
 # index action for mod_python
-def index():
+def index(req):
     report_date = datetime.now()
-    report_digest = str(report_date)
+    report_digest = reports_label + str(report_date)
+    report_path = reports_dir + report_digeset
     report_hash = sha.new(report_digest).hexdigest()
 
-    # read the form data via the cgi module
-    report_form = cgi.FormContentDict()
+    # headers
+    req.headers_in
+    
+    # query params
+    req.args
+
+    # form
+    req.form

@@ -11,17 +11,18 @@
 		7504642919E2683F008388F1 /* ILExceptionRecovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504642719E2683F008388F1 /* ILExceptionRecovery.m */; };
 		7518D82D1A4D5CBE00BA6E23 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7518D82E1A4D5CBE00BA6E23 /* ILReportingApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */; };
-		756572FE20F8F6A100CAA0A4 /* ILExceptionRecovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504642719E2683F008388F1 /* ILExceptionRecovery.m */; };
-		756572FF20F8F6A100CAA0A4 /* ILReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */; };
-		7565730020F8F6A100CAA0A4 /* ILReportingApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */; };
-		7565730420F8F6A100CAA0A4 /* ReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7565730520F8F6A100CAA0A4 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7565730620F8F6A100CAA0A4 /* ILExceptionRecovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 7504642619E2683F008388F1 /* ILExceptionRecovery.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7565730720F8F6A100CAA0A4 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7565731720F8F6F000CAA0A4 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578304120F3163B00159E5F /* SparkKit.framework */; };
-		7565732520F91FD200CAA0A4 /* ILReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7565732420F91FD200CAA0A4 /* ILReportWindow.xib */; };
+		7552D96621619DC3004FF8C8 /* ReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7552D96321619DC2004FF8C8 /* ReportWindow.strings */; };
+		7552D97821619EC1004FF8C8 /* ILExceptionRecovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504642719E2683F008388F1 /* ILExceptionRecovery.m */; };
+		7552D97921619EC1004FF8C8 /* ILReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */; };
+		7552D97A21619EC1004FF8C8 /* ILReportingApplication.m in Sources */ = {isa = PBXBuildFile; fileRef = 7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */; };
+		7552D97E21619EC1004FF8C8 /* ReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7552D97F21619EC1004FF8C8 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7552D98021619EC1004FF8C8 /* ILExceptionRecovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 7504642619E2683F008388F1 /* ILExceptionRecovery.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7552D98121619EC1004FF8C8 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7552D98321619EC1004FF8C8 /* ReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7552D96321619DC2004FF8C8 /* ReportWindow.strings */; };
+		7552D99321619EEC004FF8C8 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578304120F3163B00159E5F /* SparkKit.framework */; };
+		7552D99421619EF7004FF8C8 /* ILReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7552D95F21619C87004FF8C8 /* ILReportWindow.xib */; };
 		7578304820F316B400159E5F /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578303D20F3163B00159E5F /* SparkKit.framework */; };
-		757D6B0820111B0200C2E96F /* ReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 757D6B0A20111B0200C2E96F /* ReportWindow.strings */; };
 		75A2DEC01F76F9E900BFE0B2 /* ILReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */; };
 		75A2DEC11F76F9E900BFE0B2 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75AF8E6B19A8F5AC003D7B46 /* ReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -29,7 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
-		7565730B20F8F6A100CAA0A4 /* PBXBuildRule */ = {
+		7552D98521619EC1004FF8C8 /* PBXBuildRule */ = {
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.proxy.script;
 			filePatterns = "*.app";
@@ -54,7 +55,7 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
-		7565731520F8F6E300CAA0A4 /* PBXContainerItemProxy */ = {
+		7552D98D21619EE5004FF8C8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
 			proxyType = 1;
@@ -111,30 +112,33 @@
 		7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ILReportingApplication.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ILReportingApplication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7552D95B21619A69004FF8C8 /* config.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = config.yml; path = .circleci/config.yml; sourceTree = "<group>"; };
-		7565730F20F8F6A100CAA0A4 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7565732420F91FD200CAA0A4 /* ILReportWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ILReportWindow.xib; path = ../../ReportWindow/iOS/ILReportWindow.xib; sourceTree = "<group>"; };
+		7552D95E21619C87004FF8C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
+		7552D96121619D7E004FF8C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
+		7552D96421619DC2004FF8C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ReportWindow.strings; sourceTree = "<group>"; };
+		7552D96521619DC2004FF8C8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ReportWindow.strings; sourceTree = "<group>"; };
+		7552D96C21619E3C004FF8C8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
+		7552D97221619E81004FF8C8 /* crash.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = crash.py; sourceTree = "<group>"; };
+		7552D97321619E81004FF8C8 /* crash.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crash.php; sourceTree = "<group>"; };
+		7552D98921619EC1004FF8C8 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7552D98A21619EC2004FF8C8 /* ReportWindow (macOS) copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ReportWindow (macOS) copy-Info.plist"; path = "/Users/alf/Source/ReportWindow/ReportWindow (macOS) copy-Info.plist"; sourceTree = "<absolute>"; };
 		7578303420F3163B00159E5F /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = "<group>"; };
-		757D6B0920111B0200C2E96F /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ReportWindow.strings; sourceTree = "<group>"; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
-		758ADC6719C622FD007C9194 /* crash.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crash.php; sourceTree = "<group>"; };
 		75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportWindow.m; sourceTree = "<group>"; };
 		75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILReportWindow.h; sourceTree = "<group>"; };
 		75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		75AF8E6919A8F5AC003D7B46 /* ReportWindow.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ReportWindow.plist; sourceTree = "<group>"; };
+		75AF8E6919A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportWindow.h; sourceTree = "<group>"; };
-		75DF1AC220796F2A0026BBD8 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ReportWindow.strings; sourceTree = "<group>"; };
 		75DF1AC620796FCC0026BBD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
 		75DF1AC8207970250026BBD8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		75DF1ACA207970270026BBD8 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
-		75E667241A3BBABC001E7DC4 /* crash.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = crash.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		7565730120F8F6A100CAA0A4 /* Frameworks */ = {
+		7552D97B21619EC1004FF8C8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7565731720F8F6F000CAA0A4 /* SparkKit.framework in Frameworks */,
+				7552D99321619EEC004FF8C8 /* SparkKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,10 +161,28 @@
 			name = Packaging;
 			sourceTree = "<group>";
 		};
+		7552D96221619DC2004FF8C8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				75AF8E6919A8F5AC003D7B46 /* Info.plist */,
+				7552D96321619DC2004FF8C8 /* ReportWindow.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		7552D97121619E81004FF8C8 /* cgi-bin */ = {
+			isa = PBXGroup;
+			children = (
+				7552D97221619E81004FF8C8 /* crash.py */,
+				7552D97321619E81004FF8C8 /* crash.php */,
+			);
+			path = "cgi-bin";
+			sourceTree = "<group>";
+		};
 		7565732220F91F3D00CAA0A4 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				7565732420F91FD200CAA0A4 /* ILReportWindow.xib */,
+				7552D95F21619C87004FF8C8 /* ILReportWindow.xib */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -185,27 +207,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		7578315520F57BBE00159E5F /* cgi-bin */ = {
-			isa = PBXGroup;
-			children = (
-				75E667241A3BBABC001E7DC4 /* crash.py */,
-				758ADC6719C622FD007C9194 /* crash.php */,
-			);
-			name = "cgi-bin";
-			sourceTree = "<group>";
-		};
 		75AF8E5919A8F55E003D7B46 = {
 			isa = PBXGroup;
 			children = (
 				758ADC6619C622FD007C9194 /* README.md */,
-				75AF8E6919A8F5AC003D7B46 /* ReportWindow.plist */,
-				7578315520F57BBE00159E5F /* cgi-bin */,
 				75AF8E6719A8F5AC003D7B46 /* ReportWindow */,
+				7552D96221619DC2004FF8C8 /* Resources */,
 				7565732320F91F4800CAA0A4 /* macOS */,
 				7565732220F91F3D00CAA0A4 /* iOS */,
+				7552D97121619E81004FF8C8 /* cgi-bin */,
 				75AF8E8619A8F658003D7B46 /* Frameworks */,
 				75AF8E6619A8F5AC003D7B46 /* Products */,
 				7552D95621619A49004FF8C8 /* Packaging */,
+				7552D98A21619EC2004FF8C8 /* ReportWindow (macOS) copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -213,7 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */,
-				7565730F20F8F6A100CAA0A4 /* ReportWindow.framework */,
+				7552D98921619EC1004FF8C8 /* ReportWindow.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -228,7 +242,6 @@
 				7504642719E2683F008388F1 /* ILExceptionRecovery.m */,
 				7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */,
 				7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */,
-				757D6B0A20111B0200C2E96F /* ReportWindow.strings */,
 			);
 			path = ReportWindow;
 			sourceTree = "<group>";
@@ -244,14 +257,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		7565730320F8F6A100CAA0A4 /* Headers */ = {
+		7552D97D21619EC1004FF8C8 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7565730420F8F6A100CAA0A4 /* ReportWindow.h in Headers */,
-				7565730520F8F6A100CAA0A4 /* ILReportWindow.h in Headers */,
-				7565730620F8F6A100CAA0A4 /* ILExceptionRecovery.h in Headers */,
-				7565730720F8F6A100CAA0A4 /* ILReportingApplication.h in Headers */,
+				7552D97E21619EC1004FF8C8 /* ReportWindow.h in Headers */,
+				7552D97F21619EC1004FF8C8 /* ILReportWindow.h in Headers */,
+				7552D98021619EC1004FF8C8 /* ILExceptionRecovery.h in Headers */,
+				7552D98121619EC1004FF8C8 /* ILReportingApplication.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,24 +282,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		756572FA20F8F6A100CAA0A4 /* ReportWindow (iOS) */ = {
+		7552D97421619EC1004FF8C8 /* ReportWindow (iOS) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7565730C20F8F6A100CAA0A4 /* Build configuration list for PBXNativeTarget "ReportWindow (iOS)" */;
+			buildConfigurationList = 7552D98621619EC1004FF8C8 /* Build configuration list for PBXNativeTarget "ReportWindow (iOS)" */;
 			buildPhases = (
-				756572FD20F8F6A100CAA0A4 /* Sources */,
-				7565730320F8F6A100CAA0A4 /* Headers */,
-				7565730120F8F6A100CAA0A4 /* Frameworks */,
-				7565730820F8F6A100CAA0A4 /* Resources */,
+				7552D97721619EC1004FF8C8 /* Sources */,
+				7552D97B21619EC1004FF8C8 /* Frameworks */,
+				7552D97D21619EC1004FF8C8 /* Headers */,
+				7552D98221619EC1004FF8C8 /* Resources */,
 			);
 			buildRules = (
-				7565730B20F8F6A100CAA0A4 /* PBXBuildRule */,
+				7552D98521619EC1004FF8C8 /* PBXBuildRule */,
 			);
 			dependencies = (
-				7565731620F8F6E300CAA0A4 /* PBXTargetDependency */,
+				7552D98E21619EE5004FF8C8 /* PBXTargetDependency */,
 			);
 			name = "ReportWindow (iOS)";
 			productName = CrashReportWindow;
-			productReference = 7565730F20F8F6A100CAA0A4 /* ReportWindow.framework */;
+			productReference = 7552D98921619EC1004FF8C8 /* ReportWindow.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		75AF8E6419A8F5AC003D7B46 /* ReportWindow (macOS) */ = {
@@ -343,7 +356,7 @@
 			projectRoot = "";
 			targets = (
 				75AF8E6419A8F5AC003D7B46 /* ReportWindow (macOS) */,
-				756572FA20F8F6A100CAA0A4 /* ReportWindow (iOS) */,
+				7552D97421619EC1004FF8C8 /* ReportWindow (iOS) */,
 			);
 		};
 /* End PBXProject section */
@@ -387,11 +400,12 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7565730820F8F6A100CAA0A4 /* Resources */ = {
+		7552D98221619EC1004FF8C8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7565732520F91FD200CAA0A4 /* ILReportWindow.xib in Resources */,
+				7552D99421619EF7004FF8C8 /* ILReportWindow.xib in Resources */,
+				7552D98321619EC1004FF8C8 /* ReportWindow.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,21 +413,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7552D96621619DC3004FF8C8 /* ReportWindow.strings in Resources */,
 				75DF1AC520796FAE0026BBD8 /* ILReportWindow.xib in Resources */,
-				757D6B0820111B0200C2E96F /* ReportWindow.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		756572FD20F8F6A100CAA0A4 /* Sources */ = {
+		7552D97721619EC1004FF8C8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				756572FE20F8F6A100CAA0A4 /* ILExceptionRecovery.m in Sources */,
-				756572FF20F8F6A100CAA0A4 /* ILReportWindow.m in Sources */,
-				7565730020F8F6A100CAA0A4 /* ILReportingApplication.m in Sources */,
+				7552D97821619EC1004FF8C8 /* ILExceptionRecovery.m in Sources */,
+				7552D97921619EC1004FF8C8 /* ILReportWindow.m in Sources */,
+				7552D97A21619EC1004FF8C8 /* ILReportingApplication.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,10 +444,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7565731620F8F6E300CAA0A4 /* PBXTargetDependency */ = {
+		7552D98E21619EE5004FF8C8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "SparkKit (iOS)";
-			targetProxy = 7565731520F8F6E300CAA0A4 /* PBXContainerItemProxy */;
+			targetProxy = 7552D98D21619EE5004FF8C8 /* PBXContainerItemProxy */;
 		};
 		7578304720F3164900159E5F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -443,11 +457,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		757D6B0A20111B0200C2E96F /* ReportWindow.strings */ = {
+		7552D95F21619C87004FF8C8 /* ILReportWindow.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				757D6B0920111B0200C2E96F /* en */,
-				75DF1AC220796F2A0026BBD8 /* es */,
+				7552D95E21619C87004FF8C8 /* Base */,
+				7552D96121619D7E004FF8C8 /* en */,
+				7552D96C21619E3C004FF8C8 /* es */,
+			);
+			name = ILReportWindow.xib;
+			path = ../../ReportWindow/iOS;
+			sourceTree = "<group>";
+		};
+		7552D96321619DC2004FF8C8 /* ReportWindow.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7552D96421619DC2004FF8C8 /* en */,
+				7552D96521619DC2004FF8C8 /* es */,
 			);
 			name = ReportWindow.strings;
 			sourceTree = "<group>";
@@ -465,7 +490,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		7565730D20F8F6A100CAA0A4 /* Debug */ = {
+		7552D98721619EC1004FF8C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -504,7 +529,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = ReportWindow.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -518,7 +543,7 @@
 			};
 			name = Debug;
 		};
-		7565730E20F8F6A100CAA0A4 /* Release */ = {
+		7552D98821619EC1004FF8C8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -552,7 +577,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = ReportWindow.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -676,7 +701,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = ReportWindow.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -724,7 +749,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = ReportWindow.plist;
+				INFOPLIST_FILE = Resources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -740,11 +765,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7565730C20F8F6A100CAA0A4 /* Build configuration list for PBXNativeTarget "ReportWindow (iOS)" */ = {
+		7552D98621619EC1004FF8C8 /* Build configuration list for PBXNativeTarget "ReportWindow (iOS)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7565730D20F8F6A100CAA0A4 /* Debug */,
-				7565730E20F8F6A100CAA0A4 /* Release */,
+				7552D98721619EC1004FF8C8 /* Debug */,
+				7552D98821619EC1004FF8C8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

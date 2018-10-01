@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "756572FA20F8F6A100CAA0A4"
-               BuildableName = "ReportWindow.framework"
+               BlueprintIdentifier = "7552D97421619EC1004FF8C8"
+               BuildableName = "ReportWindow (iOS).framework"
                BlueprintName = "ReportWindow (iOS)"
                ReferencedContainer = "container:ReportWindow.xcodeproj">
             </BuildableReference>
@@ -45,8 +45,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "756572FA20F8F6A100CAA0A4"
-            BuildableName = "ReportWindow.framework"
+            BlueprintIdentifier = "7552D97421619EC1004FF8C8"
+            BuildableName = "ReportWindow (iOS).framework"
             BlueprintName = "ReportWindow (iOS)"
             ReferencedContainer = "container:ReportWindow.xcodeproj">
          </BuildableReference>
@@ -63,8 +63,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "756572FA20F8F6A100CAA0A4"
-            BuildableName = "ReportWindow.framework"
+            BlueprintIdentifier = "7552D97421619EC1004FF8C8"
+            BuildableName = "ReportWindow (iOS).framework"
             BlueprintName = "ReportWindow (iOS)"
             ReferencedContainer = "container:ReportWindow.xcodeproj">
          </BuildableReference>
