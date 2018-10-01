@@ -16,9 +16,9 @@ jobs:
           command: git clone https://github.com/alfwatt/KitBridge.git ../KitBridge
 
       - run:
-          name: Build Soup
+          name: Build ReportWindow (iOS)
           command: xcodebuild -scheme "ReportWindow (iOS)"
 
       - run:
-          name: Build addresses
+          name: Build ReportWindow (macOS)
           command: xcodebuild -scheme "ReportWindow (macOS)"
