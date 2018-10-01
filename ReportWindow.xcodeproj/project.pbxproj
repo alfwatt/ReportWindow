@@ -21,7 +21,7 @@
 		7552D98121619EC1004FF8C8 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7552D98321619EC1004FF8C8 /* ReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7552D96321619DC2004FF8C8 /* ReportWindow.strings */; };
 		7552D99321619EEC004FF8C8 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578304120F3163B00159E5F /* SparkKit.framework */; };
-		7552D99421619EF7004FF8C8 /* ILReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7552D95F21619C87004FF8C8 /* ILReportWindow.xib */; };
+		7552D99A2161A16A004FF8C8 /* ILReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7552D99C2161A16A004FF8C8 /* ILReportWindow.xib */; };
 		7578304820F316B400159E5F /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578303D20F3163B00159E5F /* SparkKit.framework */; };
 		75A2DEC01F76F9E900BFE0B2 /* ILReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */; };
 		75A2DEC11F76F9E900BFE0B2 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -112,14 +112,14 @@
 		7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ILReportingApplication.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		7518D82C1A4D5CBE00BA6E23 /* ILReportingApplication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ILReportingApplication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		7552D95B21619A69004FF8C8 /* config.yml */ = {isa = PBXFileReference; lastKnownFileType = text; name = config.yml; path = .circleci/config.yml; sourceTree = "<group>"; };
-		7552D95E21619C87004FF8C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
-		7552D96121619D7E004FF8C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		7552D96421619DC2004FF8C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ReportWindow.strings; sourceTree = "<group>"; };
 		7552D96521619DC2004FF8C8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ReportWindow.strings; sourceTree = "<group>"; };
-		7552D96C21619E3C004FF8C8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		7552D97221619E81004FF8C8 /* crash.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = crash.py; sourceTree = "<group>"; };
 		7552D97321619E81004FF8C8 /* crash.php */ = {isa = PBXFileReference; lastKnownFileType = text.script.php; path = crash.php; sourceTree = "<group>"; };
 		7552D98921619EC1004FF8C8 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7552D99B2161A16A004FF8C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
+		7552D99E2161A16F004FF8C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
+		7552D9A02161A170004FF8C8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		7578303420F3163B00159E5F /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = "<group>"; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportWindow.m; sourceTree = "<group>"; };
@@ -181,7 +181,7 @@
 		7565732220F91F3D00CAA0A4 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				7552D95F21619C87004FF8C8 /* ILReportWindow.xib */,
+				7552D99C2161A16A004FF8C8 /* ILReportWindow.xib */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -402,7 +402,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7552D99421619EF7004FF8C8 /* ILReportWindow.xib in Resources */,
+				7552D99A2161A16A004FF8C8 /* ILReportWindow.xib in Resources */,
 				7552D98321619EC1004FF8C8 /* ReportWindow.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -455,17 +455,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		7552D95F21619C87004FF8C8 /* ILReportWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				7552D95E21619C87004FF8C8 /* Base */,
-				7552D96121619D7E004FF8C8 /* en */,
-				7552D96C21619E3C004FF8C8 /* es */,
-			);
-			name = ILReportWindow.xib;
-			path = ../../ReportWindow/iOS;
-			sourceTree = "<group>";
-		};
 		7552D96321619DC2004FF8C8 /* ReportWindow.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -473,6 +462,16 @@
 				7552D96521619DC2004FF8C8 /* es */,
 			);
 			name = ReportWindow.strings;
+			sourceTree = "<group>";
+		};
+		7552D99C2161A16A004FF8C8 /* ILReportWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7552D99B2161A16A004FF8C8 /* Base */,
+				7552D99E2161A16F004FF8C8 /* en */,
+				7552D9A02161A170004FF8C8 /* es */,
+			);
+			name = ILReportWindow.xib;
 			sourceTree = "<group>";
 		};
 		75DF1AC320796FAE0026BBD8 /* ILReportWindow.xib */ = {
