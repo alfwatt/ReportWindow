@@ -1,15 +1,21 @@
-ReportWindow
-==============
+# ReportWindow
 
 iStumbler Labs Report Window for Crashes, Exceptions and Errors
 
-GitLab: https://gitlab.com/alfwatt/reportwindow
+Source: [GitLab](https://gitlab.com/alfwatt/reportwindow) - [GitHub](https://github.com/alfwatt/ReportWindow)
 
-GitHub: https://github.com/alfwatt/ReportWindow
+<a id="support"></a>
+## Support ReportWindow!
+
+Are you using ReportWindow in your apps? Would you like to help support the project and get a sponsor credit?
+
+Visit our [Patreon Page](https://www.patreon.com/istumblerlabs) and patronize us in exchange for great rewards!
+
 
 ## Usage
 
 Indlude ReportWindow.framework and ExceptionHandling.framework in your application project.
+
 
 ## Configuration
 
@@ -40,6 +46,7 @@ reportBug:
 - Control + Shift - Report a Test Error with Recovery Options
 - Control + Option - Immediatly Crash the App
 
+
 ## Classes
 
 ### ILReportWindow
@@ -54,9 +61,11 @@ Provides an exception recovery mechanisim by converting recognized NSExceptions 
 
 NSApplication subclass which encapsulates all the reporting behaviour.
 
+
 ## L10N
 
 Spanish translation by Juan Pablo Atienza Martínez
+
 
 ## Release History
 
@@ -65,6 +74,7 @@ Spanish translation by Juan Pablo Atienza Martínez
 ### 1.2 - Remove Email Reporting Method
 ### 1.1 - Add ILReportingApplication
 ### 1.0 - First!
+
 
 ## License
 
