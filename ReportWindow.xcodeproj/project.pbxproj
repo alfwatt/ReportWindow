@@ -127,6 +127,7 @@
 		75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		75AF8E6919A8F5AC003D7B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReportWindow.h; sourceTree = "<group>"; };
+		75D2C058216C69E8005B4D5C /* crash.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = crash.js; sourceTree = "<group>"; };
 		75DF1AC620796FCC0026BBD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
 		75DF1AC8207970250026BBD8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		75DF1ACA207970270026BBD8 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
@@ -174,6 +175,7 @@
 			children = (
 				7552D97221619E81004FF8C8 /* crash.py */,
 				7552D97321619E81004FF8C8 /* crash.php */,
+				75D2C058216C69E8005B4D5C /* crash.js */,
 			);
 			path = "cgi-bin";
 			sourceTree = "<group>";
@@ -353,8 +355,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				75AF8E6419A8F5AC003D7B46 /* ReportWindow (macOS) */,
 				7552D97421619EC1004FF8C8 /* ReportWindow (iOS) */,
+				75AF8E6419A8F5AC003D7B46 /* ReportWindow (macOS) */,
 			);
 		};
 /* End PBXProject section */
