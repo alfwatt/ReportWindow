@@ -29,6 +29,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "7552D97421619EC1004FF8C8"
+            BuildableName = "ReportWindow.framework"
+            BlueprintName = "ReportWindow (iOS)"
+            ReferencedContainer = "container:../reportwindow/ReportWindow.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
