@@ -20,9 +20,5 @@ jobs:
           command: git clone https://github.com/alfwatt/SparkKit.git ../SparkKit
 
       - run:
-          name: Build ReportWindow (iOS)
-          command: xcodebuild -scheme "ReportWindow (iOS)"
-
-      - run:
-          name: Build ReportWindow (macOS)
-          command: xcodebuild -scheme "ReportWindow (macOS)"
+          name: Build ReportWindow
+          command: xcodebuild -scheme "ReportWindow"

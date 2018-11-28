@@ -1,4 +1,4 @@
-#import <SparkKit/SparkKit.h>
+#import <KitBridge/KitBridge.h>
 
 #pragma mark - NSUserDefaults keys
 

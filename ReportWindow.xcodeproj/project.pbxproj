@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		D3FA035F21AE135B0056280B /* ReportWindow */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = D3FA036021AE135B0056280B /* Build configuration list for PBXAggregateTarget "ReportWindow" */;
+			buildPhases = (
+			);
+			dependencies = (
+				D3FA036421AE13630056280B /* PBXTargetDependency */,
+				D3FA036621AE13630056280B /* PBXTargetDependency */,
+			);
+			name = ReportWindow;
+			productName = ReportWindow;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		7504642819E2683F008388F1 /* ILExceptionRecovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 7504642619E2683F008388F1 /* ILExceptionRecovery.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7504642919E2683F008388F1 /* ILExceptionRecovery.m in Sources */ = {isa = PBXBuildFile; fileRef = 7504642719E2683F008388F1 /* ILExceptionRecovery.m */; };
@@ -20,9 +35,7 @@
 		7552D98021619EC1004FF8C8 /* ILExceptionRecovery.h in Headers */ = {isa = PBXBuildFile; fileRef = 7504642619E2683F008388F1 /* ILExceptionRecovery.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7552D98121619EC1004FF8C8 /* ILReportingApplication.h in Headers */ = {isa = PBXBuildFile; fileRef = 7518D82B1A4D5CBE00BA6E23 /* ILReportingApplication.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7552D98321619EC1004FF8C8 /* ReportWindow.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7552D96321619DC2004FF8C8 /* ReportWindow.strings */; };
-		7552D99321619EEC004FF8C8 /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578304120F3163B00159E5F /* SparkKit.framework */; };
 		7552D99A2161A16A004FF8C8 /* ILReportWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7552D99C2161A16A004FF8C8 /* ILReportWindow.xib */; };
-		7578304820F316B400159E5F /* SparkKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7578303D20F3163B00159E5F /* SparkKit.framework */; };
 		75A2DEC01F76F9E900BFE0B2 /* ILReportWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */; };
 		75A2DEC11F76F9E900BFE0B2 /* ILReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		75AF8E6B19A8F5AC003D7B46 /* ReportWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 75AF8E6A19A8F5AC003D7B46 /* ReportWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -55,54 +68,68 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
-		7552D98D21619EE5004FF8C8 /* PBXContainerItemProxy */ = {
+		D3FA035121AE13030056280B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
+			containerPortal = D3FA034921AE13030056280B /* KitBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 75DCBEF21ED2C84B00538D87;
+			remoteInfo = "KitBridge (iOS)";
+		};
+		D3FA035321AE13030056280B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3FA034921AE13030056280B /* KitBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 75C6A41B21274CFA00367C24;
+			remoteInfo = "KitBridge (iOS, Swift)";
+		};
+		D3FA035521AE13030056280B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3FA034921AE13030056280B /* KitBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 75DCBEE21ED2C81E00538D87;
+			remoteInfo = "KitBridge (macOS)";
+		};
+		D3FA035721AE13030056280B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3FA034921AE13030056280B /* KitBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 75C6A36E21268C5300367C24;
+			remoteInfo = "KitBridge (macOS, Swift)";
+		};
+		D3FA035921AE13030056280B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3FA034921AE13030056280B /* KitBridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 75A0CEE020D997330091D26A;
+			remoteInfo = colorist;
+		};
+		D3FA035B21AE133F0056280B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D3FA034921AE13030056280B /* KitBridge.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 75F5A93D1D1A134A00A17804;
-			remoteInfo = "SparkKit (iOS)";
+			remoteGlobalIDString = 75DCBEF11ED2C84B00538D87;
+			remoteInfo = "KitBridge (iOS)";
 		};
-		7578303C20F3163B00159E5F /* PBXContainerItemProxy */ = {
+		D3FA035D21AE13460056280B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 75971DEF1D138C0400EA65D3;
-			remoteInfo = "SparkKit (macOS)";
-		};
-		7578303E20F3163B00159E5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 75F5A9081D1902C500A17804;
-			remoteInfo = "Sparky (macOS)";
-		};
-		7578304020F3163B00159E5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 75F5A9511D1A134A00A17804;
-			remoteInfo = "SparkKit (iOS)";
-		};
-		7578304220F3163B00159E5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 75F5A9261D1A133A00A17804;
-			remoteInfo = "Sparky (iOS)";
-		};
-		7578304420F3163B00159E5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 75543AF01F22A1E70050BAF2;
-			remoteInfo = "Sparky TV";
-		};
-		7578304620F3164900159E5F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
+			containerPortal = D3FA034921AE13030056280B /* KitBridge.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 75971DEE1D138C0400EA65D3;
-			remoteInfo = "SparkKit (macOS)";
+			remoteGlobalIDString = 75DCBEE11ED2C81E00538D87;
+			remoteInfo = "KitBridge (macOS)";
+		};
+		D3FA036321AE13630056280B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8E5A19A8F55E003D7B46 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7552D97421619EC1004FF8C8;
+			remoteInfo = "ReportWindow (iOS)";
+		};
+		D3FA036521AE13630056280B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 75AF8E5A19A8F55E003D7B46 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 75AF8E6419A8F5AC003D7B46;
+			remoteInfo = "ReportWindow (macOS)";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -120,7 +147,6 @@
 		7552D99B2161A16A004FF8C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
 		7552D99E2161A16F004FF8C8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		7552D9A02161A170004FF8C8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
-		7578303420F3163B00159E5F /* SparkKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SparkKit.xcodeproj; path = ../SparkKit/SparkKit.xcodeproj; sourceTree = "<group>"; };
 		758ADC6619C622FD007C9194 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; lineEnding = 0; path = README.md; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		75A2DEBE1F76F9E800BFE0B2 /* ILReportWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILReportWindow.m; sourceTree = "<group>"; };
 		75A2DEBF1F76F9E900BFE0B2 /* ILReportWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILReportWindow.h; sourceTree = "<group>"; };
@@ -131,6 +157,7 @@
 		75DF1AC620796FCC0026BBD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
 		75DF1AC8207970250026BBD8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		75DF1ACA207970270026BBD8 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
+		D3FA034921AE13030056280B /* KitBridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KitBridge.xcodeproj; path = ../KitBridge/KitBridge.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,7 +165,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7552D99321619EEC004FF8C8 /* SparkKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,7 +172,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7578304820F316B400159E5F /* SparkKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,18 +221,6 @@
 			path = macOS;
 			sourceTree = "<group>";
 		};
-		7578303520F3163B00159E5F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7578303D20F3163B00159E5F /* SparkKit.framework */,
-				7578304120F3163B00159E5F /* SparkKit.framework */,
-				7578303F20F3163B00159E5F /* Sparky.app */,
-				7578304320F3163B00159E5F /* Sparky.app */,
-				7578304520F3163B00159E5F /* Sparky TV.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		75AF8E5919A8F55E003D7B46 = {
 			isa = PBXGroup;
 			children = (
@@ -249,9 +262,21 @@
 		75AF8E8619A8F658003D7B46 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7578303420F3163B00159E5F /* SparkKit.xcodeproj */,
+				D3FA034921AE13030056280B /* KitBridge.xcodeproj */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D3FA034A21AE13030056280B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D3FA035221AE13030056280B /* KitBridge.framework */,
+				D3FA035421AE13030056280B /* KitBridge.framework */,
+				D3FA035621AE13030056280B /* KitBridge.framework */,
+				D3FA035821AE13030056280B /* KitBridge.framework */,
+				D3FA035A21AE13030056280B /* colorist */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,7 +320,7 @@
 				7552D98521619EC1004FF8C8 /* PBXBuildRule */,
 			);
 			dependencies = (
-				7552D98E21619EE5004FF8C8 /* PBXTargetDependency */,
+				D3FA035C21AE133F0056280B /* PBXTargetDependency */,
 			);
 			name = "ReportWindow (iOS)";
 			productName = CrashReportWindow;
@@ -315,7 +340,7 @@
 				75D696FA19B58880005FE4FF /* PBXBuildRule */,
 			);
 			dependencies = (
-				7578304720F3164900159E5F /* PBXTargetDependency */,
+				D3FA035E21AE13460056280B /* PBXTargetDependency */,
 			);
 			name = "ReportWindow (macOS)";
 			productName = CrashReportWindow;
@@ -333,6 +358,10 @@
 					75AF8E6419A8F5AC003D7B46 = {
 						CreatedOnToolsVersion = 6.0;
 					};
+					D3FA035F21AE135B0056280B = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 75AF8E5D19A8F55E003D7B46 /* Build configuration list for PBXProject "ReportWindow" */;
@@ -349,52 +378,53 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 7578303520F3163B00159E5F /* Products */;
-					ProjectRef = 7578303420F3163B00159E5F /* SparkKit.xcodeproj */;
+					ProductGroup = D3FA034A21AE13030056280B /* Products */;
+					ProjectRef = D3FA034921AE13030056280B /* KitBridge.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				7552D97421619EC1004FF8C8 /* ReportWindow (iOS) */,
 				75AF8E6419A8F5AC003D7B46 /* ReportWindow (macOS) */,
+				D3FA035F21AE135B0056280B /* ReportWindow */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		7578303D20F3163B00159E5F /* SparkKit.framework */ = {
+		D3FA035221AE13030056280B /* KitBridge.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = SparkKit.framework;
-			remoteRef = 7578303C20F3163B00159E5F /* PBXContainerItemProxy */;
+			path = KitBridge.framework;
+			remoteRef = D3FA035121AE13030056280B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7578303F20F3163B00159E5F /* Sparky.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Sparky.app;
-			remoteRef = 7578303E20F3163B00159E5F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7578304120F3163B00159E5F /* SparkKit.framework */ = {
+		D3FA035421AE13030056280B /* KitBridge.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = SparkKit.framework;
-			remoteRef = 7578304020F3163B00159E5F /* PBXContainerItemProxy */;
+			path = KitBridge.framework;
+			remoteRef = D3FA035321AE13030056280B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7578304320F3163B00159E5F /* Sparky.app */ = {
+		D3FA035621AE13030056280B /* KitBridge.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = Sparky.app;
-			remoteRef = 7578304220F3163B00159E5F /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = KitBridge.framework;
+			remoteRef = D3FA035521AE13030056280B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7578304520F3163B00159E5F /* Sparky TV.app */ = {
+		D3FA035821AE13030056280B /* KitBridge.framework */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Sparky TV.app";
-			remoteRef = 7578304420F3163B00159E5F /* PBXContainerItemProxy */;
+			fileType = wrapper.framework;
+			path = KitBridge.framework;
+			remoteRef = D3FA035721AE13030056280B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D3FA035A21AE13030056280B /* colorist */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = colorist;
+			remoteRef = D3FA035921AE13030056280B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -444,15 +474,25 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7552D98E21619EE5004FF8C8 /* PBXTargetDependency */ = {
+		D3FA035C21AE133F0056280B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "SparkKit (iOS)";
-			targetProxy = 7552D98D21619EE5004FF8C8 /* PBXContainerItemProxy */;
+			name = "KitBridge (iOS)";
+			targetProxy = D3FA035B21AE133F0056280B /* PBXContainerItemProxy */;
 		};
-		7578304720F3164900159E5F /* PBXTargetDependency */ = {
+		D3FA035E21AE13460056280B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = "SparkKit (macOS)";
-			targetProxy = 7578304620F3164900159E5F /* PBXContainerItemProxy */;
+			name = "KitBridge (macOS)";
+			targetProxy = D3FA035D21AE13460056280B /* PBXContainerItemProxy */;
+		};
+		D3FA036421AE13630056280B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7552D97421619EC1004FF8C8 /* ReportWindow (iOS) */;
+			targetProxy = D3FA036321AE13630056280B /* PBXContainerItemProxy */;
+		};
+		D3FA036621AE13630056280B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 75AF8E6419A8F5AC003D7B46 /* ReportWindow (macOS) */;
+			targetProxy = D3FA036521AE13630056280B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -761,6 +801,22 @@
 			};
 			name = Release;
 		};
+		D3FA036121AE135B0056280B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D3FA036221AE135B0056280B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -787,6 +843,15 @@
 			buildConfigurations = (
 				75AF8E7619A8F5AC003D7B46 /* Debug */,
 				75AF8E7719A8F5AC003D7B46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D3FA036021AE135B0056280B /* Build configuration list for PBXAggregateTarget "ReportWindow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3FA036121AE135B0056280B /* Debug */,
+				D3FA036221AE135B0056280B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
