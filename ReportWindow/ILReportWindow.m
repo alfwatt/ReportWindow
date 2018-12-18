@@ -509,10 +509,10 @@ exit:
     NSArray* screenshots = [ILReportWindow windowScreenshots]; // TODO process these for size, maybe 8-bit greyscale?
     for (NSDictionary* screenshot in screenshots) {
         NSDictionary* commentsAttributes = @{NSFontAttributeName: [ILFont fontWithName:@"Menlo" size:9]};
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Window Screenshot -\n\n" attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Window Screenshot -\n\n" attributes:commentsAttributes]];
 
         for( NSString* key in @[ILReportWindowTitle, ILReportWindowFrame]) {
-            [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\t%@\n", ILLocalizedString(key), [screenshot objectForKey:key]] attributes:commentsAttributes]];
+            [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[NSString stringWithFormat:@"\t%@\t%@\n", ILLocalizedString(key), [screenshot objectForKey:key]] attributes:commentsAttributes]];
         }
 
         NSImage* screenshotImage = [screenshot objectForKey:ILReportWindowImage];
@@ -845,7 +845,7 @@ exit:
 - (void) awakeFromNib
 {
     // setup the headline from the app name and event message
-    NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
+    NSString* appName = [NSBundle.mainBundle.infoDictionary objectForKey:(NSString*)kCFBundleNameKey];
  
     // setup the username and email fields for uesrs we know them from
     NSString* defaultsUsername = [NSUserDefaults.standardUserDefaults stringForKey:ILReportWindowUserFullNameKey];
@@ -951,26 +951,30 @@ exit:
 #endif
 
     // fill in the comments section
-    NSDictionary* commentsAttributes = @{NSFontAttributeName: [ILFont fontWithName:@"Menlo" size:9]};
-    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:ILLocalizedString(ILReportWindowCommentsString) attributes:commentsAttributes]];
+    NSDictionary* commentsAttributes = @{
+        NSFontAttributeName: [ILFont fontWithName:@"Menlo" size:9],
+        NSStrokeColorAttributeName: ILColor.controlTextColor
+    };
+    
+    [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:ILLocalizedString(ILReportWindowCommentsString) attributes:commentsAttributes]];
     
     // if the error wasn't explicity set, grab the last one
     if (self.error) {
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:self.error] attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[ILReportWindow errorReport:self.error] attributes:commentsAttributes]];
     }
     
     if (self.exception) {
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Exception -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow exceptionReport:self.exception] attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Exception -\n\n" attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[ILReportWindow exceptionReport:self.exception] attributes:commentsAttributes]];
     }
 
     if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey]) {
         NSDictionary* defaultsDictionary = [NSUserDefaults.standardUserDefaults persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         defaultsDictionary = [[self class] filterDataFromDictionary:defaultsDictionary];
         NSString* defaultsString = [defaultsDictionary description];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Application Defaults -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:defaultsString attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Application Defaults -\n\n" attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:defaultsString attributes:commentsAttributes]];
     }
     
     // following report segments might take some time to gather, create a serial queue
@@ -983,12 +987,12 @@ exit:
         NSString* reportPath = [ILReportWindow latestSystemCrashReport];
         if (reportPath) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
+                [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
 
-                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
+                [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
 
                 NSString* reportContents = [NSString stringWithContentsOfFile:reportPath encoding:NSUTF8StringEncoding error:nil];
-                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@\n",reportContents] attributes:commentsAttributes]];
+                [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[NSString stringWithFormat:@"\n%@\n",reportContents] attributes:commentsAttributes]];
             }];
         }
     }];
@@ -999,10 +1003,10 @@ exit:
         
         if (crashReports && crashReports.count > 0) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
+                [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
 
                 for (NSString* reportPath in crashReports) {
-                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
+                    [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
                 }
             }];
         }
@@ -1021,8 +1025,8 @@ exit:
             NSString* logString = [ILReportWindow fetchSyslog];
             if (logString && logString.length > 0) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
-                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:logString attributes:commentsAttributes]];
+                    [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
+                    [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:logString attributes:commentsAttributes]];
                 }];
             }
         }];
@@ -1344,8 +1348,8 @@ exit:
     if (connectionError) { // log it to the console
         NSLog(@"%@ connection to: %@ failed: %@", self.class, connection.currentRequest.URL, [ILReportWindow errorReport:connectionError]);
         NSDictionary* commentsAttributes = @{NSFontAttributeName: [ILFont fontWithName:@"Menlo" size:9]};
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
-        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:connectionError] attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[ILReportWindow errorReport:connectionError] attributes:commentsAttributes]];
     }
 }
 
