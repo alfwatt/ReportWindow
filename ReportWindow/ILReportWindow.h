@@ -114,12 +114,12 @@ typedef enum
 ILReportWindowMode;
 
 #if IL_APP_KIT
-@interface ILReportWindow : NSWindowController <NSURLConnectionDelegate>
+@interface ILReportWindow : NSWindowController <NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 @property(nonatomic,assign) NSModalSession modalSession;
 @property(nonatomic,retain) IBOutlet NSButton* screenshots;
 @property(nonatomic,retain) IBOutlet NSButton* remember;
 #elif IL_UI_KIT
-@interface ILReportWindow : UIViewController <NSURLConnectionDelegate>
+@interface ILReportWindow : UIViewController <NSURLSessionTaskDelegate, NSURLSessionDataDelegate>
 @property(nonatomic,retain) IBOutlet UIWindow* window;
 #endif
 @property(nonatomic,retain) IBOutlet ILProgressView* progress;

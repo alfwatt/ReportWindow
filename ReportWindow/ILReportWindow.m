@@ -330,7 +330,6 @@ exit:
 {
     static int fatal_signals[] = {SIGABRT, SIGBUS, SIGFPE, SIGILL, SIGSEGV, SIGTRAP};
     static int fatal_signals_count = (sizeof(fatal_signals) / sizeof(fatal_signals[0]));
-    int pid = [[NSProcessInfo processInfo] processIdentifier];
     
     // clear out all the fatal signal handlers, so we don't end up crashing all the way down
     for (int i = 0; i < fatal_signals_count; i++) {
@@ -343,8 +342,8 @@ exit:
         sigaction(fatal_signals[i], &sa, NULL);
     }
     
-    NSString* shellEscapedAppPath = [NSString stringWithFormat:@"'%@'", [[[NSBundle mainBundle] bundlePath] stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"]];
-    NSString *script = [NSString stringWithFormat:@"(while /bin/kill -0 %d >&/dev/null; do /bin/sleep 0.1; done; /usr/bin/open %@) &", pid, shellEscapedAppPath];
+    NSString* shellEscapedAppPath = [NSString stringWithFormat:@"'%@'", [NSBundle.mainBundle.bundlePath stringByReplacingOccurrencesOfString:@"'" withString:@"'\\''"]];
+    NSString *script = [NSString stringWithFormat:@"(while /bin/kill -0 %d >&/dev/null; do /bin/sleep 0.1; done; /usr/bin/open %@) &", NSProcessInfo.processInfo.processIdentifier, shellEscapedAppPath];
     [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", script]] waitUntilExit];
     exit(1);
 }
@@ -356,44 +355,44 @@ exit:
     static const int KILO = 1024;
     
     if (fsSize == 0) {
-        return NSLocalizedStringFromTableInBundle( @"", nil, [NSBundle bundleForClass:[self class]], @"File size, for empty files and directories");
+        return NSLocalizedStringFromTableInBundle( @"", nil, [NSBundle bundleForClass:self.class], @"File size, for empty files and directories");
     }
     
     if (fsSize < KILO) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%i Bytes", nil, [NSBundle bundleForClass:[self class]], @"File size, for items that are less than 1 kilobyte"), fsSize];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%i Bytes", nil, [NSBundle bundleForClass:self.class], @"File size, for items that are less than 1 kilobyte"), fsSize];
     }
     
     double numK = (double) fsSize / KILO;
     if (numK < KILO) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f KB", nil, [NSBundle bundleForClass:[self class]], @"File size in Kilobytes"), numK];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f KB", nil, [NSBundle bundleForClass:self.class], @"File size in Kilobytes"), numK];
     }
     
     double numMB = numK / KILO;
     if (numMB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%.1f MB", nil, [NSBundle bundleForClass:[self class]], @"File size in Megabytes"), numMB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle(@"%.1f MB", nil, [NSBundle bundleForClass:self.class], @"File size in Megabytes"), numMB];
     }
     
     double numGB = numMB / KILO;
     if (numGB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f GB", nil, [NSBundle bundleForClass:[self class]], @"File size in Gigabytes"), numGB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f GB", nil, [NSBundle bundleForClass:self.class], @"File size in Gigabytes"), numGB];
     }
     
     double numTB = numGB / KILO;
     if (numTB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f TB", nil, [NSBundle bundleForClass:[self class]], @"File size in Terrabytes"), numTB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f TB", nil, [NSBundle bundleForClass:self.class], @"File size in Terrabytes"), numTB];
     }
     
     double numPB = numTB / KILO;
     if (numPB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f PB", nil, [NSBundle bundleForClass:[self class]], @"File size in Petabytes"), numPB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f PB", nil, [NSBundle bundleForClass:self.class], @"File size in Petabytes"), numPB];
     }
     
     double numEB = numPB / KILO;
     if (numEB < KILO) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f EB", nil, [NSBundle bundleForClass:[self class]], @"File size in Exabytes"), numEB];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%.1f EB", nil, [NSBundle bundleForClass:self.class], @"File size in Exabytes"), numEB];
     }
     
-    return NSLocalizedStringFromTableInBundle(@"Large", nil, [NSBundle bundleForClass:[self class]],  @"File size, for really large files");
+    return NSLocalizedStringFromTableInBundle(@"Large", nil, [NSBundle bundleForClass:self.class],  @"File size, for really large files");
 }
 /*
  @param array of plist entries (String, Number, Array, Dictionary, Data)
@@ -401,16 +400,16 @@ exit:
  */
 + (NSArray*) filterDataFromArray:(NSArray*) array
 {
-    NSMutableArray* filtered = [NSMutableArray new];
+    NSMutableArray* filtered = NSMutableArray.new;
 
     for (id item in array) {
-        if ([item isKindOfClass:[NSData class]]) {
+        if ([item isKindOfClass:NSData.class]) {
             [filtered addObject:[NSString stringWithFormat:@"<%@ data>", [self byteSizeAsString:[item length]]]];
         }
-        else if ([item isKindOfClass:[NSDictionary class]]) {
+        else if ([item isKindOfClass:NSDictionary.class]) {
             [filtered addObject:[self filterDataFromDictionary:item]];
         }
-        else if ([item isKindOfClass:[NSArray class]]) {
+        else if ([item isKindOfClass:NSArray.class]) {
             [filtered addObject:[self filterDataFromArray:item]];
         }
         else {
@@ -426,17 +425,17 @@ exit:
  */
 + (NSDictionary*) filterDataFromDictionary:(NSDictionary*) dictionary
 {
-    NSMutableDictionary* filtered = [NSMutableDictionary new];
+    NSMutableDictionary* filtered = NSMutableDictionary.new;
 
-    for (NSString* key in [dictionary allKeys]) {
+    for (NSString* key in dictionary.allKeys) {
         id value = [dictionary objectForKey:key];
-        if ([value isKindOfClass:[NSData class]]) {
+        if ([value isKindOfClass:NSData.class]) {
             value = [NSString stringWithFormat:@"<%@ data>", [self byteSizeAsString:[value length]]];
         }
-        else if ([value isKindOfClass:[NSDictionary class]]) {
+        else if ([value isKindOfClass:NSDictionary.class]) {
             value = [self filterDataFromDictionary:value];
         }
-        else if ([value isKindOfClass:[NSArray class]]) {
+        else if ([value isKindOfClass:NSArray.class]) {
             value = [self filterDataFromArray:value];
         }
         [filtered setObject:value forKey:key];
@@ -450,7 +449,7 @@ exit:
 + (instancetype) windowForSystemCrashReport:(NSString*) crashReportPath
 {
 #if IL_APP_KIT
-    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
+    ILReportWindow* window = [ILReportWindow.alloc initWithWindowNibName:self.className];
     window.mode = ILReportWindowCrashMode;
     return window;
 #else
@@ -461,9 +460,9 @@ exit:
 + (instancetype) windowForError:(NSError*) error
 {
 #if IL_APP_KIT
-    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
+    ILReportWindow* window = [ILReportWindow.alloc initWithWindowNibName:self.className];
     
-    if ([[[error userInfo] objectForKey:ILReportWindowTreatErrorAsBugKey] boolValue]) {
+    if ([[error.userInfo objectForKey:ILReportWindowTreatErrorAsBugKey] boolValue]) {
         window.mode = ILReportWindowBugMode;
     }
     else {
@@ -481,7 +480,7 @@ exit:
 + (instancetype) windowForException:(NSException*) exception
 {
 #if IL_APP_KIT
-    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
+    ILReportWindow* window = [ILReportWindow.alloc initWithWindowNibName:self.className];
     window.mode = ILReportWindowExceptionMode;
     window.exception = exception;
     return window;
@@ -493,7 +492,7 @@ exit:
 + (instancetype) windowForBug
 {
 #if IL_APP_KIT
-    ILReportWindow* window = [[ILReportWindow alloc] initWithWindowNibName:[self className]];
+    ILReportWindow* window = [ILReportWindow.alloc initWithWindowNibName:self.className];
     window.mode = ILReportWindowBugMode;
     return window;
 #else
@@ -501,22 +500,36 @@ exit:
 #endif
 }
 
++ (NSDictionary*) commentsAttributes
+{
+    static NSDictionary* commentsAttributes;
+    if (!commentsAttributes) {
+        commentsAttributes = @{
+            NSFontAttributeName: [ILFont fontWithName:@"Menlo" size:9],
+            NSBackgroundColorAttributeName: ILColor.controlBackgroundColor,
+            NSForegroundColorAttributeName: ILColor.controlTextColor
+        };
+    }
+    return commentsAttributes;
+}
+
 #pragma mark - 
+
 
 - (void) takeScreenshots
 {
 #if IL_APP_KIT
     NSArray* screenshots = [ILReportWindow windowScreenshots]; // TODO process these for size, maybe 8-bit greyscale?
     for (NSDictionary* screenshot in screenshots) {
-        NSDictionary* commentsAttributes = @{NSFontAttributeName: [ILFont fontWithName:@"Menlo" size:9]};
-        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Window Screenshot -\n\n" attributes:commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Window Screenshot -\n\n" attributes:ILReportWindow.commentsAttributes]];
 
         for( NSString* key in @[ILReportWindowTitle, ILReportWindowFrame]) {
-            [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[NSString stringWithFormat:@"\t%@\t%@\n", ILLocalizedString(key), [screenshot objectForKey:key]] attributes:commentsAttributes]];
+            NSString* comments = [NSString stringWithFormat:@"\t%@\t%@\n", ILLocalizedString(key), [screenshot objectForKey:key]];
+            [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:comments attributes:ILReportWindow.commentsAttributes]];
         }
 
         NSImage* screenshotImage = [screenshot objectForKey:ILReportWindowImage];
-        NSTextAttachmentCell* screenshotCell = [[NSTextAttachmentCell alloc] initImageCell:screenshotImage];
+        NSTextAttachmentCell* screenshotCell = [NSTextAttachmentCell.alloc initImageCell:screenshotImage];
         NSTextAttachment* attachment = [NSTextAttachment new];
         [attachment setAttachmentCell:screenshotCell];
         [self.comments.textStorage appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
@@ -549,7 +562,7 @@ exit:
 
 - (void) runModal
 {
-    NSString* reportSignature = [self reportSignature];
+    NSString* reportSignature = self.reportSignature; // snapshot the value
     
     if ([NSUserDefaults.standardUserDefaults boolForKey:ILReportWindowIgnoreKey] && self.mode != ILReportWindowErrorMode) {
         return; // quietly ignore reports if the user doesn't care
@@ -560,17 +573,17 @@ exit:
         return;
     }
     
-    if ([self checkConfig]) {
+    if (self.checkConfig) {
         // clear the underlying exception handler
         self.exceptionHandler = NSGetUncaughtExceptionHandler();
         NSSetUncaughtExceptionHandler(nil);
         
 #if IL_APP_KIT
         // reset the NSExceptionHandler delegate and mask
-        self.exceptionDelegate = [[NSExceptionHandler defaultExceptionHandler] delegate];
-        self.exceptionMask = [[NSExceptionHandler defaultExceptionHandler] exceptionHandlingMask];
-        [[NSExceptionHandler defaultExceptionHandler] setExceptionHandlingMask:0]; // can't have a throw in the middle
-        [[NSExceptionHandler defaultExceptionHandler] setDelegate:nil]; // can't have a throw in the middle
+        self.exceptionDelegate = NSExceptionHandler.defaultExceptionHandler.delegate;
+        self.exceptionMask = NSExceptionHandler.defaultExceptionHandler.exceptionHandlingMask;
+        [NSExceptionHandler.defaultExceptionHandler setExceptionHandlingMask:0]; // can't have a throw in the middle
+        [NSExceptionHandler.defaultExceptionHandler setDelegate:nil]; // can't have a throw in the middle
         
         // now it's safe to show the window, any issues in our code will be treated as if there is no handling, preventing recursion
         [super showWindow:self];
@@ -658,19 +671,9 @@ exit:
     uploadRequest.HTTPMethod = @"POST";
     uploadRequest.HTTPBody = [requestBody dataUsingEncoding:NSUTF8StringEncoding]; // post data
     
-    // TODO move over to NSURLSession
-    // NSURLSession* session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration ephemeralSessionConfiguration]]; // no cookies for us, thanks
-    // NSURLSessionUploadTask* upload = [session uploadTaskWithRequest:uploadRequest fromData:[requestBody dataUsingEncoding:NSUTF8StringEncoding]];
-
-    NSURLConnection* upload = [NSURLConnection connectionWithRequest:uploadRequest delegate:self];
-    
-    self.responseBody = [NSMutableData new];
-#if IL_APP_KIT
-    [upload scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSModalPanelRunLoopMode];
-#else
-    [upload scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-#endif
-    [upload start];
+    NSURLSession* session = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.ephemeralSessionConfiguration delegate:self delegateQueue:nil];
+    NSURLSessionUploadTask* upload = [session uploadTaskWithRequest:uploadRequest fromData:[requestBody dataUsingEncoding:NSUTF8StringEncoding]];
+    [upload resume];
 }
 
 - (void) emailReportTo:(NSURL*) mailtoURL
@@ -951,6 +954,7 @@ exit:
 #endif
 
     // fill in the comments section
+<<<<<<< HEAD
     NSDictionary* commentsAttributes = @{
         NSFontAttributeName: [ILFont fontWithName:@"Menlo" size:9],
         NSStrokeColorAttributeName: ILColor.controlTextColor
@@ -967,14 +971,32 @@ exit:
     if (self.exception) {
         [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Exception -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[ILReportWindow exceptionReport:self.exception] attributes:commentsAttributes]];
+=======
+    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:ILLocalizedString(ILReportWindowCommentsString) attributes:ILReportWindow.commentsAttributes]];
+    
+    // if the error wasn't explicity set, grab the last one
+    if (self.error) {
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:ILReportWindow.commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:self.error] attributes:ILReportWindow.commentsAttributes]];
+    }
+    
+    if (self.exception) {
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Exception -\n\n" attributes:ILReportWindow.commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow exceptionReport:self.exception] attributes:ILReportWindow.commentsAttributes]];
+>>>>>>> NSURLConnection -> NSURLSession
     }
 
     if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey]) {
         NSDictionary* defaultsDictionary = [NSUserDefaults.standardUserDefaults persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
         defaultsDictionary = [[self class] filterDataFromDictionary:defaultsDictionary];
         NSString* defaultsString = [defaultsDictionary description];
+<<<<<<< HEAD
         [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Application Defaults -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:defaultsString attributes:commentsAttributes]];
+=======
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Application Defaults -\n\n" attributes:ILReportWindow.commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:defaultsString attributes:ILReportWindow.commentsAttributes]];
+>>>>>>> NSURLConnection -> NSURLSession
     }
     
     // following report segments might take some time to gather, create a serial queue
@@ -987,12 +1009,21 @@ exit:
         NSString* reportPath = [ILReportWindow latestSystemCrashReport];
         if (reportPath) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+<<<<<<< HEAD
                 [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:commentsAttributes]];
 
                 [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
 
                 NSString* reportContents = [NSString stringWithContentsOfFile:reportPath encoding:NSUTF8StringEncoding error:nil];
                 [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[NSString stringWithFormat:@"\n%@\n",reportContents] attributes:commentsAttributes]];
+=======
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Latest Crash Report -\n\n" attributes:ILReportWindow.commentsAttributes]];
+
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:ILReportWindow.commentsAttributes]];
+
+                NSString* reportContents = [NSString stringWithContentsOfFile:reportPath encoding:NSUTF8StringEncoding error:nil];
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\n%@\n",reportContents] attributes:ILReportWindow.commentsAttributes]];
+>>>>>>> NSURLConnection -> NSURLSession
             }];
         }
     }];
@@ -1003,10 +1034,17 @@ exit:
         
         if (crashReports && crashReports.count > 0) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+<<<<<<< HEAD
                 [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Crash Reports -\n\n" attributes:commentsAttributes]];
 
                 for (NSString* reportPath in crashReports) {
                     [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:commentsAttributes]];
+=======
+                [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Crash Reports -\n\n" attributes:ILReportWindow.commentsAttributes]];
+
+                for (NSString* reportPath in crashReports) {
+                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"\t%@\n",reportPath] attributes:ILReportWindow.commentsAttributes]];
+>>>>>>> NSURLConnection -> NSURLSession
                 }
             }];
         }
@@ -1025,8 +1063,13 @@ exit:
             NSString* logString = [ILReportWindow fetchSyslog];
             if (logString && logString.length > 0) {
                 [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+<<<<<<< HEAD
                     [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- System Log -\n\n" attributes:commentsAttributes]];
                     [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:logString attributes:commentsAttributes]];
+=======
+                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- System Log -\n\n" attributes:ILReportWindow.commentsAttributes]];
+                    [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:logString attributes:ILReportWindow.commentsAttributes]];
+>>>>>>> NSURLConnection -> NSURLSession
                 }];
             }
         }];
@@ -1207,9 +1250,9 @@ exit:
         else { //  display the page to the user
             NSLog(@"%@ error submitting a report: %li redirect: %@", self.class, (long)self.response.statusCode, redirect.URL);
 #if IL_APP_KIT
-            [[NSWorkspace sharedWorkspace] openURL:redirect.URL];
+            [NSWorkspace.sharedWorkspace openURL:redirect.URL];
 #elif IL_UI_KIT
-            [[UIApplication sharedApplication] openURL:redirect.URL options:@{} completionHandler:nil];
+            [UIApplication.sharedApplication openURL:redirect.URL options:@{} completionHandler:nil];
 #endif
         }
     }
@@ -1249,7 +1292,6 @@ exit:
 
 #pragma mark - NSURLSessionDataDelegate
 
-
 - (void) URLSession:(NSURLSession*)session dataTask:(NSURLSessionDataTask*)dataTask didReceiveData:(NSData*)data
 {
     [self.responseBody appendData:data];
@@ -1261,8 +1303,8 @@ exit:
 #endif
 }
 
-#pragma mark - DEPRICATED
-#pragma mark - NSURLConnectionDataDelegate
+#if 0
+#pragma mark - 
 
 //
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)URLresponse
@@ -1347,9 +1389,14 @@ exit:
     
     if (connectionError) { // log it to the console
         NSLog(@"%@ connection to: %@ failed: %@", self.class, connection.currentRequest.URL, [ILReportWindow errorReport:connectionError]);
+<<<<<<< HEAD
         NSDictionary* commentsAttributes = @{NSFontAttributeName: [ILFont fontWithName:@"Menlo" size:9]};
         [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Error -\n\n" attributes:commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:[ILReportWindow errorReport:connectionError] attributes:commentsAttributes]];
+=======
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n\n- Error -\n\n" attributes:ILReportWindow.commentsAttributes]];
+        [self.comments.textStorage appendAttributedString:[[NSAttributedString alloc] initWithString:[ILReportWindow errorReport:connectionError] attributes:ILReportWindow.commentsAttributes]];
+>>>>>>> NSURLConnection -> NSURLSession
     }
 }
 
@@ -1357,6 +1404,7 @@ exit:
 {
     return NO;
 }
+#endif
 
 @end
 

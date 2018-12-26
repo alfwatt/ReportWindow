@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D32DE3F221E68AD1005E5FE1"
-               BuildableName = "ReportWindow (iOS, Swift).framework"
+               BuildableName = "ReportWindow.framework"
                BlueprintName = "ReportWindow (iOS, Swift)"
                ReferencedContainer = "container:ReportWindow.xcodeproj">
             </BuildableReference>
@@ -46,7 +46,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D32DE3F221E68AD1005E5FE1"
-            BuildableName = "ReportWindow (iOS, Swift).framework"
+            BuildableName = "ReportWindow.framework"
             BlueprintName = "ReportWindow (iOS, Swift)"
             ReferencedContainer = "container:ReportWindow.xcodeproj">
          </BuildableReference>
@@ -64,7 +64,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D32DE3F221E68AD1005E5FE1"
-            BuildableName = "ReportWindow (iOS, Swift).framework"
+            BuildableName = "ReportWindow.framework"
             BlueprintName = "ReportWindow (iOS, Swift)"
             ReferencedContainer = "container:ReportWindow.xcodeproj">
          </BuildableReference>
