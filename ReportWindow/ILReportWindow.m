@@ -747,7 +747,7 @@ exit:
 - (void) sendReport
 {
     // get the submission url
-    NSURL* url = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] objectForKey:ILReportWindowSubmitURLKey]];
+    NSURL* url = [NSURL URLWithString:[NSBundle.mainBundle.infoDictionary objectForKey:ILReportWindowSubmitURLKey]];
 
     if( !url ) {
         NSLog(@"%@ %@must be set to send a report!", self.class, ILReportWindowSubmitURLKey);
@@ -772,8 +772,8 @@ exit:
     }
     else if ([[url scheme] isEqualToString:@"http"]) { // it it's *just* HTTP prompt the user for permission to send in the clear
 #if IL_APP_KIT
-        NSString* appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString*)kCFBundleNameKey];
-        NSAlert* plaintextAlert = [NSAlert new];
+        NSString* appName = [NSBundle.mainBundle.infoDictionary objectForKey:(NSString*)kCFBundleNameKey];
+        NSAlert* plaintextAlert = NSAlert.new;
         plaintextAlert.alertStyle = NSCriticalAlertStyle;
         plaintextAlert.messageText = ILLocalizedString(ILReportWindowInsecureConnectionString);
         plaintextAlert.informativeText = [NSString stringWithFormat:ILLocalizedString(ILReportWindowInsecureConnectionInformationString), appName];
