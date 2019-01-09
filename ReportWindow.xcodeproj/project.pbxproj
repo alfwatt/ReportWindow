@@ -237,8 +237,8 @@
 		75DF1AC620796FCC0026BBD8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ILReportWindow.xib; sourceTree = "<group>"; };
 		75DF1AC8207970250026BBD8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
 		75DF1ACA207970270026BBD8 /* es */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/ILReportWindow.strings; sourceTree = "<group>"; };
-		D32DE3ED21E68AB3005E5FE1 /* ReportWindow (macOS, Swift).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "ReportWindow (macOS, Swift).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		D32DE40621E68AD1005E5FE1 /* ReportWindow (iOS, Swift).framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = "ReportWindow (iOS, Swift).framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D32DE3ED21E68AB3005E5FE1 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D32DE40621E68AD1005E5FE1 /* ReportWindow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReportWindow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3FA034921AE13030056280B /* KitBridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KitBridge.xcodeproj; path = ../KitBridge/KitBridge.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -337,8 +337,8 @@
 			children = (
 				75AF8E6519A8F5AC003D7B46 /* ReportWindow.framework */,
 				7552D98921619EC1004FF8C8 /* ReportWindow.framework */,
-				D32DE3ED21E68AB3005E5FE1 /* ReportWindow (macOS, Swift).framework */,
-				D32DE40621E68AD1005E5FE1 /* ReportWindow (iOS, Swift).framework */,
+				D32DE3ED21E68AB3005E5FE1 /* ReportWindow.framework */,
+				D32DE40621E68AD1005E5FE1 /* ReportWindow.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -484,7 +484,7 @@
 			);
 			name = "ReportWindow (macOS, Swift)";
 			productName = CrashReportWindow;
-			productReference = D32DE3ED21E68AB3005E5FE1 /* ReportWindow (macOS, Swift).framework */;
+			productReference = D32DE3ED21E68AB3005E5FE1 /* ReportWindow.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		D32DE3F221E68AD1005E5FE1 /* ReportWindow (iOS, Swift) */ = {
@@ -504,7 +504,7 @@
 			);
 			name = "ReportWindow (iOS, Swift)";
 			productName = CrashReportWindow;
-			productReference = D32DE40621E68AD1005E5FE1 /* ReportWindow (iOS, Swift).framework */;
+			productReference = D32DE40621E68AD1005E5FE1 /* ReportWindow.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -1070,7 +1070,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.istumbler.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ReportWindow;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1117,7 +1117,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.istumbler.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ReportWindow;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1170,7 +1170,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.istumbler.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ReportWindow;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1217,7 +1217,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.istumbler.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ReportWindow;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
