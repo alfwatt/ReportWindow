@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "75AF8E6419A8F5AC003D7B46"
-               BuildableName = "ReportWindow.framework"
-               BlueprintName = "ReportWindow (macOS)"
+               BlueprintIdentifier = "D32DE3F221E68AD1005E5FE1"
+               BuildableName = "ReportWindow (iOS, Swift).framework"
+               BlueprintName = "ReportWindow (iOS, Swift)"
                ReferencedContainer = "container:ReportWindow.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,9 +45,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "75AF8E6419A8F5AC003D7B46"
-            BuildableName = "ReportWindow.framework"
-            BlueprintName = "ReportWindow (macOS)"
+            BlueprintIdentifier = "D32DE3F221E68AD1005E5FE1"
+            BuildableName = "ReportWindow (iOS, Swift).framework"
+            BlueprintName = "ReportWindow (iOS, Swift)"
             ReferencedContainer = "container:ReportWindow.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -63,9 +63,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "75AF8E6419A8F5AC003D7B46"
-            BuildableName = "ReportWindow.framework"
-            BlueprintName = "ReportWindow (macOS)"
+            BlueprintIdentifier = "D32DE3F221E68AD1005E5FE1"
+            BuildableName = "ReportWindow (iOS, Swift).framework"
+            BlueprintName = "ReportWindow (iOS, Swift)"
             ReferencedContainer = "container:ReportWindow.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
