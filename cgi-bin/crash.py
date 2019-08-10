@@ -19,18 +19,11 @@ error_page = "error.html"
 report_email = "support@example.com"
 report_subject = "Trouble Report: "
 
-# index action for mod_python
-def index(req):
-    report_date = datetime.now()
-    report_digest = reports_label + str(report_date)
-    report_path = reports_dir + report_digeset
-    report_hash = sha.new(report_digest).hexdigest()
+# report information
+report_date = datetime.now()
+report_digest = reports_label + str(report_date)
+report_path = reports_dir + report_digeset
+report_hash = sha.new(report_digest).hexdigest()
 
-    # headers
-    req.headers_in
-    
-    # query params
-    req.args
+# 
 
-    # form
-    req.form
