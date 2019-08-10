@@ -134,4 +134,4 @@ static NSString* const ILTestHandeledExceptionPattern = @"Testing Handeled Excep
 
 @end
 
-/* Copyright 2014-2018, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
+/* Copyright © 2014-2018, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
