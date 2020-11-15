@@ -56,7 +56,7 @@ static NSString* const ILTestHandeledExceptionPattern = @"Testing Handeled Excep
 {
     return [NSException exceptionWithName:ILTestHandeledExceptionName
                                    reason:ILTestHandeledExceptionReason
-                                 userInfo:[[NSBundle bundleForClass:[self class]] infoDictionary]];
+                                 userInfo:[[NSBundle bundleForClass:self.class] infoDictionary]];
 }
 
 + (ILExceptionRecovery*) testExceptionRecovery

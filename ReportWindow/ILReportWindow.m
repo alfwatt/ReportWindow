@@ -65,7 +65,7 @@ NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSu
 NSString* const ILReportWindowRestartInString = @"ILReportWindowRestartInString";
 NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
-#define ILLocalizedString(key) [[NSBundle bundleForClass:[self class]] localizedStringForKey:(key) value:@"" table:@"ReportWindow"]
+#define ILLocalizedString(key) [[NSBundle bundleForClass:self.class] localizedStringForKey:(key) value:@"" table:@"ReportWindow"]
 
 #pragma mark - Sparkle Updater Support
 
@@ -359,7 +359,7 @@ exit:
     }
     
     if (fsSize < KILO) {
-        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%i Bytes", nil, [NSBundle bundleForClass:self.class], @"File size, for items that are less than 1 kilobyte"), fsSize];
+        return [NSString stringWithFormat:NSLocalizedStringFromTableInBundle( @"%li Bytes", nil, [NSBundle bundleForClass:self.class], @"File size, for items that are less than 1 kilobyte"), (long)fsSize];
     }
     
     double numK = (double) fsSize / KILO;
@@ -946,7 +946,7 @@ exit:
     [self.progress startAnimation:self];
 #endif
 
-    self.status.text = NSLocalizedStringFromTableInBundle(@"Building Report…", nil, [NSBundle bundleForClass:[self class]], @"Building Report… Status");
+    self.status.text = NSLocalizedStringFromTableInBundle(@"Building Report…", nil, [NSBundle bundleForClass:self.class], @"Building Report… Status");
     self.comments.editable = NO;
     self.send.enabled = NO;
 #if IL_APP_KIT
@@ -969,7 +969,7 @@ exit:
 
     if ([ILReportWindow isFeatureEnabled:ILReportWindowIncludeDefaultsKey]) {
         NSDictionary* defaultsDictionary = [NSUserDefaults.standardUserDefaults persistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
-        defaultsDictionary = [[self class] filterDataFromDictionary:defaultsDictionary];
+        defaultsDictionary = [self.class filterDataFromDictionary:defaultsDictionary];
         NSString* defaultsString = [defaultsDictionary description];
         [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:@"\n\n- Application Defaults -\n\n" attributes:ILReportWindow.commentsAttributes]];
         [self.comments.textStorage appendAttributedString:[NSAttributedString.alloc initWithString:defaultsString attributes:ILReportWindow.commentsAttributes]];
