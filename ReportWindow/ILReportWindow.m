@@ -39,7 +39,7 @@ NSString* const ILReportWindowImage = @"ILReportWindowImage";
 #pragma mark - NSLocalizedStrings
 
 NSString* const ILReportWindowInsecureConnectionString = @"ILReportWindowInsecureConnectionString";
-NSString* const ILReportWindowInsecureConnectionInformationString = @"ILReportWindowInsecureConnectionInformationString";
+NSString* const ILReportWindowInsecureConnectionInformationString = @"ILReportWindowInsecureConnectionInformationString%@";
 NSString* const ILReportWindowInsecureConnectionEmailAlternateString = @"ILReportWindowInsecureConnectionEmailAlternateString";
 NSString* const ILReportWindowCancelString = @"ILReportWindowCancelString";
 NSString* const ILReportWindowSendString = @"ILReportWindowSendString";
@@ -61,7 +61,6 @@ NSString* const ILReportWindowQuitString = @"ILReportWindowQuitString";
 NSString* const ILReportWindowIgnoreString = @"ILReportWindowIgnoreString";
 NSString* const ILReportWindowCommentsString = @"ILReportWindowCommentsString";
 NSString* const ILReportWindowSubmitFailedString = @"ILReportWindowSubmitFailedString";
-NSString* const ILReportWindowSubmitFailedInformationString = @"ILReportWindowSubmitFailedInformationString";
 NSString* const ILReportWindowRestartInString = @"ILReportWindowRestartInString";
 NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 

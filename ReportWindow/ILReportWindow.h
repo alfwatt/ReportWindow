@@ -93,7 +93,6 @@ extern NSString* const ILReportWindowQuitString; // = @"Quit";
 extern NSString* const ILReportWindowIgnoreString; // = @"Ignore";
 extern NSString* const ILReportWindowCommentsString; // = @"please enter any comments here";
 extern NSString* const ILReportWindowSubmitFailedString; // = @"Submitting Report Failed";
-extern NSString* const ILReportWindowSubmitFailedInformationString; // = @"%@ was not able to submit the report to: %@\n\nyou can send the report by email"; // app name and submission url
 extern NSString* const ILReportWindowInsecureConnectionString; // = @"Insecure Connection";
 extern NSString* const ILReportWindowInsecureConnectionInformationString; // = @"%@ does not support secure crash reporting, your crash report will be sent in plaintext and may be observed while in transit."; // app name
 extern NSString* const ILReportWindowInsecureConnectionEmailAlternateString; // = @"\n\nEmail may be more secure, depending on your provider.";

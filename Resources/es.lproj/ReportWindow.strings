@@ -19,7 +19,7 @@
 "ILReportWindowReportingBugString" = "Informe de error para";
 
 "ILReportWindowInsecureConnectionString" = "Insecure Connection";/**/
-"ILReportWindowInsecureConnectionInformationString" = "%@ does not support secure crash reporting, your crash report will be sent in plaintext and may be observed while in transit.";/**/
+"ILReportWindowInsecureConnectionInformationString%@" = "%@ does not support secure crash reporting, your crash report will be sent in plaintext and may be observed while in transit.";/**/
 "ILReportWindowInsecureConnectionEmailAlternateString" = "\n\nEmail may be a more secure option, depending on your provider.";/**/
 
 "ILReportWindowCrashDispositionString" = "Click Send to send the Crash report to the devleoper, or Cancel to ignore it.";/**/
@@ -30,7 +30,6 @@
 "ILReportWindowUserIntroString" = "\n\n1Report from: ";/**/
 
 "ILReportWindowSubmitFailedString" = "Submitting Report Failed";
-"ILReportWindowSubmitFailedInformationString" = "%@ was not able to submit the report to: %@\n\n";
 
 "ILReportWindowRestartInString" = "Restart in";/**/
 "ILReportWindowSecondsString" = "seconds";/**/
