@@ -66,19 +66,6 @@ NSString* const ILReportWindowSecondsString = @"ILReportWindowSecondsString";
 
 #define ILLocalizedString(key) [[NSBundle bundleForClass:self.class] localizedStringForKey:(key) value:@"" table:@"ReportWindow"]
 
-#pragma mark - Sparkle Updater Support
-
-NSString* const ILReportWindowSparkleUpdaterClass = @"SUUpdater";
-NSString* const ILReportWIndowSparkleUpdaterURLKey = @"SUFeedURL";
-
-@interface NSObject (ILReportWindowSparkleMethods)
-
-+ (instancetype) sharedUpdater;
-- (NSURL*) feedURL;
-- (IBAction) checkForUpdates:(id)sender;
-
-@end
-
 #pragma mark - Private
 
 @interface ILReportWindow ()
@@ -1197,18 +1184,13 @@ exit:
     completionHandler:(void (^)(NSURLRequest* _Nullable))completionHandler
 {
     if (redirect && (redirect.statusCode == 302)) { // we got redirected
-        Class sparkeUpdater = NSClassFromString(ILReportWindowSparkleUpdaterClass); // check to see if the updater is present
-        if (sparkeUpdater && [[[sparkeUpdater sharedUpdater] feedURL] isEqual:redirect.URL]) { // we were redirected to the update page
-            [[sparkeUpdater sharedUpdater] checkForUpdates:self];
-        }
-        else { //  display the page to the user
-            NSLog(@"%@ error submitting a report: %li redirect: %@", self.class, (long)self.response.statusCode, redirect.URL);
+        //  display the page to the user
+        NSLog(@"%@ error submitting a report: %li redirect: %@", self.class, (long)self.response.statusCode, redirect.URL);
 #if IL_APP_KIT
-            [NSWorkspace.sharedWorkspace openURL:redirect.URL];
+        [NSWorkspace.sharedWorkspace openURL:redirect.URL];
 #elif IL_UI_KIT
-            [UIApplication.sharedApplication openURL:redirect.URL options:@{} completionHandler:nil];
+        [UIApplication.sharedApplication openURL:redirect.URL options:@{} completionHandler:nil];
 #endif
-        }
     }
 }
 
@@ -1263,7 +1245,7 @@ exit:
 //
 - (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)URLresponse
 {
-    if( [URLresponse isKindOfClass:[NSHTTPURLResponse class]]) {
+    if ([URLresponse isKindOfClass:NSHTTPURLResponse.class]) {
         self.response = (NSHTTPURLResponse*)URLresponse;
     }
 }
@@ -1297,18 +1279,13 @@ exit:
 /* intercept redirects (we don't need to load the resulting page ourselves), if there was an error ask the workspace to open the URL */
 - (NSURLRequest*) connection:(NSURLConnection*) connection willSendRequest:(NSURLRequest*) request redirectResponse:(NSURLResponse*) redirect
 {
-    if( redirect && self.response.statusCode == 302 ) { // we got redirected
-        Class sparkeUpdater = NSClassFromString(ILReportWindowSparkleUpdaterClass); // check to see if the updater is present
-        if( sparkeUpdater && [[[sparkeUpdater sharedUpdater] feedURL] isEqual:redirect.URL]) { // we were redirected to the update page
-            [[sparkeUpdater sharedUpdater] checkForUpdates:self];
-            return nil;
-        }
-        else { //  display the page to the user
-            NSLog(@"%@ error submitting a report: %li redirect: %@", self.class, (long)self.response.statusCode, redirect.URL);
+    if (redirect && self.response.statusCode == 302 ) { // we got redirected
+        //  display the page to the user
+        NSLog(@"%@ error submitting a report: %li redirect: %@", self.class, (long)self.response.statusCode, redirect.URL);
 #if IL_APP_KIT
-            [[NSWorkspace sharedWorkspace] openURL:redirect.URL];
+        [NSWorkspace.sharedWorkspace openURL:redirect.URL];
 #endif
-            return nil;
+        return nil;
         }
     }
     

@@ -198,23 +198,23 @@ ILReportWindowMode;
 + (void) restartApp;
 #endif
 
-#pragma mark - Factory Methods
+//MARK: - Factory Methods
 
 + (instancetype) windowForSystemCrashReport:(NSString*) crashReportPath;
 + (instancetype) windowForError:(NSError*) error;
 + (instancetype) windowForException:(NSException*) exception;
 + (instancetype) windowForBug;
 
-#pragma mark - Modal Reporting
+//MARK: - Modal Reporting
 
 /** unregisters exception delegate, runs dialog in modal session */
 - (void) runModal;
 
-#pragma mark - IBActions
+//MARK: - IBActions
 
 - (IBAction)onCancel:(id)sender;
 - (IBAction)onSend:(id)sender;
 
 @end
 
-/* Copyright © 2014-2017, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
+/* Copyright © 2014-2021, Alf Watt (alf@istumbler.net) Avaliale under MIT Style license in README.md */
